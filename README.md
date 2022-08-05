@@ -1,40 +1,25 @@
-# React Truffle Box
+# 프로젝트 목표
 
-This box comes with everything you need to start using Truffle to write, compile, test, and deploy smart contracts, and interact with them from a React app.
++ OpenSea.io와 같은 Ethereum 기반 NFT Marketplace를 구현하는 것이 목표입니다.
++ MetaMask 계정이 있다면 누구나 가입할 수 있도록 합니다.
++ 누구나 자유롭게 NFT를 구매&판매할 수 있도록 합니다.
++ NFT 거래 시 수수료를 발생시키고자 합니다.
++ LYCLE 한정판 NFT를 보유한 홀더에게는 발생한 수수료의 일부분을 제공하고자 합니다.
 
-## Installation
+## 프로젝트 구조도
 
-First ensure you are in an empty directory.
+추후 업데이트
 
-Run the `unbox` command using 1 of 2 ways.
+## Branch
 
-```sh
-# Install Truffle globally and run `truffle unbox`
-$ npm install -g truffle
-$ truffle unbox react
-```
++ main : 제품으로 출시할 시 사용합니다. 이 외에는 사용하지 않습니다.
++ develop : 다음 출시 버전을 개발하는 branch 입니다.
++ merge : client와 truffle branch를 merge하는 branch입니다. 안정되면 develop branch로 merge 합니다. 
++ truffle : EIP 기반 smart contract를 개발할 때 사용합니다.
++ client : React 기반 web을 개발할 때 사용합니다.
 
-```sh
-# Alternatively, run `truffle unbox` via npx
-$ npx truffle unbox react
-```
-
-Start the react dev server.
-
-```sh
-$ cd client
-$ npm start
-  Starting the development server...
-```
-
-From there, follow the instructions on the hosted React app. It will walk you through using Truffle and Ganache to deploy the `SimpleStorage` contract, making calls to it, and sending transactions to change the contract's state.
-
-## FAQ
-
-- __How do I use this with Ganache (or any other network)?__
-
-  The Truffle project is set to deploy to Ganache by default. If you'd like to change this, it's as easy as modifying the Truffle config file! Check out [our documentation on adding network configurations](https://trufflesuite.com/docs/truffle/reference/configuration/#networks). From there, you can run `truffle migrate` pointed to another network, restart the React dev server, and see the change take place.
-
-- __Where can I find more resources?__
-
-  This Box is a sweet combo of [Truffle](https://trufflesuite.com) and [Create React App](https://create-react-app.dev). Either one would be a great place to start!
+## 개발 팀
++ client : 이채민 님, 문다현 님
+  + [README](./client/README.md)
++ truffle : 장성호 님
+  + [README](./truffle/README.md)
