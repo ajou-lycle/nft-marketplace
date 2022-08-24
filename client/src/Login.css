@@ -1,0 +1,94 @@
+.login_whole {
+    display:flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 1519.2px;
+    height: 345.95px;
+    margin-top: 90px;
+    margin-bottom: 60px;
+    background-color: rgb(255, 255, 255);
+}
+
+.login_title {
+    width: 1050px;
+    height: 20px;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    margin: 0 auto;
+}
+.login_id_password_whole {
+    width: 340px;
+    height: 295.95px;
+    margin: 0px auto;
+}
+
+.login_box {
+    width: 340px;
+    height: 60px;
+}
+
+.login_id_enter {
+    width: 340px;
+    height: 48px;
+}
+
+.login_password_enter {
+    width: 340px;
+    height: 48px;
+}
+
+.css-1accgqb input {
+    height: 54px;
+    font-size: 14px;
+}
+
+.css-1bkd15f {
+    width: 100%;
+    height: 46px;
+    padding: 0px 11px 1px 15px;
+    border-radius: 4px;
+    border: 1px solid rgb(221, 221, 221);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgb(51, 51, 51);
+    outline: none;
+    box-sizing: border-box;
+}
+
+.find_id_password {
+    display: flex;
+    justify-content: flex-end;
+    width: 340px;
+    height: 14.95px;
+    margin: 10px 0px 0px;
+    font-size: 13px;
+}
+
+
+
+.login_button {
+    width: 340px;
+    height: 118px;
+    margin-top: 28px;
+}
+
+
+.css-s4i9n2 button:last-of-type {
+    margin-top: 10px;
+}
+
+
+.find_id {
+    color: rgb(51,51,51);
+    cursor: pointer;
+}
+
+.find_icon {
+    width: 1px;
+    height: 10px;
+    margin: 3px 6px 0px;
+    background-color: rgb(51, 51, 51);
+}
