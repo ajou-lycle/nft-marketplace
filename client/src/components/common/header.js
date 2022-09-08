@@ -4,7 +4,16 @@ import styled from "styled-components";
 import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
 
-export default function Header() {
+export default function Header(props) {
+
+  const isLogin=props.isLogin;
+
+  const onLogout = () => {
+    sessionStorage.removeItem('user_token');
+    document.location.href = '/';
+
+}
+
 
   return(
     <div style={{
@@ -27,6 +36,9 @@ export default function Header() {
         <SearchInput type='text' placeholder="search items"></SearchInput>
       </div>
 
+      
+
+      
       <div>
         <Link to="/join" style={{textDecoration:"none"}}>
           <UserButton>
@@ -42,6 +54,11 @@ export default function Header() {
           </UserButton>
         </Link>
       </div>
+
+      <div> <button type='button' onClick={onLogout}>로그아웃</button></div>
+  
+
+
 
       <div>
         <Link to="" style={{textDecoration:"none"}}>
