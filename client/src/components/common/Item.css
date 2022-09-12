@@ -9,7 +9,7 @@
 
 .item_title {
   padding:23px 0px 20px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 28px;
   color: rgb(51,51,51);
   line-height: 35px;
@@ -23,9 +23,9 @@
   align-items: center;
   -webkit-box-pack: justify;
   justify-content: right;
-  padding: 18px 0px 16px;
-  width:1050px;
   text-align: center;
+  width:1000px;
+  border:1px solid blue;
 }
 
 .order_ul {
@@ -52,16 +52,17 @@
 /* item grid */
 
 .item_grid {
-  display:grid;
+  display:flex;
   grid-template-columns: repeat(3, 1fr);
   flex-wrap: wrap;
-  gap : 18px;
-  width:1050px;
+  gap : 50px;
+  width:1000px;
+  border:1px solid red;
 }
 
 .nft_item {
-  flex: 0 0 338px;
-  height: 664px;
+  flex: 0 0 300px;
+  height: 650px;
   color:rgb(51,51,51);
   cursor:pointer;
 }
@@ -69,11 +70,14 @@
 .nft_item_img {
   box-sizing: border-box;
   margin: 0;
+}
+
+.nft_item_img_ {
   overflow: hidden;
   position: relative;
   background-color: rgb(245,245,245);
-  width:338px;
-  height: 435px;
+  width:300px;
+  height: 400px;
 }
 
 .item_img {
@@ -83,4 +87,52 @@
   transition: all 0.5s ease-in-out 0s;
   border: 0;
   vertical-align: top;
+}
+
+.nft_item_txt {
+  padding:10px 10px 15px 15px;
+  
+}
+
+.nft_date {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: right;
+}
+
+.nft_item_date {
+  font-size: 11px;
+  color:gray;
+}
+
+.nft_name {
+  font-size:20px;
+  font-weight: 700;
+  line-height: 29px;
+  margin-bottom: 9px;
+  padding:0px;
+  letter-spacing: normal;
+}
+
+.nft_user {
+  align-items: center;
+  display: flex;
+  margin-bottom: 9px;
+}
+
+.nft_item_user {
+  font-size:15px;
+  margin-left : 10px;
+}
+
+.nft_price {
+  font-size:17px;
+  font-weight: 600;
+}
+
+.nft_item_views {
+  font-size: 11px;
+  color: gray;
+  display: flex;
+  justify-content: right;
 }

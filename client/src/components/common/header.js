@@ -13,7 +13,7 @@ export default function Header() {
       width:"1000px",
       alignItems:"center",
       margin:"0 auto",
-      border:"2px solid gray",
+      border:"1px solid gray",
     }}>
       <div>
         <LogoImg src="img/lamarket_logo.png" />
@@ -44,7 +44,7 @@ export default function Header() {
       </div>
 
       <div>
-        <Link to="" style={{textDecoration:"none"}}>
+        <Link to="/mypage" style={{textDecoration:"none"}}>
           <IconButton style={{fontSize:"40px"}}>
             <AccountCircleOutlined  style={{fontSize:"inherit"}}/>
           </IconButton>
