@@ -2,15 +2,32 @@ import React, { useEffect } from "react";
 import {useRecoilState} from "recoil";
 import {useState} from "react";
 import {useNavigate, Link, Navigate} from 'react-router-dom';
-import {idState, isLogin} from "./recoil/User";
+import {idState, isLogin} from "../../recoil/User";
+
+
 import styled from "styled-components";
 
 
 function Login() {
+
+    handleChange = (e) => {
+        const {AuthActions} = this.props;
+        const {name, value} = e.target;
+
+        AuthActions.changeInput({
+            name,
+            value,
+            form: 'login'
+        });
+    }
+
+    const {userId, password} = this.props.form.toJS();
+    const {handleChange} = this;
+
     const loginReal = () => {
         document.location.href('/contents');
     }
-
+    
     const [isValid, setIsValid] = useState(false);
 
     const [bool, setboolean] = useRecoilState(isLogin);
@@ -75,4 +92,8 @@ const LoginButton = styled.button`
     margin-top: ${props => props.margin};
 `;
 
+
+
+
 export default Login;
+
