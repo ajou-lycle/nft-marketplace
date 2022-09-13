@@ -35,10 +35,11 @@ function Login() {
 
         const onClickConfirm=()=> { 
             console.log('click login');
-            axios.post('http://localhost:8080/auth/login',{
+            axios.post('/api/auth/login',{
                 'accountName': inputId,
                 'password' : inputPw
-            })
+            },{withCredentials:true})
+
             .then(res =>{
                 console.log('res.data.accessToken :: ', res.data.accessToken);
 
@@ -47,11 +48,12 @@ function Login() {
                     console.log('======================',res.data.accessToken)
                     alert('입력하신 정보가 일치하지 않습니다.')}
                     else {
+                        
                         console.log('======================','로그인 성공')
                         sessionStorage.setItem('user_token',res.data.accessToken)
                     }
                 // 작업 완료 되면 페이지 이동(새로고침)
-                document.location.href = '/';
+                  document.location.href = '/';
 
             })
             .catch()

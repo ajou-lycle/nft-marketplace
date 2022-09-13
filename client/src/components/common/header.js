@@ -11,6 +11,7 @@ export default function Header(props) {
   const onLogout = () => {
     sessionStorage.removeItem('user_token');
     document.location.href = '/';
+    
 
 }
 

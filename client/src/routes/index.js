@@ -5,6 +5,7 @@ import Login from "../pages/login/Login";
 import Menu from "../components/common/Menu";
 import PageAddGoods from "../pages/PageAddGoods";
 import PageAddNft from "../pages/PageAddNft";
+import PageEditNft from "../pages/PageEditNft";
 import PageContentGoods from "../pages/PageContentGoods";
 import PageContentNft from "../pages/PageContentNft";
 
@@ -18,6 +19,7 @@ export default function RootRoute() {
         <Route path="/contents_nft" element = {<PageContentNft/>}></Route>
         <Route path="/contents_goods" element = {<PageContentGoods/>}></Route>
         <Route path="/add_nft" element = {<PageAddNft/>}></Route>
+        <Route path="/edit_nft" element = {<PageEditNft/>}></Route>
         <Route path="/add_goods" element = {<PageAddGoods/>}></Route>
         
       </Routes>

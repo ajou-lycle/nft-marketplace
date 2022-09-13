@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import {useState} from "react";
 import styled from "styled-components";
 import './ContentNft.css';
+import axios from 'axios';
+import { Link } from "react-router-dom";
+import AddNft from './AddNft.js';
 
 
 function ContentNft()
@@ -35,6 +38,44 @@ function ContentNft()
 
     }
 
+    const onClickLikeNft=() => {
+        let userToken = sessionStorage.getItem('user_token');
+        console.log(userToken);
+        axios.post('api/nftItem/5/like', {},
+        {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
+        .then((res) => {
+            console.log("res.data", res.data)
+        
+    
+
+        })
+        .catch((err) => {console.log("Error", err)});
+
+    }
+
+    const onClickDeleteNft=() => {
+        let userToken = sessionStorage.getItem('user_token');
+        console.log(userToken);
+        axios.delete('api/nftItem/5',
+        {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
+        .then((res) => {
+            console.log("res.data", res.data)
+        
+    
+
+        })
+        .catch((err) => {console.log("Error", err)});
+
+    }
+
+
+
     
 
 
@@ -48,9 +89,9 @@ function ContentNft()
                         <div className="disc_1_1">NFT</div>
 
                         <div className="disc_1_2">
-                            <div className="disc_1_2_big">Psycho Jombie</div>  
+                            <div className="disc_1_2_big">psycho</div>  
                             <div className="d5_bottom_icon">
-                                <button onClick={likeClick} type="button" className={d5Like}></button>
+                                <button onClick={onClickLikeNft} type="button" className={d5Like}></button>
                             </div>
                         </div>
 
@@ -91,7 +132,7 @@ function ContentNft()
 
                     <div className="d5_bottom_cart">
                         
-                        <div className="d5_bottom_buy">Buy Now</div>
+                        <div className="d5_bottom_buy"><button>Buy Now</button></div>
                     </div>
 
                     
@@ -104,7 +145,9 @@ function ContentNft()
             </div>
 
                 </div>
-                <div className="disc_long">ddd</div>
+                <button onClick={onClickDeleteNft} type="button">삭제</button>
+                <Link to="/edit_nft"><div>수정</div></Link>
+                <div className="disc_long"><button>Buy Now</button></div>
                 
 
 

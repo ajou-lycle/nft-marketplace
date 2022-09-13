@@ -1,11 +1,9 @@
 import React, { useEffect, useState} from "react";
 import './AddNft.css';
 import styled from "styled-components";
-import axios from 'axios';
-import { Info } from "@material-ui/icons";
+import axios, { Axios } from 'axios';
+//import { Info } from "@material-ui/icons";
 
- axios.defaults.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080';
- axios.defaults.withCredentials = true;
 
 function AddNft()
 {
@@ -24,6 +22,7 @@ function AddNft()
 
 
     const userData = {
+        nftInfoId : 3,
         itemImg : info.itemImg,
         title : info.title,
         price : info.price,
@@ -31,21 +30,26 @@ function AddNft()
     };
 
 
+
+    
+
+
     const onClickAddNft=() => {
         console.log('add nft');
-        axios.post('http://localhost:8080/nftItem', {userData}
+        axios.post('api/nftItem', {userData}
         ,  {
-
-
-
+            withCredentials:true,
+            // headers: {
+            //     // "Access-Control-Allow-Origin" : "http://localhost:8080",
+            //     Authorization: 'Bearer ${userToken}',
+            //     "Content-Type" : "application/x-www-form-urlencoded"
+            // }
             headers: {
-                
-                 "Access-Control-Allow-Origin" : "http://localhost:8080",
-                Authorization: 'Bearer ${sessionStorage.getItem(user_token)}'
-            }
+            Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }
         }, )
         .then((res) => {
             console.log("res.data", res.data)
+        
         
     
 
