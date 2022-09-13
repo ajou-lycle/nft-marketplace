@@ -61,10 +61,6 @@ function Login() {
         
         };
 
-
-
-
-
     
     return (
         <div className="login_whole">
@@ -74,8 +70,10 @@ function Login() {
                     <div className="login_id_password">
                         <div className="login_box">
                             <div className="login_id_enter">
+
                                 <label htmlFor="input_id"></label>
                                 <input name="input_id" placeholder="아이디를 입력해주세요" type="text" id="accountName" class="css-1bkd15f e1uzxhvi2" value={inputId} onChange={handleInputId} />
+
                             </div>
                         </div>
                         <div className="login_box">
@@ -90,7 +88,7 @@ function Login() {
                         <a className ="find_id">비밀번호 찾기 </a>
                     </div>
                     <div className="login_button">
-                    
+     
                     <LoginButton onClick={onClickConfirm} backgroundcolor="#44C97C" color="rgb(255,255,255)" border="0px none" type="button" height="54" radius="3" margin="0px"><span class="css-ymwvow e4nu7ef1">로그인</span></LoginButton>
                     
                     <LoginButton backgroundcolor="rgb(255,255,255)" color="#44C97C" border="1px solid #44C97C" type="button" height="54" radius="3" margin="10px" ><span class="css-ymwvow e4nu7ef1">회원가입</span></LoginButton>
@@ -119,6 +117,3 @@ const LoginButton = styled.button`
 `;
 
 export default Login;
-
-
-
