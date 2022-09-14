@@ -167,16 +167,21 @@ const JoinPage = () => {
 
   const handleWallet = (e) => {
     setWallet(e.target.value);
+    if(e.target.value.length>2) {
+      setWalletValid(true);
+    } else {
+      setWalletValid(false);
+    }
     
   }
 
   useEffect(() => {
-    if(idValid&&pwdValid&&nameValid&&emailValid) {
+    if(idValid&&pwdValid&&nameValid&&emailValid&&walletValid) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [idValid, pwdValid, nameValid, emailValid]);
+  }, [idValid, pwdValid, nameValid, emailValid, walletValid]);
 
   return(
     <div className="joinPage">
@@ -199,6 +204,13 @@ const JoinPage = () => {
             </div>
             <div className="join_write_id_input">
               <input type="text" placeholder="아이디를 입력해주세요" className="id_input" value={id} onChange={handleId} />
+              <div className="errorMessageWrap">
+              {
+                !idValid && id.length > 0 && (
+                  <div>6자 이상의 영문 혹은 영문과 숫자를 조합</div>
+                )
+              }
+              </div>
             </div>
             <div className="join_write_id_config">
               <button className="id_config_btn" style={{cursor:"pointer"}} onClick={checkId}>
@@ -207,6 +219,7 @@ const JoinPage = () => {
                 </span>
               </button>
             </div>
+            
           </div>
 
           <div className="join_write_content">
@@ -218,6 +231,13 @@ const JoinPage = () => {
               </div>
               <div className="join_write_id_input">
                 <input type="password" placeholder="비밀번호를 입력해주세요" className="id_input" value={pwd} onChange={handlePwd} maxLength="16" />
+                <div className="errorMessageWrap">
+                {
+                  !pwdValid && pwd.length > 0 && (
+                    <div>비밀번호 정규표현식을 지켜주세요</div>
+                  )
+                }
+                </div>
               </div>
               <div className="join_write_id_config">
                 
@@ -233,6 +253,13 @@ const JoinPage = () => {
               </div>
               <div className="join_write_id_input">
                 <input type="text" placeholder="닉네임을 입력해주세요" className="id_input" value={name} onChange={handleName} />
+                <div className="errorMessageWrap">
+                {
+                  !nameValid && name.length > 0 && (
+                    <div>닉네임 표현식을 지켜주세요</div>
+                  )
+                }
+                </div>
               </div>
               <div className="join_write_id_config">
               <button className="id_config_btn" style={{cursor:"pointer"}} onClick={checkNickname}>
@@ -252,6 +279,13 @@ const JoinPage = () => {
               </div>
               <div className="join_write_id_input">
                 <input type="text" placeholder="이메일을 입력해주세요" className="id_input" value={email} onChange={handleEmail} />
+                <div className="errorMessageWrap">
+                {
+                  !emailValid && email.length > 0 && (
+                    <div>이메일 형식을 지켜주세요</div>
+                  )
+                }
+              </div>
               </div>
               <div className="join_write_id_config">
               <button className="id_config_btn" style={{cursor:"pointer"}} onClick={sendEmail}>
@@ -278,6 +312,13 @@ const JoinPage = () => {
               </div>
               <div className="join_write_id_input">
                 <input type="text" placeholder="지갑 주소를 입력해주세요" className="id_input" value={wallet} onChange={handleWallet} />
+                <div className="errorMessageWrap">
+                {
+                  !walletValid && wallet.length > 0 && (
+                    <div>지갑 주소 형식을 지켜주세요</div>
+                  )
+                }
+                </div>
               </div>
               <div className="join_write_id_config">
               <button className="id_config_btn" style={{cursor:"pointer"}} onClick={checkWallet}>
