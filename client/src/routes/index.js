@@ -1,17 +1,27 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "../components/common/header";
-import styled from "styled-components";
+
 import Page1 from "../pages/Page1";
-import SignUp from "../SignUp";
 import Login from "../pages/login/Login";
+import Menu from "../components/common/Menu";
+import PageContentNft from "../pages/PageContentNft";
+import PageContentGoods from "../pages/PageContentGoods";
+import PageAddNft from "../pages/PageAddNft";
+import PageEditNft from "../pages/PageEditNft";
+import PageAddGoods from "../pages/PageAddGoods";
+
+
+
+
+import SignUp from "../SignUp";
 import MyPage from "../pages/MyPage.js";
-import ProfileSet from "../ProfileSet";
 import WalletPage from "../WalletSet";
-import Settings from "../Settings";
 import SettingPage from "../Settings";
 import FavoritesPage from "../FavoritesPage";
 import ItemPage from "../pages/ItemPage";
+
+
+
 
 
 export default function RootRoute() {
@@ -19,7 +29,16 @@ export default function RootRoute() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Page1/>} />
-        <Route path="/login" element = {<Login/>} />
+
+        <Route path="/login" element = {<Login/>}></Route>
+        <Route path="/menu" element = {<Menu/>}></Route>
+        <Route path="/contents_nft" element = {<PageContentNft/>}></Route>
+        <Route path="/contents_goods" element = {<PageContentGoods/>}></Route>
+        <Route path="/add_nft" element = {<PageAddNft/>}></Route>
+        <Route path="/edit_nft" element = {<PageEditNft/>}></Route>
+        <Route path="/add_goods" element = {<PageAddGoods/>}></Route>
+        
+
         <Route path="/join" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/profile" element={<MyPage />} />
