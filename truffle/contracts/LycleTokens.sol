@@ -5,7 +5,7 @@ import "./ERC1155Connector.sol";
 
 contract LycleTokens is ERC1155Connector {
 
-    constructor(string memory base_uri_token) ERC1155Connector (base_uri_token) {
+    constructor(string memory baseUriToken) ERC1155Connector (baseUriToken) {
 
     }
 }  
