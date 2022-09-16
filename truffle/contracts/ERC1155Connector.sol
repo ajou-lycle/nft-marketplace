@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+import "@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinterPauser.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
-
-contract ERC1155Connector is ERC1155Burnable, ERC1155Supply, ERC1155URIStorage {
-    constructor(string memory base_uri) ERC1155(base_uri) {
-
+contract ERC1155Connector is ERC1155PresetMinterPauser, ERC1155Supply, ERC1155URIStorage {
+    constructor(string memory base_uri) ERC1155PresetMinterPauser(base_uri) {
     }
 
     function _beforeTokenTransfer(
@@ -17,12 +15,21 @@ contract ERC1155Connector is ERC1155Burnable, ERC1155Supply, ERC1155URIStorage {
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal virtual override(ERC1155, ERC1155Supply) {
+    ) internal virtual override(ERC1155, ERC1155Supply, ERC1155PresetMinterPauser) {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
-    }
-    function uri(uint256 tokenId) public view virtual override(ERC1155, ERC1155URIStorage) returns (string memory) {
-        string memory result = super.uri(tokenId);
+    } 
 
-        return result;
+    function uri(uint256 tokenId) public view virtual override(ERC1155, ERC1155URIStorage) returns (string memory) {
+        return super.uri(tokenId);
     }
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(ERC1155, ERC1155PresetMinterPauser)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
+    
 }
