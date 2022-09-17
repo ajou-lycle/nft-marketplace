@@ -11,7 +11,6 @@ contract ERC1155TokenFactory {
     function createNewERC1155Token(string memory baseURI) public {
         ERC1155Token erc1155Token = new ERC1155Token(baseURI);
         ERC1155TokenArray.push(erc1155Token);
-        // 배포 주소 가져오는 방법은?
     }
 
     function totalDeployedContract() public view returns(uint256) {
