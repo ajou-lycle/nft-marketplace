@@ -9,7 +9,7 @@ contract ERC1155TokenFactory {
     constructor() {}
 
     function createNewERC1155Token(string memory baseURI) public {
-        ERC1155Token erc1155Token = new ERC1155Token(baseURI);
+        ERC1155Token erc1155Token = new ERC1155Token(baseURI, msg.sender);
         ERC1155TokenArray.push(erc1155Token);
     }
 

@@ -40,7 +40,7 @@ contract('ERC1155TokenFactory', (accounts) => {
       const endPointContractAddress = 66;
       const futureNftContractAddress = ('0x' + web3.utils.sha3(Buffer.from(RLP.encode([from, nonce]))).substring(startPointContractAddress, endPointContractAddress)).toUpperCase();
 
-      await ERC1155TokenFactoryContract.createNewERC1155Token(`${process.env.BASE_URI_NFT}${futureNftContractAddress}`);
+      await ERC1155TokenFactoryContract.createNewERC1155Token(`${process.env.BASE_URI_NFT}${futureNftContractAddress}/`);
 
       const nftContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
       const nftContract = await ERC1155Token.at(nftContractAddress);
@@ -69,10 +69,57 @@ contract('ERC1155TokenFactory', (accounts) => {
       const event = result.logs[0].args;
 
       expect(event.operator).to.be.equal(deployerAccount);
-      expect(event.from).to.be.equal(0x0);
+      expect(event.from).to.be.bignumber.equal(new BN(0));
       expect(event.to).to.be.equal(deployerAccount);
-      expect(event.id).to.be.equal(nftId);
-      expect(event.value).to.be.equal(nftAmount);
+      expect(event.id).to.be.bignumber.equal(new BN(nftId));
+      expect(event.value).to.be.bignumber.equal(new BN(nftAmount));
+    });
+    it('creates same nft', async () => {
+      let ERC1155TokenFactoryContract = this.ERC1155TokenFactory;
+
+      const nftContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
+      const nftContract = await ERC1155Token.at(nftContractAddress);
+
+      const nftId = 0;
+      const nftAmount = 1;
+      const nftJsonPath = `${nftId}.json`;
+      const nftJsonBytes = web3.utils.asciiToHex(nftJsonPath);
+
+      const result = await nftContract.mint(deployerAccount, nftId, nftAmount, nftJsonBytes);
+
+      const totalSupply = await nftContract.totalSupply(nftId);
+      expect(totalSupply).to.be.a.bignumber.equal(new BN(2));
+
+      /*
+        event TransferSingle(
+          address indexed operator, // msg.sender 
+          address indexed from, // 0
+          address indexed to, // to
+          uint256 id, // id
+          uint256 value); // amount
+      */
+
+      const event = result.logs[0].args;
+
+      expect(event.operator).to.be.equal(deployerAccount);
+      expect(event.from).to.be.bignumber.equal(new BN(0));
+      expect(event.to).to.be.equal(deployerAccount);
+      expect(event.id).to.be.bignumber.equal(new BN(nftId));
+      expect(event.value).to.be.bignumber.equal(new BN(nftAmount));
+    });
+    it("can't change a nft json path", async () => {
+      let ERC1155TokenFactoryContract = this.ERC1155TokenFactory;
+
+      const nftContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
+      const nftContract = await ERC1155Token.at(nftContractAddress);
+
+      const nftId = 0;
+      const nftAmount = 1;
+      const nftJsonPath = `${nftId + 1}.json`;
+      const nftJsonBytes = web3.utils.asciiToHex(nftJsonPath);
+
+      await expect(nftContract.mint(deployerAccount, nftId, nftAmount, nftJsonBytes))
+        .to.eventually.be.rejected;
     });
   });
-});
+}); 

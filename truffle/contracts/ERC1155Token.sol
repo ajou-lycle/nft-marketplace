@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinterPauser.sol";
-import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
-import './ERC1155TokenURI.sol';
+import "./ERC1155PresetMinterPauser.sol";
+import './ERC1155TokenSupplyCheck.sol';
 
-contract ERC1155Token is ERC1155PresetMinterPauser, ERC1155Supply, ERC1155TokenURI {
-    constructor(string memory baseURI) ERC1155PresetMinterPauser(baseURI) {
+contract ERC1155Token is ERC1155PresetMinterPauser, ERC1155TokenSupplyCheck {
+    constructor(string memory baseURI, address owner) ERC1155PresetMinterPauser(baseURI, owner) {
         _setBaseURI(baseURI);
     }    
 
-    function uri(uint256 tokenId) public view virtual override(ERC1155, ERC1155TokenURI) returns (string memory) {
+    function uri(uint256 tokenId) public view virtual override(ERC1155, ERC1155TokenSupplyCheck) returns (string memory) {
         return super.uri(tokenId);
     }
 
@@ -31,7 +30,7 @@ contract ERC1155Token is ERC1155PresetMinterPauser, ERC1155Supply, ERC1155TokenU
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal virtual override(ERC1155Supply, ERC1155PresetMinterPauser, ERC1155TokenURI) {
+    ) internal virtual override(ERC1155PresetMinterPauser, ERC1155TokenSupplyCheck) {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
@@ -42,7 +41,7 @@ contract ERC1155Token is ERC1155PresetMinterPauser, ERC1155Supply, ERC1155TokenU
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal virtual override(ERC1155, ERC1155TokenURI) {
+    ) internal virtual override(ERC1155, ERC1155TokenSupplyCheck) {
         super._afterTokenTransfer(operator, from, to, ids, amounts, data);
     }
 }
