@@ -152,7 +152,7 @@ contract('ERC1155TokenFactory', (accounts) => {
       const result = await nftContract.burn(deployerAccount, nftId, nftAmount);
 
       const balanceOf = await nftContract.balanceOf(deployerAccount, nftId);
-      expect(balanceOf).to.be.a.bignumber.equal(new BN());
+      expect(balanceOf).to.be.a.bignumber.equal(new BN(this.balanceOf - nftAmount));
 
       const totalSupply = await nftContract.totalSupply(nftId);
       expect(totalSupply).to.be.a.bignumber.equal(new BN(this.totalSupply - nftAmount));
@@ -160,8 +160,8 @@ contract('ERC1155TokenFactory', (accounts) => {
       /*
         event TransferSingle(
           address indexed operator, // msg.sender 
-          address indexed from, // 0
-          address indexed to, // to
+          address indexed from, // from
+          address indexed to, // 0
           uint256 id, // id
           uint256 value); // amount
       */
@@ -169,10 +169,40 @@ contract('ERC1155TokenFactory', (accounts) => {
       const event = result.logs[0].args;
 
       expect(event.operator).to.be.equal(deployerAccount);
-      expect(event.from).to.be.bignumber.equal(new BN(0));
-      expect(event.to).to.be.equal(deployerAccount);
+      expect(event.from).to.be.a.bignumber.equal(deployerAccount);
+      expect(event.to).to.be.a.bignumber.equal(new BN(0));
       expect(event.id).to.be.bignumber.equal(new BN(nftId));
       expect(event.value).to.be.bignumber.equal(new BN(nftAmount));
+    });
+    it("can't burn nft id 0, because amount exceed user balance", async () => {
+      let ERC1155TokenFactoryContract = this.ERC1155TokenFactory;
+
+      const nftId = 0;
+      const nftAmount = this.balanceOf + 1;
+
+      const nftContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
+      const nftContract = await ERC1155Token.at(nftContractAddress);
+
+      const exist = await nftContract.exists(nftId);
+      expect(exist).to.be.equal(true);
+
+      await expect(nftContract.burn(deployerAccount, nftId, nftAmount))
+        .to.eventually.be.rejected;
+    });
+    it("can't burn not created nft id 1", async () => {
+      let ERC1155TokenFactoryContract = this.ERC1155TokenFactory;
+
+      const nftId = 1;
+      const nftAmount = 1;
+
+      const nftContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
+      const nftContract = await ERC1155Token.at(nftContractAddress);
+
+      const exist = await nftContract.exists(nftId);
+      expect(exist).to.be.equal(false);
+
+      await expect(nftContract.burn(deployerAccount, nftId, nftAmount))
+        .to.eventually.be.rejected;
     });
   });
 }); 
