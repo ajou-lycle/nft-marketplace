@@ -15,6 +15,8 @@ contract('ERC1155TokenFactory', (accounts) => {
 
   before(async () => {
     this.ERC1155TokenFactory = await ERC1155TokenFactory.new();
+    this.totalSupply = 0;
+    this.balanceOf = 0;
   });
 
   describe('factory deployment', async () => {
@@ -54,8 +56,14 @@ contract('ERC1155TokenFactory', (accounts) => {
       const exist = await nftContract.exists(nftId);
       expect(exist).to.be.equal(true);
 
+      const balanceOf = await nftContract.balanceOf(deployerAccount, nftId);
+      expect(balanceOf).to.be.a.bignumber.equal(new BN(1));
+      this.balanceOf = balanceOf;
+
       const totalSupply = await nftContract.totalSupply(nftId);
       expect(totalSupply).to.be.a.bignumber.equal(new BN(1));
+      this.totalSupply = totalSupply;
+      
 
       /*
         event TransferSingle(
@@ -87,8 +95,13 @@ contract('ERC1155TokenFactory', (accounts) => {
 
       const result = await nftContract.mint(deployerAccount, nftId, nftAmount, nftJsonBytes);
 
+      const balanceOf = await nftContract.balanceOf(deployerAccount, nftId);
+      expect(balanceOf).to.be.a.bignumber.equal(new BN(2));
+      this.balanceOf = balanceOf;
+
       const totalSupply = await nftContract.totalSupply(nftId);
       expect(totalSupply).to.be.a.bignumber.equal(new BN(2));
+      this.totalSupply = totalSupply;
 
       /*
         event TransferSingle(
@@ -120,6 +133,46 @@ contract('ERC1155TokenFactory', (accounts) => {
 
       await expect(nftContract.mint(deployerAccount, nftId, nftAmount, nftJsonBytes))
         .to.eventually.be.rejected;
+    });
+  });
+
+  describe('NFT burning', async () => {
+    it('burn nft, id 0', async () => {
+      let ERC1155TokenFactoryContract = this.ERC1155TokenFactory;
+
+      const nftId = 0;
+      const nftAmount = 1;
+
+      const nftContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
+      const nftContract = await ERC1155Token.at(nftContractAddress);
+
+      const exist = await nftContract.exists(nftId);
+      expect(exist).to.be.equal(true);
+
+      const result = await nftContract.burn(deployerAccount, nftId, nftAmount);
+
+      const balanceOf = await nftContract.balanceOf(deployerAccount, nftId);
+      expect(balanceOf).to.be.a.bignumber.equal(new BN());
+
+      const totalSupply = await nftContract.totalSupply(nftId);
+      expect(totalSupply).to.be.a.bignumber.equal(new BN(this.totalSupply - nftAmount));
+
+      /*
+        event TransferSingle(
+          address indexed operator, // msg.sender 
+          address indexed from, // 0
+          address indexed to, // to
+          uint256 id, // id
+          uint256 value); // amount
+      */
+
+      const event = result.logs[0].args;
+
+      expect(event.operator).to.be.equal(deployerAccount);
+      expect(event.from).to.be.bignumber.equal(new BN(0));
+      expect(event.to).to.be.equal(deployerAccount);
+      expect(event.id).to.be.bignumber.equal(new BN(nftId));
+      expect(event.value).to.be.bignumber.equal(new BN(nftAmount));
     });
   });
 }); 
