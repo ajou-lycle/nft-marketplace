@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Login.js';
 import '../Page1.js';
 import Login from './Login.js';
+import Header from '../../components/common/header.js';
 
 
 function IsLogin () {
