@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Link } from 'react-router-dom';
  
 import { boardRemove } from './BoardReducer.js';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
  
 function BoardList() {
  
