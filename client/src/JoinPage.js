@@ -2,19 +2,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from 'axios';
 import './JoinPage.css';
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import {toast, ToastContainer} from 'react-toastify';
 
 const JoinPage = () => {
 
-  //GET 조회
-  // useEffect(() => {
-  //   axios.get('http://localhost:8080/member/test').then((res) => {
-  //     console.log(res.data);
-  //   }).catch((err) => {
-  //     console.log("GET : 실패");
-  //   });
-  // }, []);
+  const navigate = useNavigate();
 
   //POST 회원가입 등록
   const register = () => {
@@ -28,14 +21,12 @@ const JoinPage = () => {
       console.log('회원가입이 완료되었습니다.');
       alert('회원가입이 완료되었습니다.');
       console.log(response.data);
-      
-      Navigate("/login");
+      navigate("/login");
     }).catch((error) => {
       console.log('An error occurred:', error.response);
     });
   }
 
-  
 
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
@@ -53,7 +44,8 @@ const JoinPage = () => {
 
   const handleId = (e) => {
     setId(e.target.value);
-    const regexId = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{6,10}$/;
+    //영문자로 시작하는 영문자 또는 숫자 6~20자
+    const regexId = /^[a-z]+[a-z0-9]{5,19}$/g;
     if(regexId.test(id)) {
       setIdValid(true);
     } else {
@@ -62,6 +54,7 @@ const JoinPage = () => {
   }
 
   const checkId = (e) => { 
+
     axios.post('http://localhost:8080/valid/accountName/exists', {
       accountName : id,
     }).then((res) => {
@@ -69,8 +62,10 @@ const JoinPage = () => {
       if(res.data.result == true) {
         console.log("중복된 아이디 존재");
         alert("중복된 아이디가 존재합니다.");
+        setIdValid(false);
       } else {
         console.log("사용가능한 아이디");
+        setIdValid(true);
       }
     }).catch((err) => {
       console.log("중복확인 실패 : ", err);
@@ -85,8 +80,10 @@ const JoinPage = () => {
       if(res.data.result == true) {
         console.log("중복된 닉네임 존재");
         alert("중복된 닉네임이 존재합니다.");
+        setNameValid(false);
       } else {
         console.log("사용가능한 닉네임");
+        setNameValid(true);
       }
     }).catch((err) => {
       console.log("중복확인 실패:", err);
@@ -101,8 +98,10 @@ const JoinPage = () => {
       if(res.data.result==true) {
         console.log("중복된 지갑주소 존재");
         alert("중복된 지갑주소가 존재합니다.");
+        setWalletValid(false);
       } else {
         console.log("사용가능한 지갑주소");
+        setWalletValid(true);
       }
     }).catch((err) => {
       console.log("중복확인 실패");
@@ -128,16 +127,18 @@ const JoinPage = () => {
       if(res.data.result==true) {
         console.log("인증 완료");
         alert("이메일 인증 완료");
+        setEmailValid(true);
       }
     }).catch((err) => {
       console.log(err);
+      setEmailValid(false);
     });
   }
 
   const handlePwd = (e) => {
     setPwd(e.target.value);
-
-    const regexPwd = /^[A-Za-z0-9]{9,20}$/;
+    //최소 9자, 하나 이상의 문자와 하나의 숫자 정규식
+    const regexPwd =/^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/;
     if(regexPwd.test(pwd)) {
       setPwdValid(true);
     } else {
@@ -147,7 +148,8 @@ const JoinPage = () => {
 
   const handleName = (e) => {
     setName(e.target.value);
-    if(e.target.value.length < 2 || e.target.value.length > 10) {
+    //닉네임은 영문 4글자 이상 10자 이하
+    if(e.target.value.length < 4 || e.target.value.length > 10) {
       setNameValid(false);
     } else {
       setNameValid(true);
@@ -156,7 +158,7 @@ const JoinPage = () => {
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    const regexEmail = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    const regexEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
     if(regexEmail.test(email)) {
       setEmailValid(true);
@@ -167,16 +169,21 @@ const JoinPage = () => {
 
   const handleWallet = (e) => {
     setWallet(e.target.value);
+    if(e.target.value.length>2) {
+      setWalletValid(true);
+    } else {
+      setWalletValid(false);
+    }
     
   }
 
   useEffect(() => {
-    if(idValid&&pwdValid&&nameValid&&emailValid) {
+    if(idValid&&pwdValid&&nameValid&&emailValid&&walletValid) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [idValid, pwdValid, nameValid, emailValid]);
+  }, [idValid, pwdValid, nameValid, emailValid, walletValid]);
 
   return(
     <div className="joinPage">
@@ -199,6 +206,24 @@ const JoinPage = () => {
             </div>
             <div className="join_write_id_input">
               <input type="text" placeholder="아이디를 입력해주세요" className="id_input" value={id} onChange={handleId} />
+              <div className="errorMessageWrap">
+              {
+                !idValid && id.length > 0 && (
+                  <div>6자 이상의 영문 혹은 영문과 숫자를 조합</div>
+                )
+              }
+              </div>
+              <div className="errorMessageWrap">
+                {
+                  !idValid && id.length > 0 && (
+                    <div>
+                      ! 중복된 아이디입니다.
+                    </div>
+                  )
+                }
+              </div>
+              
+              
             </div>
             <div className="join_write_id_config">
               <button className="id_config_btn" style={{cursor:"pointer"}} onClick={checkId}>
@@ -207,6 +232,7 @@ const JoinPage = () => {
                 </span>
               </button>
             </div>
+            
           </div>
 
           <div className="join_write_content">
@@ -218,6 +244,13 @@ const JoinPage = () => {
               </div>
               <div className="join_write_id_input">
                 <input type="password" placeholder="비밀번호를 입력해주세요" className="id_input" value={pwd} onChange={handlePwd} maxLength="16" />
+                <div className="errorMessageWrap">
+                {
+                  !pwdValid && pwd.length > 0 && (
+                    <div>비밀번호 정규표현식을 지켜주세요</div>
+                  )
+                }
+                </div>
               </div>
               <div className="join_write_id_config">
                 
@@ -233,6 +266,15 @@ const JoinPage = () => {
               </div>
               <div className="join_write_id_input">
                 <input type="text" placeholder="닉네임을 입력해주세요" className="id_input" value={name} onChange={handleName} />
+                <div className="errorMessageWrap">
+                {
+                  !nameValid && name.length > 0 && (
+                    <div>
+                      4글자 이상 10자 이하
+                    </div>
+                  )
+                }
+                </div>
               </div>
               <div className="join_write_id_config">
               <button className="id_config_btn" style={{cursor:"pointer"}} onClick={checkNickname}>
@@ -252,6 +294,13 @@ const JoinPage = () => {
               </div>
               <div className="join_write_id_input">
                 <input type="text" placeholder="이메일을 입력해주세요" className="id_input" value={email} onChange={handleEmail} />
+                <div className="errorMessageWrap">
+                {
+                  !emailValid && email.length > 0 && (
+                    <div>이메일 형식을 지켜주세요</div>
+                  )
+                }
+              </div>
               </div>
               <div className="join_write_id_config">
               <button className="id_config_btn" style={{cursor:"pointer"}} onClick={sendEmail}>
@@ -278,6 +327,13 @@ const JoinPage = () => {
               </div>
               <div className="join_write_id_input">
                 <input type="text" placeholder="지갑 주소를 입력해주세요" className="id_input" value={wallet} onChange={handleWallet} />
+                <div className="errorMessageWrap">
+                {
+                  !walletValid && wallet.length > 0 && (
+                    <div>지갑 주소 형식을 지켜주세요</div>
+                  )
+                }
+                </div>
               </div>
               <div className="join_write_id_config">
               <button className="id_config_btn" style={{cursor:"pointer"}} onClick={checkWallet}>

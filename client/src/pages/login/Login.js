@@ -88,10 +88,12 @@ function Login() {
                         <a className ="find_id">비밀번호 찾기 </a>
                     </div>
                     <div className="login_button">
-     
-                    <LoginButton onClick={onClickConfirm} backgroundcolor="#44C97C" color="rgb(255,255,255)" border="0px none" type="button" height="54" radius="3" margin="0px"><span class="css-ymwvow e4nu7ef1">로그인</span></LoginButton>
+
+                        <LoginButton onClick={onClickConfirm} backgroundcolor="#44C97C" color="rgb(255,255,255)" border="0px none" type="button" height="54" radius="3" margin="0px"><span class="css-ymwvow e4nu7ef1">로그인</span></LoginButton>
                     
-                    <LoginButton backgroundcolor="rgb(255,255,255)" color="#44C97C" border="1px solid #44C97C" type="button" height="54" radius="3" margin="10px" ><span class="css-ymwvow e4nu7ef1">회원가입</span></LoginButton>
+                        <Link to="/join" style={{textDecoration:"none"}}>
+                            <LoginButton backgroundcolor="rgb(255,255,255)" color="#44C97C" border="1px solid #44C97C" type="button" height="54" radius="3" margin="10px" ><span class="css-ymwvow e4nu7ef1">회원가입</span></LoginButton>
+                        </Link>
                     </div>
                 </form>
             </div>
@@ -109,6 +111,7 @@ const LoginButton = styled.button`
     width: 100%;
     height: 54px;
     border-radius: 3px;
+    cursor:pointer;
 
     background-color: ${props => props.backgroundcolor};
     color : ${props => props.color};

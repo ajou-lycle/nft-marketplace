@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import { Route, BrowserRouter, Routes } from "react-router-dom";
 
 import Page1 from "../pages/Page1";
 import Login from "../pages/login/Login";
@@ -17,11 +18,10 @@ import SignUp from "../SignUp";
 import MyPage from "../pages/MyPage.js";
 import WalletPage from "../WalletSet";
 import SettingPage from "../Settings";
-import FavoritesPage from "../FavoritesPage";
+import FavoritesPage from "../pages/FavoritesPage";
 import ItemPage from "../pages/ItemPage";
-
-
-
+import Item2 from "../components/common/Item2";
+import GoodsPage from "../pages/GoodsPage";
 
 
 export default function RootRoute() {
@@ -46,6 +46,8 @@ export default function RootRoute() {
         <Route path="/settings" element={<SettingPage />}/>
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/itemPage" element={<ItemPage />}/>
+        <Route path="/item2" element={<Item2 />} />
+        <Route path="/goods" element={<GoodsPage />} />
       </Routes>
     </BrowserRouter>
 

@@ -1,3 +1,12 @@
+.errorMessageWrap {
+  color:red;
+  font-size:12px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
+
+
 .joinPage {
   min-width: 1050px;
   margin-top:50px;
@@ -129,6 +138,7 @@
   background-color : #44C97C; 
   color: #fff;
   border-radius :3px;
+  cursor: pointer;
 }
 
 .join_btn:disabled {

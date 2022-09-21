@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import './Item.css';
 import IconButton from "@material-ui/core/IconButton";
-import {Favorite, FavoriteBorder, Room} from '@material-ui/icons';
+import {Favorite, FavoriteBorder} from '@material-ui/icons';
 import styled from "styled-components";
 import axios from "axios";
 
 export default function NftItem() {
 
-  const [inputData, setInputData] = useState([{
+  const [inputD, setInputD] = useState([{
     nft_item_id : '',
     created_date : '',
     modified_date : '',
@@ -21,6 +21,7 @@ export default function NftItem() {
     status : '',
   }])
 
+
   useEffect(async() => {
     try {
       const res = await axios.get('http://localhost:8080/nftItem?page=0&size=3&title=&sort');
@@ -33,11 +34,11 @@ export default function NftItem() {
         price : rowData.price,
         likeCnt : rowData.likeCnt,
         title : rowData.title,
-        view_cnt : rowData.viewCnt,
+        viewCnt : rowData.viewCnt,
         status : rowData.status,
       }));
-      setInputData(inputData.concat(_inputData));
-      console.log(_inputData);
+      setInputD(inputD.concat(_inputData));
+      console.log("_inputData:", _inputData);
     } catch(e) {
       console.log(e);
     }
@@ -48,139 +49,30 @@ export default function NftItem() {
 
   return(
     <div className="NftItem_wrap">
-      <div>
-        <h3 className="item_title">
-          NFT ITEM
-        </h3> 
-        <div className="order_bar">
-          <ul className="order_ul">
-            <li className="order_li">
-              <a className="li_lastely">최신순</a>
-            </li>
-            <li className="order_li">
-              <a className="li_favorite">좋아요순</a>
-            </li>
-            <li className="order_li">
-              <a className="li_view">조회수순</a>
-            </li>
-          </ul>
-        </div>
-        
-            <div className="item_grid">
-              {inputData.map((rowData, idx) => {
-                return (
-                  <div>
-                    <div className="nft_item" key={idx}>
+      {inputD && inputD.map((rowData) => {
+          return(
+            <div>
+              <h3 className="item_title">
+                NFT ITEM
+              </h3>   
+              <div className="order_bar">
+                <ul className="order_ul">
+                  <li className="order_li">
+                    <a className="li_lastely">최신순</a>
+                  </li>
+                  <li className="order_li">
+                    <a className="li_favorite">좋아요순</a>
+                  </li>
+                  <li className="order_li">
+                    <a className="li_view">조회수순</a>
+                  </li>
+                </ul>
+              </div>
+            
+              <div>title : {rowData.title}</div>
+              
 
-                      <div className="nft_item_img">
-                        <div className="nft_item_img_">
-                          <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-                          <div>
-                            <FavoriteBorder />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="nft_item_txt">
-                        <div className="nft_date">
-                          <span className="nft_item_date">{rowData.created_date}</span>
-                        </div>
-                        <div className="nft_name">
-                          {rowData.title}
-                        </div>
-                        <div className="nft_user">
-                          <UserImg src="img/lamarket_logo.png" />
-                          <span className="nft_item_user">{rowData.memberId}</span>
-                        </div>
-                        <div className="nft_price">
-                          $ {rowData.price}
-                        </div>
-                        <div className="nft_item_views">
-                          view {rowData.view_cnt}
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                    <div className="nft_item" key={idx}>
-
-                      <div className="nft_item_img">
-                        <div className="nft_item_img_">
-                          <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-                          <div>
-                            <FavoriteBorder />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="nft_item_txt">
-                        <div className="nft_date">
-                          <span className="nft_item_date">{rowData.created_date}</span>
-                        </div>
-                        <div className="nft_name">
-                          {rowData.title}
-                        </div>
-                        <div className="nft_user">
-                          <UserImg src="img/lamarket_logo.png" />
-                          <span className="nft_item_user">{rowData.memberId}</span>
-                        </div>
-                        <div className="nft_price">
-                          $ {rowData.price}
-                        </div>
-                        <div className="nft_item_views">
-                          view {rowData.view_cnt}
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                    <div className="nft_item" key={idx}>
-
-                      <div className="nft_item_img">
-                        <div className="nft_item_img_">
-                          <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-                          <div>
-                            <FavoriteBorder />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="nft_item_txt">
-                        <div className="nft_date">
-                          <span className="nft_item_date">{rowData.created_date}</span>
-                        </div>
-                        <div className="nft_name">
-                          {rowData.title}
-                        </div>
-                        <div className="nft_user">
-                          <UserImg src="img/lamarket_logo.png" />
-                          <span className="nft_item_user">{rowData.memberId}</span>
-                        </div>
-                        <div className="nft_price">
-                          $ {rowData.price}
-                        </div>
-                        <div className="nft_item_views">
-                          view {rowData.view_cnt}
-                        </div>
-
-                      </div>
-
-                    </div>
-                  </div>
-
-                  
-                )
-              })}
-
-            </div>
-      </div>
-      
-      
-      
-      
-
+              
       <div className="item_grid">
 
         <div className="nft_item">
@@ -196,10 +88,11 @@ export default function NftItem() {
 
           <div className="nft_item_txt">
             <div className="nft_date">
-              <span className="nft_item_date">22.07.23</span>
+              <span className="nft_item_date">{rowData.created_date}</span>
             </div>
             <div className="nft_name">
               Pyscho NFT ITEM
+              {rowData.seller_id}
             </div>
             <div className="nft_user">
               <UserImg src="img/lamarket_logo.png" />
@@ -379,9 +272,15 @@ export default function NftItem() {
 
           </div>
 
-        </div>
+</div>
 
-      </div>
+</div>
+
+
+            </div>
+            
+          );
+      })}
 
     </div>
   );
