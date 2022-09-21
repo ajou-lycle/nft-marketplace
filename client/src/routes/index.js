@@ -29,10 +29,10 @@ export default function RootRoute() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Page1/>} />
-
         <Route path="/login" element = {<Login/>}></Route>
         <Route path="/menu" element = {<Menu/>}></Route>
-        <Route path="/contents_nft" element = {<PageContentNft/>}></Route>
+        {/* <Route path="/contents_nft/:nftInfoId" element = {<PageContentNft/>}></Route> */}
+        <Route path="/:nftInfoId" element = {<PageContentNft/>}></Route>
         <Route path="/contents_goods" element = {<PageContentGoods/>}></Route>
         <Route path="/add_nft" element = {<PageAddNft/>}></Route>
         <Route path="/edit_nft" element = {<PageEditNft/>}></Route>
