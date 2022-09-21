@@ -11,7 +11,7 @@ function Menu() {
         setboolean(true);
         Navigate('/')};
 
-    const [bool, setboolean] = useRecoilState(isLogin);
+    const [bool, setboolean] = useState(isLogin);
 
     const [click1, setClick1] = useState("content_bar_1_false");
     const [click2, setClick2] = useState("content_bar_1_false");
