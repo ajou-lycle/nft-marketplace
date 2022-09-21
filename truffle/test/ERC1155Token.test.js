@@ -153,9 +153,11 @@ contract('ERC1155TokenFactory', (accounts) => {
 
       const balanceOf = await ERC1155TokenContract.balanceOf(deployerAccount, ERC1155ItemId);
       expect(balanceOf).to.be.a.bignumber.equal(new BN(this.balanceOf - ERC1155ItemAmount));
+      this.balanceOf = balanceOf;
 
       const totalSupply = await ERC1155TokenContract.totalSupply(ERC1155ItemId);
       expect(totalSupply).to.be.a.bignumber.equal(new BN(this.totalSupply - ERC1155ItemAmount));
+      this.totalSupply = totalSupply;
 
       /*
         event TransferSingle(
@@ -203,6 +205,52 @@ contract('ERC1155TokenFactory', (accounts) => {
 
       await expect(ERC1155TokenContract.burn(deployerAccount, ERC1155ItemId, ERC1155ItemAmount))
         .to.eventually.be.rejected;
+    });
+  });
+
+  describe('Item transfer', async () => {
+    it('transfer item of deployer to recipient', async () => {
+      let ERC1155TokenFactoryContract = this.ERC1155TokenFactory;
+
+      const ERC1155ItemId = 0;
+      const ERC1155ItemAmount = 1;
+      const ERC1155ItemJsonPath = `${ERC1155ItemId}.json`;
+      const ERC1155ItemJsonBytes = web3.utils.asciiToHex(ERC1155ItemJsonPath);
+
+      const ERC1155TokenContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
+      const ERC1155TokenContract = await ERC1155Token.at(ERC1155TokenContractAddress);
+
+      const exist = await ERC1155TokenContract.exists(ERC1155ItemId);
+      expect(exist).to.be.equal(true);
+
+      const result = await ERC1155TokenContract.safeTransferFrom(deployerAccount, recipient, ERC1155ItemId, ERC1155ItemAmount, ERC1155ItemJsonBytes);
+
+      const deployerBalanceOf = await ERC1155TokenContract.balanceOf(deployerAccount, ERC1155ItemId);
+      expect(deployerBalanceOf).to.be.a.bignumber.equal(new BN(this.balanceOf - ERC1155ItemAmount));
+      this.balanceOf = deployerBalanceOf;
+
+      const recipientBalanceOf = await ERC1155TokenContract.balanceOf(recipient, ERC1155ItemId);
+      expect(recipientBalanceOf).to.be.a.bignumber.equal(new BN(ERC1155ItemAmount));
+
+      const totalSupply = await ERC1155TokenContract.totalSupply(ERC1155ItemId);
+      expect(totalSupply).to.be.a.bignumber.equal(new BN(this.totalSupply));
+
+      /*
+        event TransferSingle(
+          address indexed operator, // msg.sender 
+          address indexed from, // from
+          address indexed to, // 0
+          uint256 id, // id
+          uint256 value); // amount
+      */
+
+      const event = result.logs[0].args;
+
+      expect(event.operator).to.be.equal(deployerAccount);
+      expect(event.from).to.be.a.bignumber.equal(deployerAccount);
+      expect(event.to).to.be.a.bignumber.equal(recipient);
+      expect(event.id).to.be.bignumber.equal(new BN(ERC1155ItemId));
+      expect(event.value).to.be.bignumber.equal(new BN(ERC1155ItemAmount));
     });
   });
 }); 

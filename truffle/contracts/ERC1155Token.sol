@@ -5,9 +5,22 @@ import "./ERC1155PresetMinterPauser.sol";
 import './ERC1155TokenSupplyCheck.sol';
 
 contract ERC1155Token is ERC1155PresetMinterPauser, ERC1155TokenSupplyCheck {
-    constructor(string memory baseURI, address owner) ERC1155PresetMinterPauser(baseURI, owner) {
+    string private _name;
+    string private _symbol;
+    constructor(string memory contractName, string memory contractSymbol, string memory baseURI, address owner) ERC1155PresetMinterPauser(baseURI, owner) {
+        _name = contractName;
+        _symbol = contractSymbol;
+
         _setBaseURI(baseURI);
     }    
+
+    function name() public view returns(string memory) {
+        return _name;
+    }
+
+    function symbol() public view returns(string memory) {
+        return _symbol;
+    }
 
     function uri(uint256 tokenId) public view virtual override(ERC1155, ERC1155TokenSupplyCheck) returns (string memory) {
         return super.uri(tokenId);
