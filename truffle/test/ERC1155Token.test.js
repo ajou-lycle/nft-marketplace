@@ -42,7 +42,10 @@ contract('ERC1155TokenFactory', (accounts) => {
       const endPointContractAddress = 66;
       const futureERC1155TokenContractAddress = ('0x' + web3.utils.sha3(Buffer.from(RLP.encode([from, nonce]))).substring(startPointContractAddress, endPointContractAddress)).toUpperCase();
 
-      await ERC1155TokenFactoryContract.createNewERC1155Token(`${process.env.BASE_URI_NFT}${futureERC1155TokenContractAddress}/`);
+      const contractName = "LycleItems";
+      const contractSymbol = "LYCLE";
+
+      await ERC1155TokenFactoryContract.createNewERC1155Token(contractName, contractSymbol, `${process.env.BASE_URI_NFT}${futureERC1155TokenContractAddress}/`);
 
       const ERC1155TokenContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
       const ERC1155TokenContract = await ERC1155Token.at(ERC1155TokenContractAddress);
