@@ -7,11 +7,11 @@ import {idState, isLogin} from "../../recoil/User";
 import './Menu.css';
 
 function Menu() {
-    const onClickConfirm=()=> { 
-        setboolean(true);
-        Navigate('/')};
+    // const onClickConfirm=()=> { 
+    //     setboolean(true);
+    //     Navigate('/')};
 
-    const [bool, setboolean] = useState(isLogin);
+    //  const [bool, setboolean] = useState(isLogin);
 
     const [click1, setClick1] = useState("content_bar_1_false");
     const [click2, setClick2] = useState("content_bar_1_false");
@@ -26,6 +26,10 @@ function Menu() {
     }
 
     return(
+      <div>
+            <div className="main_disc">
+                <div className="main_disc_in">Barter your Life-Cycle, LYCLE </div>
+            </div>
         <div className="menuButton">
             <Link to ="/market" style={{textDecoration:'none'}}>
                 <MenuButton className={click1} onClick={contentBar1} border="0px none" type="button" height="54" radius="3" margin="0px">MARKET</MenuButton>
@@ -34,7 +38,9 @@ function Menu() {
                 <MenuButton className={click2} onClick={contentBar2} border="0px none" type="button" height="54" radius="3" margin="0px"><span class="css-ymwvow e4nu7ef1">GOODS</span></MenuButton>
             </Link>
         </div>
-    )
+        </div>
+        
+    );
 }
 
 const MenuButton = styled.button`

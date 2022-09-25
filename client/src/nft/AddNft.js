@@ -2,19 +2,19 @@ import React, { useEffect, useState} from "react";
 import './AddNft.css';
 import styled from "styled-components";
 import axios, { Axios } from 'axios';
+
+
 //import { Info } from "@material-ui/icons";
 
 
 function AddNft()
 {
-
-
-    const [info,setInfo] = useState({
-        itemImg : '',
-        title : '',
-        price : 0,
-        content : ''
-    });
+    // const [info,setInfo] = useState({
+    //     itemImg : '',
+    //     title : '',
+    //     price : 0,
+    //     content : ''
+    // });
 
     const [itemImg, setitemImg] = useState('');
     const [title, setTitle] = useState('');
@@ -26,10 +26,10 @@ function AddNft()
 
     // const userData = {
     
-    //     'nftItemImg' : info.itemImg,
-    //     'title' : info.title,
-    //     'price': info.price,
-    //     'content' : info.content
+    //     'nftItemImg' : itemImg,
+    //     'title' : title,
+    //     'price': price,
+    //     'content' : content
     // };
 
 
@@ -39,8 +39,9 @@ function AddNft()
 
     const onClickAddNft=() => {
         console.log('add nft');
-        axios.post('api/nftItem', {
-                    'nftItemImg' : itemImg,
+        axios.post('http://localhost:8080/nftItem', {
+            // userData
+        'nftItemImg' : itemImg,
         'title' : title,
         'price': price,
         'content' : content
@@ -57,6 +58,8 @@ function AddNft()
         }, )
         .then((res) => {
             console.log("res.data", res.data)
+            alert("등록이 완료되었습니다!");
+            document.location.href = '/';
         
         
     

@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState , useEffect} from "react";
+import { useRecoilState } from "recoil";
 import {Link} from 'react-router-dom';
 import styled from "styled-components";
 import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
+import { isLoginState } from "../../recoil/User";
 
 export default function Header(props) {
 
-  const isLogin=props.isLogin;
+  // const isLogin=props.isLogin;
+  const [isLogin,setIsLogin]=useRecoilState(isLoginState);
+  useEffect(() => {
+    if(sessionStorage.getItem('user_token') === null){
+    // sessionStorage 에 user_id 라는 key 값으로 저장된 값이 없다면
+        console.log('isLogin ?? :: ', isLogin);
+        setIsLogin(false);
+    } else {
+    // sessionStorage 에 user_id 라는 key 값으로 저장된 값이 있다면
+    // 로그인 상태 변경
+        setIsLogin(true);
+        console.log('isLogin ?? :: ', isLogin)
+    }
+    })
 
   const onLogout = () => {
     sessionStorage.removeItem('user_token');
@@ -49,14 +64,16 @@ export default function Header(props) {
       </div>
 
       <div>
+        {isLogin? 
+        <UserButton onClick={onLogout}>로그아웃</UserButton>
+        :
         <Link to="/login" style={{textDecoration:"none"}}>
-          <UserButton>
-            로그인
-          </UserButton>
-        </Link>
+        <UserButton>로그인</UserButton>
+        
+        </Link>}
       </div>
 
-      <div> <button type='button' onClick={onLogout}>로그아웃</button></div>
+      {/* <div> <button type='button' onClick={onLogout}>로그아웃</button></div> */}
   
 
 
