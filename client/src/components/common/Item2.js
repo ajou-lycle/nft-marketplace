@@ -5,7 +5,7 @@ import {Favorite, FavoriteBorder} from '@material-ui/icons';
 import styled from "styled-components";
 import axios from "axios";
 
-export default function NftItem() {
+export default function NftItem2() {
 
   const [inputD, setInputD] = useState([{
     nft_item_id : '',
@@ -22,10 +22,10 @@ export default function NftItem() {
   }])
 
 
-  useEffect(async() => {
-    try {
-      const res = await axios.get('http://localhost:8080/nftItem?page=0&size=3&title=&sort');
-      const _inputData = await res.data.itemList.map((rowData) => ({
+  useEffect((e) =>  {
+    async function fetchData() {
+      const res = await axios.get('http://localhost:8080/nftItem?page=0&size=9');
+      const _inputD = await res.data.itemList.map((rowData) => ({
         nft_item_id : rowData.nftItemId,
         created_date : rowData.createdDate,
         profileImg : rowData.profileImg,
@@ -34,14 +34,14 @@ export default function NftItem() {
         price : rowData.price,
         likeCnt : rowData.likeCnt,
         title : rowData.title,
-        viewCnt : rowData.viewCnt,
+        view_cnt : rowData.viewCnt,
         status : rowData.status,
       }));
-      setInputD(inputD.concat(_inputData));
-      console.log("_inputData:", _inputData);
-    } catch(e) {
-      console.log(e);
+      setInputD(inputD.concat(_inputD));
+      console.log(_inputD);
+
     }
+    fetchData();
     
   }, []);
 
@@ -53,7 +53,7 @@ export default function NftItem() {
           return(
             <div>
               <h3 className="item_title">
-                NFT ITEM
+                GOODS ITEM
               </h3>   
               <div className="order_bar">
                 <ul className="order_ul">
