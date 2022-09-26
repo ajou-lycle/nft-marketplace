@@ -46,6 +46,7 @@ export default function RootRoute() {
         <Route path="/settings" element={<SettingPage />}/>
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/itemPage" element={<ItemPage />}/>
+        <Route path="/market" element={<Page1 />} />
         <Route path="/item2" element={<Item2 />} />
         <Route path="/goods" element={<GoodsPage />} />
       </Routes>
