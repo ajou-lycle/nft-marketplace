@@ -6,6 +6,7 @@ import { AccountCircleOutlined } from "@material-ui/icons";
 
 export default function Header(props) {
 
+
   const isLogin=props.isLogin;
 
   const onLogout = () => {
@@ -15,7 +16,6 @@ export default function Header(props) {
 
 }
 
-
   return(
     <div style={{
       display:"flex",
@@ -23,7 +23,6 @@ export default function Header(props) {
       width:"1000px",
       alignItems:"center",
       margin:"0 auto",
-      border:"1px solid gray",
     }}>
       <div>
         <LogoImg src="img/lamarket_logo.png" />

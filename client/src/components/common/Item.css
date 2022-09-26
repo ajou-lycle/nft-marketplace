@@ -4,7 +4,7 @@
   padding:10px 50px;
   width:1000px;
   display: block;
-  border:3px solid pink;
+  /* border:3px solid pink; */
 }
 
 .item_title {
@@ -25,7 +25,8 @@
   justify-content: right;
   text-align: center;
   width:1000px;
-  border:1px solid blue;
+  /* border:1px solid gray; */
+  /* margin-bottom:10px; */
 }
 
 .order_ul {
@@ -57,7 +58,7 @@
   flex-wrap: wrap;
   gap : 50px;
   width:1000px;
-  border:1px solid red;
+  /* border:1px solid red; */
 }
 
 .nft_item {
