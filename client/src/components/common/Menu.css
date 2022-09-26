@@ -1,3 +1,16 @@
+.main_disc {
+    display:flex;
+    height: 100px;
+
+}
+.main_disc_in {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 100px;
+
+}
 .menuButton {
     display: flex;
     position: sticky;

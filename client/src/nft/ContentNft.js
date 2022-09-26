@@ -56,7 +56,7 @@ function ContentNft()
 
     const [contentdata,setContentData] = useState('');
     const onClickShowNft=() => {
-        axios.get(`api/nftItem/${nftInfoId}`,
+        axios.get(`http://localhost:8080/nftItem/${nftInfoId}`,
         {
             withCredentials: true,
             headers: {
@@ -79,7 +79,7 @@ function ContentNft()
     const onClickLikeNft=() => {
         let userToken = sessionStorage.getItem('user_token');
         console.log(userToken);
-        axios.post(`api/nftItem/${nftInfoId}/like`, {},
+        axios.post(`http://localhost:8080/nftItem/${nftInfoId}/like`, {},
         {
             withCredentials: true,
             headers: {
@@ -97,13 +97,15 @@ function ContentNft()
     const onClickDeleteNft=() => {
         let userToken = sessionStorage.getItem('user_token');
         console.log(userToken);
-        axios.delete(`api/nftItem/${nftInfoId}`,
+        axios.delete(`http://localhost:8080/nftItem/${nftInfoId}`,
         {
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
         .then((res) => {
-            console.log("res.data", res.data)
+            console.log("res.data", res.data);
+            alert("삭제가 완료되었습니다!");
+            document.location.href = '/';
         
     
 
@@ -185,7 +187,7 @@ function ContentNft()
                 </div>
                 <div className="disc_long">{contentdata.content}</div>
                 {/* <button onClick={onClickShowNft} type="button">조회</button> */}
-                <Link to="/edit_nft"><button type="button">수정</button></Link>
+                <Link to={`/edit_nft/${nftInfoId}`}><button type="button">수정</button></Link>
                 <button onClick={onClickDeleteNft} type="button">삭제</button>
                 
 

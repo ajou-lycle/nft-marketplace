@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from 'axios';
 import {useRecoilState} from "recoil";
 import { titleState,itemImgState,priceState,contentState } from "../recoil/User";
+import { useParams } from "react-router-dom";
 
 //import { Info } from "@material-ui/icons";
 
@@ -11,11 +12,13 @@ import { titleState,itemImgState,priceState,contentState } from "../recoil/User"
 function EditNft()
 {
 
-    const info_id = 6;
+
 
     const [title,setTitle] = useState('');
     const [price,setPrice] = useState('');
     const [content,setContent] = useState('');
+
+    const {nftInfoId} = useParams();
 
 
     // const userData = {
@@ -25,7 +28,7 @@ function EditNft()
     // };
     const [contentsellerdata,setContentSellerData] = useState('');
     const ShowSellerinfo=() => {
-        axios.get(`api/nftItem/post`,
+        axios.get(`http://localhost:8080/nftItem/post`,
         {
             withCredentials: true,
             headers: {
@@ -47,7 +50,7 @@ function EditNft()
 
     const onClickEditNft=() => {
         console.log('add nft');
-        axios.put('api/nftItem/3', {
+        axios.put(`http://localhost:8080/nftItem/${nftInfoId}`, {
         title : title,
         price : price,
         content : content
