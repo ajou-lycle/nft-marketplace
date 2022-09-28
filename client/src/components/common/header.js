@@ -6,6 +6,8 @@ import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
 import { isLoginState } from "../../recoil/User";
 
+
+
 export default function Header(props) {
 
   // const isLogin=props.isLogin;
@@ -40,7 +42,8 @@ export default function Header(props) {
       margin:"0 auto",
     }}>
       <div>
-        <LogoImg src="img/lamarket_logo.png" />
+        {/* <LogoImg src={require("img/lamarket_logo.png")}/> */}
+        <LogoImg src="img/lamarket_logo.png"/>
       </div>
 
       <div>
