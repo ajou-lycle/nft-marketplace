@@ -36,7 +36,6 @@ export default function RootRoute() {
         <Route path="/add_nft" element = {<PageAddNft/>}></Route>
         <Route path="/edit_nft/:nftInfoId" element = {<PageEditNft/>}></Route>
         <Route path="/add_goods" element = {<PageAddGoods/>}></Route>
-        
 
         <Route path="/join" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />

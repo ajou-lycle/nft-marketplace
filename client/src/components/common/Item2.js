@@ -7,19 +7,7 @@ import axios from "axios";
 
 export default function NftItem2() {
 
-  const [inputD, setInputD] = useState([{
-    nft_item_id : '',
-    created_date : '',
-    modified_date : '',
-    buyer_id : '',
-    content : '',
-    nft_item_img : '',
-    price : '',
-    seller_id : '',
-    title : '',
-    view_cnt : '',
-    status : '',
-  }])
+  const [inputD, setInputD] = useState([]);
 
 
   useEffect((e) =>  {

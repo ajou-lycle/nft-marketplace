@@ -5,25 +5,11 @@ import {Favorite, FavoriteBorder, Room} from '@material-ui/icons';
 import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router";
-
+import { Link } from "react-router-dom";
 
 export default function NftItem() {
 
-  const [inputData, setInputData] = useState([{
-    nft_item_id : '',
-    created_date : '',
-    modified_date : '',
-    buyer_id : '',
-    content : '',
-    nft_item_img : '',
-    price : '',
-    seller_id : '',
-    title : '',
-    view_cnt : '',
-    status : '',
-  }])
-
-  
+  const [inputData, setInputData] = useState([]);
 
   useEffect((e) =>  {
     async function fetchData() {
@@ -42,7 +28,6 @@ export default function NftItem() {
       }));
       setInputData(inputData.concat(_inputData));
       console.log(_inputData);
-
     }
     fetchData();
     
@@ -106,15 +91,16 @@ export default function NftItem() {
               {inputData.map((rowData) => {
                 return (
                     <div className="nft_item" key={rowData.nft_item_id.toString()}>
-                      {/* {rowData.nft_item_id} */}
-                      <div className="nft_item_img">
-                        <div className="nft_item_img_">
-                          <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-                          <div>
-                            <FavoriteBorder />
+                      <Link to={`contents_nft/${rowData.nft_item_id}`}>
+                        <div className="nft_item_img">
+                          <div className="nft_item_img_">
+                            <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
+                            <div>
+                              <FavoriteBorder />
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
 
                       <div className="nft_item_txt">
                         <div className="nft_date">
@@ -137,75 +123,6 @@ export default function NftItem() {
                       </div>
 
                     </div>
-
-                    // {/* <div className="nft_item" key={idx}>
-
-                    //   <div className="nft_item_img">
-                    //     <div className="nft_item_img_">
-                    //       <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-                    //       <div>
-                    //         <FavoriteBorder />
-                    //       </div>
-                    //     </div>
-                    //   </div>
-
-                    //   <div className="nft_item_txt">
-                    //     <div className="nft_date">
-                    //       <span className="nft_item_date">{rowData.created_date}</span>
-                    //     </div>
-                    //     <div className="nft_name">
-                    //       {rowData.title}
-                    //     </div>
-                    //     <div className="nft_user">
-                    //       <UserImg src="img/lamarket_logo.png" />
-                    //       <span className="nft_item_user">{rowData.memberId}</span>
-                    //     </div>
-                    //     <div className="nft_price">
-                    //       $ {rowData.price}
-                    //     </div>
-                    //     <div className="nft_item_views">
-                    //       view {rowData.view_cnt}
-                    //     </div>
-
-                    //   </div>
-
-                    // </div>
-
-                    // <div className="nft_item" key={idx}>
-
-                    //   <div className="nft_item_img">
-                    //     <div className="nft_item_img_">
-                    //       <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-                    //       <div>
-                    //         <FavoriteBorder />
-                    //       </div>
-                    //     </div>
-                    //   </div>
-
-                    //   <div className="nft_item_txt">
-                    //     <div className="nft_date">
-                    //       <span className="nft_item_date">{rowData.created_date}</span>
-                    //     </div>
-                    //     <div className="nft_name">
-                    //       {rowData.title}
-                    //     </div>
-                    //     <div className="nft_user">
-                    //       <UserImg src="img/lamarket_logo.png" />
-                    //       <span className="nft_item_user">{rowData.memberId}</span>
-                    //     </div>
-                    //     <div className="nft_price">
-                    //       $ {rowData.price}
-                    //     </div>
-                    //     <div className="nft_item_views">
-                    //       view {rowData.view_cnt}
-                    //     </div>
-
-                    //   </div>
-
-                    // </div> */}
-           
-
-                  
                 )
               })}
 
@@ -216,7 +133,7 @@ export default function NftItem() {
       
       
 
-      <div className="item_grid">
+      {/* <div className="item_grid">
 
         <div className="nft_item">
 
@@ -251,172 +168,9 @@ export default function NftItem() {
 
         </div>
 
-        <div className="nft_item">
+        
 
-          <div className="nft_item_img">
-            <div className="nft_item_img_">
-              <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-              <div>
-                <FavoriteBorder />
-              </div>
-            </div>
-          </div>
-
-          <div className="nft_item_txt">
-            <div className="nft_date">
-              <span className="nft_item_date">22.07.23</span>
-            </div>
-            <div className="nft_name">
-              Pyscho NFT ITEM
-            </div>
-            <div className="nft_user">
-              <UserImg src="img/lamarket_logo.png" />
-              <span className="nft_item_user">UserName</span>
-            </div>
-            <div className="nft_price">
-              $ 0.9
-            </div>
-            <div className="nft_item_views">
-              views 23
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className="nft_item">
-
-          <div className="nft_item_img">
-            <div className="nft_item_img_">
-              <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-              <div>
-                <FavoriteBorder />
-              </div>
-            </div>
-          </div>
-
-          <div className="nft_item_txt">
-            <div className="nft_date">
-              <span className="nft_item_date">22.07.23</span>
-            </div>
-            <div className="nft_name">
-              Pyscho NFT ITEM
-            </div>
-            <div className="nft_user">
-              <UserImg src="img/lamarket_logo.png" />
-              <span className="nft_item_user">UserName</span>
-            </div>
-            <div className="nft_price">
-              $ 0.9
-            </div>
-            <div className="nft_item_views">
-              views 23
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className="nft_item">
-
-          <div className="nft_item_img">
-            <div className="nft_item_img_">
-              <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-              <div>
-                <FavoriteBorder />
-              </div>
-            </div>
-          </div>
-
-          <div className="nft_item_txt">
-            <div className="nft_date">
-              <span className="nft_item_date">22.07.23</span>
-            </div>
-            <div className="nft_name">
-              Pyscho NFT ITEM
-            </div>
-            <div className="nft_user">
-              <UserImg src="img/lamarket_logo.png" />
-              <span className="nft_item_user">UserName</span>
-            </div>
-            <div className="nft_price">
-              $ 0.9
-            </div>
-            <div className="nft_item_views">
-              views 23
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className="nft_item">
-
-          <div className="nft_item_img">
-            <div className="nft_item_img_">
-              <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-              <div>
-                <FavoriteBorder />
-              </div>
-            </div>
-          </div>
-
-          <div className="nft_item_txt">
-            <div className="nft_date">
-              <span className="nft_item_date">22.07.23</span>
-            </div>
-            <div className="nft_name">
-              Pyscho NFT ITEM
-            </div>
-            <div className="nft_user">
-              <UserImg src="img/lamarket_logo.png" />
-              <span className="nft_item_user">UserName</span>
-            </div>
-            <div className="nft_price">
-              $ 0.9
-            </div>
-            <div className="nft_item_views">
-              views 23
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className="nft_item">
-
-          <div className="nft_item_img">
-            <div className="nft_item_img_">
-              <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-              <div>
-                <FavoriteBorder />
-              </div>
-            </div>
-          </div>
-
-          <div className="nft_item_txt">
-            <div className="nft_date">
-              <span className="nft_item_date">22.07.23</span>
-            </div>
-            <div className="nft_name">
-              Pyscho NFT ITEM
-            </div>
-            <div className="nft_user">
-              <UserImg src="img/lamarket_logo.png" />
-              <span className="nft_item_user">UserName</span>
-            </div>
-            <div className="nft_price">
-              $ 0.9
-            </div>
-            <div className="nft_item_views">
-              views 23
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
+      </div> */}
 
     </div>
   );
