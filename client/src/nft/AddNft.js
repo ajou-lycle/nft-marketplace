@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import './AddNft.css';
 import styled from "styled-components";
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 
 
 //import { Info } from "@material-ui/icons";

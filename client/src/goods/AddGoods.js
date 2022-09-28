@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import './AddGoods.css';
 import styled from "styled-components";
+import axios from 'axios';
 
 function AddGoods()
 {
