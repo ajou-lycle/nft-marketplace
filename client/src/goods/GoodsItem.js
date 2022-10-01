@@ -14,7 +14,7 @@ export default function GoodsItem() {
 
   useEffect((e) =>  {
     async function fetchItemData() {
-      const res = await axios.get('http://localhost:8080/item?sort=recent&size=3&page=0');
+      const res = await axios.get('http://localhost:8080/item?sort=recent');
       const _inputItem = await res.data.itemList.map((rowData) => ({
         nft_item_id : rowData.itemId,
         created_date : rowData.createdDate,
@@ -31,6 +31,10 @@ export default function GoodsItem() {
     
   }, []);
 
+  const showLike = () => {
+    axios.get('http://localhost:8080/item?sort=like');
+  }
+
 
   return(
     <div className="NftItem_wrap">
@@ -43,7 +47,7 @@ export default function GoodsItem() {
               <a className="li_lastely">최신순</a>
             </li>
             <li className="order_li">
-              <a className="li_favorite">좋아요순</a>
+              <a className="li_favorite" onClick={showLike()}>좋아요순</a>
             </li>
             <li className="order_li">
               <a className="li_view">조회수순</a>
@@ -51,6 +55,9 @@ export default function GoodsItem() {
           </ul>
       </div>
       <RowLine />
+      <div>
+          <PostButton>NFT 등록하기</PostButton>
+        </div>
 
       <div className="item_grid">
               {inputItem.map((rowData) => {
@@ -67,6 +74,9 @@ export default function GoodsItem() {
 
                       <div className="nft_item_txt">
                         <div className="nft_date">
+                          <span className="nft_item_views">
+                            view {rowData.view_cnt}
+                          </span>
                           <span className="nft_item_date">{rowData.created_date}</span>
                         </div>
                         <div className="nft_name">
@@ -79,9 +89,7 @@ export default function GoodsItem() {
                         <div className="nft_price">
                           $ {rowData.price}
                         </div>
-                        <div className="nft_item_views">
-                          view {rowData.view_cnt}
-                        </div>
+                        
 
                       </div>
 
@@ -119,5 +127,20 @@ const RowLine = styled.span`
   justify-content:center;
   height:1px;
   background:#ddd;
+  margin-bottom:30px;
+`;
+
+const PostButton = styled.button`
+  padding: 10px;
+  border-radius: 6px;
+  background-color: rgb(46, 204, 113);
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  margin-right:20px;
+  border:none;
+  float:right;
   margin-bottom:30px;
 `;
