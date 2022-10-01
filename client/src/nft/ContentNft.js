@@ -19,7 +19,7 @@ function ContentNft()
 
     }
 
-    const [contentdata,setContentData] = useState('');
+    const [contentnftdata,setContentNftData] = useState('');
 
     const onClickShowNft=() => {
         axios.get(`http://localhost:8080/nftItem/${nftInfoId}`,
@@ -29,7 +29,7 @@ function ContentNft()
                 Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
         .then((res) => {
             console.log("res.data", res.data);
-            setContentData(res.data);
+            setContentNftData(res.data);
             
             
         })
@@ -115,7 +115,7 @@ function ContentNft()
                         <div className="disc_1_1">NFT</div>
 
                         <div className="disc_1_2">
-                            <div className="disc_1_2_big">{contentdata.title}</div>  
+                            <div className="disc_1_2_big">{contentnftdata.title}</div>  
                             <div className="d5_bottom_icon">
                                 <button onClick={onClickLikeNft} type="button" className={d5Like}></button>
                             </div>
@@ -127,19 +127,19 @@ function ContentNft()
                     <div className = "content_pic_disc_4">
                         <dl className="content_pic_disc_4_1">
                             <dt className="d4_left">seller</dt>
-                            <dd className="d4_right">{contentdata.nickname}</dd>
+                            <dd className="d4_right">{contentnftdata.nickname}</dd>
                         </dl>
                         <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">views</dt>
-                            <dd className="d4_right">{contentdata.viewCnt}</dd>
+                            <dd className="d4_right">{contentnftdata.viewCnt}</dd>
                         </dl>
                         <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">likes</dt>
-                            <dd className="d4_right">{contentdata.likeCnt}</dd>
+                            <dd className="d4_right">{contentnftdata.likeCnt}</dd>
                         </dl>
                         <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">created date</dt>
-                            <dd className="d4_right">{contentdata.createdDate}</dd>
+                            <dd className="d4_right">{contentnftdata.createdDate}</dd>
                         </dl>
                     </div>
 
@@ -150,7 +150,7 @@ function ContentNft()
                                 <div className="current_price_text">Current Price is...</div>
                             </div>
                             <div className="total_price">
-                                <span className="total_price_right" > $ {contentdata.price}</span>
+                                <span className="total_price_right" > $ {contentnftdata.price}</span>
                             </div>
                         </div>
 
@@ -171,7 +171,7 @@ function ContentNft()
             </div>
 
                 </div>
-                <div className="disc_long">{contentdata.content}</div>
+                <div className="disc_long">{contentnftdata.content}</div>
                 {/* <button onClick={onClickShowNft} type="button">조회</button> */}
                 <Link to={`/edit_nft/${nftInfoId}`}><button type="button">수정</button></Link>
                 <button onClick={onClickDeleteNft} type="button">삭제</button>

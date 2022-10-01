@@ -7,12 +7,11 @@ import { Link, useParams } from "react-router-dom";
 
 function ContentGoods()
 {
-
+    
     const {goodsInfoId} = useParams();
 
     const [count,setCount] = useState(1);
-    const count2=count*15900;
-    const count3=count2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const count3=(count*15900).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const [useclassName, setUseClassName] = useState("d4_count_down_false");
     const [d5Like,setD5Like] = useState("d5_like_false");
 
@@ -39,7 +38,7 @@ function ContentGoods()
 
     }
 
-    const [contentdata,setContentData] = useState('');
+    const [contentgoodsdata,setContentGoodsData] = useState('');
 
     const onClickShowGoods=() => {
         axios.get(`http://localhost:8080/item/${goodsInfoId}`,
@@ -50,7 +49,7 @@ function ContentGoods()
         .then((res) => {
             console.log("res.data", res.data);
             // console.log('data is ' + JSON.stringify(res.data));
-            setContentData(res.data);
+            setContentGoodsData(res.data);
             
             
         })
@@ -130,7 +129,7 @@ function ContentGoods()
                         <div className="disc_1_1">GOODS</div>
 
                         <div className="disc_1_2">
-                            <div className="disc_1_2_big">Psycho Jombie</div>  
+                            <div className="disc_1_2_big">{contentgoodsdata.title}</div>  
                             <div className="d5_bottom_icon">
                                 <button onClick={onClickLikeGoods} type="button" className={d5Like}></button>
                             </div>
@@ -142,19 +141,19 @@ function ContentGoods()
                     <div className = "content_pic_disc_4">
                         <dl className="content_pic_disc_4_1">
                             <dt className="d4_left">seller</dt>
-                            <dd className="d4_right">Moondda</dd>
+                            <dd className="d4_right">LYCLE</dd>
                         </dl>
                         <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">views</dt>
-                            <dd className="d4_right">1000000</dd>
+                            <dd className="d4_right">{contentgoodsdata.viewCnt}</dd>
                         </dl>
-                        <dl className="content_pic_disc_4_2">
+                        {/* <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">likes</dt>
-                            <dd className="d4_right">55</dd>
-                        </dl>
+                            <dd className="d4_right">{contentgoodsdata.likeCnt}</dd>
+                        </dl> */}
                         <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">created date</dt>
-                            <dd className="d4_right">00.07.23</dd>
+                            <dd className="d4_right">{contentgoodsdata.createdDate}</dd>
                         </dl>
                     </div>
 
@@ -162,8 +161,8 @@ function ContentGoods()
 
                         <div className="d5_top">
                             <div className="total_price">
-                                <span className="total_price_left" >$:</span>
-                                <span className="total_price_right" > {count3}원</span>
+                                <span className="total_price_left" >$</span>
+                                <span className="total_price_right" > {(count*contentgoodsdata.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
                             </div>
                         </div>
 
@@ -180,7 +179,7 @@ function ContentGoods()
                                     </button>
                                 </div>
                             </dl>
-                        <div className="d5_bottom_buy">Buy Now</div>
+                        <div className="d5_bottom_buy"><button onClick={onClickBuyGoods}>Buy Now</button></div>
                     </div>
 
 
@@ -191,7 +190,10 @@ function ContentGoods()
             </div>
 
                 </div>
-                <div className="disc_long">ddd</div>
+                <div className="disc_long">{contentgoodsdata.content}</div>
+                {/* <button onClick={onClickShowNft} type="button">조회</button> */}
+                <Link to={`/edit_goods/${goodsInfoId}`}><button type="button">수정</button></Link>
+                <button onClick={onClickDeleteGoods} type="button">삭제</button>
 
 
             </div>
