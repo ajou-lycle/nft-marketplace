@@ -13,16 +13,16 @@ function Menu() {
 
     //  const [bool, setboolean] = useState(isLogin);
 
-    const [click1, setClick1] = useState("content_bar_1_false");
-    const [click2, setClick2] = useState("content_bar_1_false");
+    const [click1, setClick1] = useState("content_bar_1_true");
+    const [click2, setClick2] = useState("content_bar_2_false");
 
     const contentBar1 = () => {
         setClick1("content_bar_1_true");
-        setClick2("content_bar_1_false");
+        setClick2("content_bar_2_false");
     }
     const contentBar2 = () => {
         setClick1("content_bar_1_false");
-        setClick2("content_bar_1_true");
+        setClick2("content_bar_2_true");
     }
 
     return(
@@ -31,12 +31,15 @@ function Menu() {
                 <div className="main_disc_in">Barter your Life-Cycle, LYCLE </div>
             </div>
         <div className="menuButton">
+
             <Link to ="/market" style={{textDecoration:'none'}}>
                 <MenuButton className={click1} onClick={contentBar1} border="0px none" type="button" height="54" radius="3" margin="0px">MARKET</MenuButton>
             </Link>
+
             <Link to ="/goods" style={{textDecoration:'none'}}>
-                <MenuButton className={click2} onClick={contentBar2} border="0px none" type="button" height="54" radius="3" margin="0px"><span class="css-ymwvow e4nu7ef1">GOODS</span></MenuButton>
+                <MenuButton className={click2} onClick={contentBar2} border="0px none" type="button" height="54" radius="3" margin="0px">GOODS</MenuButton>
             </Link>
+            
         </div>
         </div>
         
@@ -51,7 +54,7 @@ const MenuButton = styled.button`
     width: 550px;
     height: 70px;
     margin: 0px auto;
-    cursor: pointer;
+    // cursor: pointer;
     
 
     background-color: ${props => props.backgroundcolor};
