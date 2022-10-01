@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import './AddNft.css';
 import styled from "styled-components";
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 
 
 //import { Info } from "@material-ui/icons";
@@ -16,10 +16,10 @@ function AddNft()
     //     content : ''
     // });
 
-    const [itemImg, setitemImg] = useState('');
-    const [title, setTitle] = useState('');
-    const [price, setPrice] = useState(0);
-    const [content, setContent] = useState('');
+    const [nftitemImg, setnftitemImg] = useState('');
+    const [nfttitle, setnftTitle] = useState('');
+    const [nftprice, setnftPrice] = useState(0);
+    const [nftcontent, setnftContent] = useState('');
 
 
 
@@ -41,10 +41,10 @@ function AddNft()
         console.log('add nft');
         axios.post('http://localhost:8080/nftItem', {
             // userData
-        'nftItemImg' : itemImg,
-        'title' : title,
-        'price': price,
-        'content' : content
+        'nftItemImg' : nftitemImg,
+        'title' : nfttitle,
+        'price': nftprice,
+        'content' : nftcontent
         }
         ,  {
             withCredentials:true,
@@ -88,19 +88,19 @@ function AddNft()
                     <div className = "add_things">
                         <dl className="add_name">
                             <dt className="d_left">NFT NAME</dt>
-                            <dd><NftAddLeft type='text' id="title" placeholder="Enter NFT name" value={title} onChange={(e) => setTitle(e.target.value)}></NftAddLeft></dd>
+                            <dd><NftAddLeft type='text' id="nfttitle" placeholder="Enter NFT name" value={nfttitle} onChange={(e) => setnftTitle(e.target.value)}></NftAddLeft></dd>
                         </dl>
                         <dl className="add_image">
                             <dt className="d_left">NFT CONTENT</dt>
-                            <dd>< textarea id="content" placeholder="Enter NFT content" value={content} onChange={(e) => setContent(e.target.value)} style={{width:'350px',padding: '20px', height:'70px', resize:'none',border: '1px solid grey'}}/></dd>
+                            <dd>< textarea id="nftcontent" placeholder="Enter NFT content" value={nftcontent} onChange={(e) => setnftContent(e.target.value)} style={{width:'350px',padding: '20px', height:'70px', resize:'none',border: '1px solid grey'}}/></dd>
                         </dl>
                         <dl className="add_content">
                             <dt className="d_left">NFT IMAGE</dt>
-                            <dd><NftAddLeft type='text' id="itemImg" placeholder="Enter NFT image" value={itemImg} onChange={(e) => setitemImg(e.target.value)}></NftAddLeft></dd>
+                            <dd><NftAddLeft type='text' id="nftitemImg" placeholder="Enter NFT image" value={nftitemImg} onChange={(e) => setnftitemImg(e.target.value)}></NftAddLeft></dd>
                         </dl>
                         <dl className="add_content">
                             <dt className="d_left">NFT PRICE</dt>
-                            <dd><NftAddLeft type="number" id="price" placeholder="Enter NFT price" value={price} onChange={(e) => setPrice(e.target.value)}></NftAddLeft></dd>
+                            <dd><NftAddLeft type="number" id="nftprice" placeholder="Enter NFT price" value={nftprice} onChange={(e) => setnftPrice(e.target.value)}></NftAddLeft></dd>
                         </dl>
                     </div>
 

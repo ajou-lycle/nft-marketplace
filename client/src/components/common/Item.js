@@ -99,8 +99,8 @@ export default function NftItem() {
             <div className="item_grid">
               {inputData.map((rowData) => {
                 return (
-                    <div className="nft_item" key={rowData.nft_item_id}>
-                      <Link to={`contents_nft/${rowData.nft_item_id}`}>
+                    <div className="nft_item" key={rowData.nft_item_id.toString()}>
+                      <Link to={`../contents_nft/${rowData.nft_item_id}`}>
                         <div className="nft_item_img">
                           <div className="nft_item_img_">
                             <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />

@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import {useState} from "react";
 import './ContentGoods.css';
+import axios from 'axios';
+import { Link, useParams } from "react-router-dom";
 
 
 function ContentGoods()
 {
+    
+    const {goodsInfoId} = useParams();
+
     const [count,setCount] = useState(1);
-    const count2=count*15900;
-    const count3=count2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const count3=(count*15900).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const [useclassName, setUseClassName] = useState("d4_count_down_false");
     const [d5Like,setD5Like] = useState("d5_like_false");
 
@@ -34,6 +38,84 @@ function ContentGoods()
 
     }
 
+    const [contentgoodsdata,setContentGoodsData] = useState('');
+
+    const onClickShowGoods=() => {
+        axios.get(`http://localhost:8080/item/${goodsInfoId}`,
+        {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
+        .then((res) => {
+            console.log("res.data", res.data);
+            // console.log('data is ' + JSON.stringify(res.data));
+            setContentGoodsData(res.data);
+            
+            
+        })
+        .catch((err) => {console.log("Error", err)});
+
+    }
+
+    useEffect(()=> {
+        onClickShowGoods();
+    },[]);
+
+    const onClickLikeGoods=() => {
+        let userToken = sessionStorage.getItem('user_token');
+        console.log(userToken);
+        axios.post(`http://localhost:8080/item/${goodsInfoId}/like`, {},
+        {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
+        .then((res) => {
+            console.log("res.data", res.data)
+        
+    
+
+        })
+        .catch((err) => {console.log("Error", err)});
+
+    }
+
+    const onClickDeleteGoods=() => {
+        let userToken = sessionStorage.getItem('user_token');
+        console.log(userToken);
+        axios.delete(`http://localhost:8080/item/${goodsInfoId}`,
+        {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
+        .then((res) => {
+            console.log("res.data", res.data);
+            alert("삭제가 완료되었습니다!");
+            document.location.href = '/';
+        
+    
+
+        })
+        .catch((err) => {console.log("Error", err)});
+
+    }
+
+    const onClickBuyGoods=() => {
+
+        axios.get(`http://localhost:8080/item/${goodsInfoId}/buy`,
+        {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
+        .then((res) => {
+            console.log("res.data", res.data);
+            // console.log('data is ' + JSON.stringify(res.data));
+            alert("구매가 완료되었습니다!");
+            document.location.href = '/';
+        })
+        .catch((err) => {console.log("Error", err)});
+
+}
+
     
 
 
@@ -44,12 +126,12 @@ function ContentGoods()
                 <img src = "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg" className = "content_pic"/>
                 <div className = "content_pic_disc">
                     <div className = "content_pic_disc_1">
-                        <div className="disc_1_1">NFT</div>
+                        <div className="disc_1_1">GOODS</div>
 
                         <div className="disc_1_2">
-                            <div className="disc_1_2_big">Psycho Jombie</div>  
+                            <div className="disc_1_2_big">{contentgoodsdata.title}</div>  
                             <div className="d5_bottom_icon">
-                                <button onClick={likeClick} type="button" className={d5Like}></button>
+                                <button onClick={onClickLikeGoods} type="button" className={d5Like}></button>
                             </div>
                         </div>
 
@@ -59,19 +141,19 @@ function ContentGoods()
                     <div className = "content_pic_disc_4">
                         <dl className="content_pic_disc_4_1">
                             <dt className="d4_left">seller</dt>
-                            <dd className="d4_right">Moondda</dd>
+                            <dd className="d4_right">LYCLE</dd>
                         </dl>
                         <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">views</dt>
-                            <dd className="d4_right">1000000</dd>
+                            <dd className="d4_right">{contentgoodsdata.viewCnt}</dd>
                         </dl>
-                        <dl className="content_pic_disc_4_2">
+                        {/* <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">likes</dt>
-                            <dd className="d4_right">55</dd>
-                        </dl>
+                            <dd className="d4_right">{contentgoodsdata.likeCnt}</dd>
+                        </dl> */}
                         <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">created date</dt>
-                            <dd className="d4_right">00.07.23</dd>
+                            <dd className="d4_right">{contentgoodsdata.createdDate}</dd>
                         </dl>
                     </div>
 
@@ -79,8 +161,8 @@ function ContentGoods()
 
                         <div className="d5_top">
                             <div className="total_price">
-                                <span className="total_price_left" >$:</span>
-                                <span className="total_price_right" > {count3}원</span>
+                                <span className="total_price_left" >$</span>
+                                <span className="total_price_right" > {(count*contentgoodsdata.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
                             </div>
                         </div>
 
@@ -97,7 +179,7 @@ function ContentGoods()
                                     </button>
                                 </div>
                             </dl>
-                        <div className="d5_bottom_buy">Buy Now</div>
+                        <div className="d5_bottom_buy"><button onClick={onClickBuyGoods}>Buy Now</button></div>
                     </div>
 
 
@@ -108,7 +190,10 @@ function ContentGoods()
             </div>
 
                 </div>
-                <div className="disc_long">ddd</div>
+                <div className="disc_long">{contentgoodsdata.content}</div>
+                {/* <button onClick={onClickShowNft} type="button">조회</button> */}
+                <Link to={`/edit_goods/${goodsInfoId}`}><button type="button">수정</button></Link>
+                <button onClick={onClickDeleteGoods} type="button">삭제</button>
 
 
             </div>
