@@ -64,6 +64,10 @@ export default function NftItem() {
     return item.nftInfoId == nftInfoId;
   })
 
+  const showLike = () => {
+    axios.get('http://localhost:8080/item?sort=like');
+  }
+
 
   return(
     <div className="NftItem_wrap">
@@ -77,7 +81,7 @@ export default function NftItem() {
               <a className="li_lastely">최신순</a>
             </li>
             <li className="order_li">
-              <a className="li_favorite">좋아요순</a>
+              <a className="li_favorite" onClick={showLike()}>좋아요순</a>
             </li>
             <li className="order_li">
               <a className="li_view">조회수순</a>
@@ -85,12 +89,17 @@ export default function NftItem() {
           </ul>
         </div>
         <RowLine />
+        <div>
+          <Link to='/add_nft'>
+            <PostButton>NFT 등록하기</PostButton>
+          </Link>
+        </div>
         
         
             <div className="item_grid">
               {inputData.map((rowData) => {
                 return (
-                    <div className="nft_item" key={rowData.nft_item_id.toString()}>
+                    <div className="nft_item" key={rowData.nft_item_id}>
                       <Link to={`contents_nft/${rowData.nft_item_id}`}>
                         <div className="nft_item_img">
                           <div className="nft_item_img_">
@@ -104,6 +113,9 @@ export default function NftItem() {
 
                       <div className="nft_item_txt">
                         <div className="nft_date">
+                          <span className="nft_item_views">
+                            view {rowData.view_cnt}
+                          </span>
                           <span className="nft_item_date">{rowData.created_date}</span>
                         </div>
                         <div className="nft_name">
@@ -114,11 +126,17 @@ export default function NftItem() {
                           <span className="nft_item_user">{rowData.memberId}</span>
                         </div>
                         <div className="nft_price">
-                          $ {rowData.price}
+                          <span>$ {rowData.price}</span>
+                          
+                            <div>
+                              <div className="nft_item_views" style=    {{float:'right'}}>
+                              {rowData.likeCnt}
+                              </div>
+                              <FavoriteBorder style={{color:"gray", float:'right', fontSize:"28px"}} />
+                            </div>
                         </div>
-                        <div className="nft_item_views">
-                          view {rowData.view_cnt}
-                        </div>
+                        
+                        
 
                       </div>
 
@@ -193,5 +211,20 @@ const RowLine = styled.span`
   justify-content:center;
   height:1px;
   background:#ddd;
+  margin-bottom:30px;
+`;
+
+const PostButton = styled.button`
+  padding: 10px;
+  border-radius: 6px;
+  background-color: rgb(46, 204, 113);
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  margin-right:20px;
+  border:none;
+  float:right;
   margin-bottom:30px;
 `;

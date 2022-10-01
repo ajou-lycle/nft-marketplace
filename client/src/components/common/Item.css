@@ -98,7 +98,7 @@
 .nft_date {
   margin-bottom: 5px;
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
 }
 
 .nft_item_date {
@@ -135,5 +135,11 @@
   font-size: 11px;
   color: gray;
   display: flex;
-  justify-content: right;
+  justify-content: left;
+}
+
+.like_icon {
+  color: gray;
+  display: flex;
+  justify-content: right;  
 }
