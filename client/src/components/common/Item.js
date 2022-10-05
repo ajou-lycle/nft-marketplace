@@ -11,6 +11,34 @@ export default function NftItem() {
 
   const [inputData, setInputData] = useState([]);
 
+  function sortLike() {
+    let likeSorting = [...inputData];
+    let likeCompare = (likeCnt) => (a, b) => {
+      return a[likeCnt] < b[likeCnt] ? 1 : a[likeCnt] > b[likeCnt] ? -1 : 0;
+    };
+    likeSorting.sort(likeCompare('likeCnt'));
+    setInputData(likeSorting);
+  }
+
+  function sortView() {
+    let viewSorting = [...inputData];
+    let viewCompare = (viewCnt) => (a, b) => {
+      return a[viewCnt] < b[viewCnt] ? 1 : a[viewCnt] > b[viewCnt] ? -1 : 0;
+    };
+    viewSorting.sort(viewCompare('view_cnt'));
+    setInputData(viewSorting);
+  }
+
+  function sortDate() {
+    let dateSorting = [...inputData];
+    let dateCompare = (createdDate) => (a, b) => {
+      return a[createdDate] < b[createdDate] ? 1 : a[createdDate] > b[createdDate] ? -1 : 0;
+    };
+    dateSorting.sort(dateCompare('created_date'));
+    setInputData(dateSorting);
+  }
+
+
   useEffect((e) =>  {
     async function fetchData() {
       const res = await axios.get('http://localhost:8080/nftItem?page=0&size=9');
@@ -33,40 +61,8 @@ export default function NftItem() {
     
   }, []);
 
-  // useEffect(async() =>  {
-  //   try {
-  //     const res = await axios.get('http://localhost:8080/nftItem?page=0&size=9');
-  //     const _inputData = await res.data.itemList.map((rowData) => ({
-  //       nft_item_id : rowData.nftItemId,
-  //       created_date : rowData.createdDate,
-  //       profileImg : rowData.profileImg,
-  //       memberId : rowData.memberId,
-  //       nftItemImg : rowData.nftItemImg,
-  //       price : rowData.price,
-  //       likeCnt : rowData.likeCnt,
-  //       title : rowData.title,
-  //       view_cnt : rowData.viewCnt,
-  //       status : rowData.status,
-  //     }));
-  //     setInputData(inputData.concat(_inputData));
-  //     console.log(_inputData);
-  //   } catch(e) {
-  //     console.log(e);
-  //   }
-    
-  // }, []);
 
-  //const titleList = inputData.map((title) => (<div title={title} />)) 
 
-  const { nftInfoId } = useParams();
-
-  const moveNftItem = inputData.find((item) => {
-    return item.nftInfoId == nftInfoId;
-  })
-
-  const showLike = () => {
-    axios.get('http://localhost:8080/item?sort=like');
-  }
 
 
   return(
@@ -77,13 +73,13 @@ export default function NftItem() {
         </h3> 
         <div className="order_bar">
           <ul className="order_ul">
-            <li className="order_li">
+            <li className="order_li" onClick={sortDate}>
               <a className="li_lastely">최신순</a>
             </li>
-            <li className="order_li">
-              <a className="li_favorite" onClick={showLike()}>좋아요순</a>
+            <li className="order_li" onClick={sortLike}>
+              <a className="li_favorite" >좋아요순</a>
             </li>
-            <li className="order_li">
+            <li className="order_li" onClick={sortView}>
               <a className="li_view">조회수순</a>
             </li>
           </ul>
@@ -125,13 +121,18 @@ export default function NftItem() {
                           <UserImg src="img/lamarket_logo.png" />
                           <span className="nft_item_user">{rowData.memberId}</span>
                         </div>
+                        
                         <div className="nft_price">
                           <span>$ {rowData.price}</span>
                           
-                            <div>
+                            <div style={{marginTop:"8px"}}>
+                              {
+                                rowData.status=='sale' ? <CheckSale>판매중</CheckSale> : <CheckSale>판매완료</CheckSale>
+                              }
                               <div className="nft_item_views" style=    {{float:'right'}}>
                               {rowData.likeCnt}
                               </div>
+                              
                               <FavoriteBorder style={{color:"gray", float:'right', fontSize:"28px"}} />
                             </div>
                         </div>
@@ -227,4 +228,12 @@ const PostButton = styled.button`
   border:none;
   float:right;
   margin-bottom:30px;
+`;
+
+
+const CheckSale = styled.span`
+  font-size:11px;
+  color:gray;
+  border:2px solid rgb(46, 204, 113); 
+  border-radius:4px;
 `;

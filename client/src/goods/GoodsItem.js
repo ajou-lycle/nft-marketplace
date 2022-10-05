@@ -5,12 +5,38 @@ import { useEffect } from "react";
 import axios from "axios";
 import { FavoriteBorder } from "@material-ui/icons";
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 
 export default function GoodsItem() {
 
   const [inputItem, SetInputItem] = useState([]);
 
+  function sortLike() {
+    let likeSorting = [...inputItem];
+    let likeCompare = (likeCnt) => (a, b) => {
+      return a[likeCnt] < b[likeCnt] ? 1 : a[likeCnt] > b[likeCnt] ? -1 : 0;
+    };
+    likeSorting.sort(likeCompare('likeCnt'));
+    SetInputItem(likeSorting);
+  }
+
+  function sortView() {
+    let viewSorting = [...inputItem];
+    let viewCompare = (viewCnt) => (a, b) => {
+      return a[viewCnt] < b[viewCnt] ? 1 : a[viewCnt] > b[viewCnt] ? -1 : 0;
+    };
+    viewSorting.sort(viewCompare('view_cnt'));
+    SetInputItem(viewSorting);
+  }
+
+  function sortDate() {
+    let dateSorting = [...inputItem];
+    let dateCompare = (createdDate) => (a, b) => {
+      return a[createdDate] < b[createdDate] ? 1 : a[createdDate] > b[createdDate] ? -1 : 0;
+    };
+    dateSorting.sort(dateCompare('created_date'));
+    SetInputItem(dateSorting);
+  }
 
   useEffect((e) =>  {
     async function fetchItemData() {
@@ -31,10 +57,7 @@ export default function GoodsItem() {
     
   }, []);
 
-  const showLike = () => {
-    axios.get('http://localhost:8080/item?sort=like');
-  }
-
+  
 
   return(
     <div className="NftItem_wrap">
@@ -43,35 +66,31 @@ export default function GoodsItem() {
       </h3>
       <div className="order_bar">
           <ul className="order_ul">
-            <li className="order_li">
+            <li className="order_li" onClick={sortDate}>
               <a className="li_lastely">최신순</a>
             </li>
-            <li className="order_li">
-              <a className="li_favorite" onClick={showLike()}>좋아요순</a>
-            </li>
-            <li className="order_li">
+
+            <li className="order_li" onClick={sortView}>
               <a className="li_view">조회수순</a>
             </li>
           </ul>
       </div>
       <RowLine />
-      <div>
-          <PostButton>NFT 등록하기</PostButton>
-        </div>
-
-      <div className="item_grid">
+      
+            <div className="item_grid">
               {inputItem.map((rowData) => {
                 return (
                     <div className="nft_item" key={rowData.nft_item_id.toString()}>
-                      <div className="nft_item_img">
-                        <div className="nft_item_img_">
-                          <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-                          <div>
-                            <FavoriteBorder />
+                      <Link to={`../contents_goods/${rowData.nft_item_id}`}>
+                        <div className="nft_item_img">
+                          <div className="nft_item_img_">
+                            <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
+                            <div>
+                              <FavoriteBorder />
+                            </div>
                           </div>
                         </div>
-                      </div>
-
+                      </Link>
                       <div className="nft_item_txt">
                         <div className="nft_date">
                           <span className="nft_item_views">
