@@ -23,6 +23,7 @@
 
     width: 400px;
     height: 400px;
+    margin-top: 100px;
 }
 
 .content_pic_disc {
@@ -115,9 +116,10 @@
     display: flex;
     flex-direction: column;
     width: 560px;
-    height: 350px;
+    height: 400px;
     font-size: 14px;
     margin-top: 20px;
+    margin-bottom: 30px;
     
 
 }
@@ -141,6 +143,8 @@
 }
 
 .d4_left{
+    
+    display: flex;
     width: 128px;
     height: 19px;
     color: rgb(102, 102, 102);
@@ -149,8 +153,9 @@
 }
 
 .d4_right{
+    display: flex;
     width: 432px;
-    height: 55px;
+    height: 19px;
     color: #333333;
     line-height: 19px;
 
@@ -230,6 +235,7 @@ button.d4_count_up {
     flex-direction: column;
     background-color: #D9F1D7;
     border-radius: 10px;
+    
     justify-content: center;
 }
 
@@ -251,6 +257,13 @@ button.d4_count_up {
     align-content: center;
     width: 560px;
     height: 67px;
+}
+.total_price_left {
+    font-size: 32px;
+    font-weight: bold;
+    height: 67px;
+    line-height: 67px;;
+
 }
 
 
@@ -290,9 +303,8 @@ button.d4_count_up {
     margin-top: 30px;
 }
 
-.d5_bottom_buy {
+.d5_bottom_buy_nft {
     margin-right: 30px;
-    background-color: #00ED5F;
     width: 200px;
     cursor: pointer;
 }
