@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import {useState} from "react";
-import './ContentGoods.css';
+import '../nft/ContentNft.css';
 import axios from 'axios';
+import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 
 
@@ -13,7 +14,7 @@ function ContentGoods()
     const [count,setCount] = useState(1);
     const count3=(count*15900).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const [useclassName, setUseClassName] = useState("d4_count_down_false");
-    const [d5Like,setD5Like] = useState("d5_like_false");
+    // const [d5Like,setD5Like] = useState("d5_like_false");
 
     const countAdd =() => {
         setUseClassName("d4_count_down_true");
@@ -26,10 +27,10 @@ function ContentGoods()
     }
 
 
-    const likeClick = () => {
-        if(d5Like === "d5_like_false") setD5Like("d5_like_true");
-        if(d5Like === "d5_like_true") setD5Like("d5_like_false");
-    };
+    // const likeClick = () => {
+    //     if(d5Like === "d5_like_false") setD5Like("d5_like_true");
+    //     if(d5Like === "d5_like_true") setD5Like("d5_like_false");
+    // };
     const [isClicked, setIsClicked] = useState(false);
 
     const changeContentbarColor = () => {
@@ -61,23 +62,23 @@ function ContentGoods()
         onClickShowGoods();
     },[]);
 
-    const onClickLikeGoods=() => {
-        let userToken = sessionStorage.getItem('user_token');
-        console.log(userToken);
-        axios.post(`http://localhost:8080/item/${goodsInfoId}/like`, {},
-        {
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
-        .then((res) => {
-            console.log("res.data", res.data)
+    // const onClickLikeGoods=() => {
+    //     let userToken = sessionStorage.getItem('user_token');
+    //     console.log(userToken);
+    //     axios.post(`http://localhost:8080/item/${goodsInfoId}/like`, {},
+    //     {
+    //         withCredentials: true,
+    //         headers: {
+    //             Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
+    //     .then((res) => {
+    //         console.log("res.data", res.data)
         
     
 
-        })
-        .catch((err) => {console.log("Error", err)});
+    //     })
+    //     .catch((err) => {console.log("Error", err)});
 
-    }
+    // }
 
     const onClickDeleteGoods=() => {
         let userToken = sessionStorage.getItem('user_token');
@@ -101,16 +102,20 @@ function ContentGoods()
 
     const onClickBuyGoods=() => {
 
-        axios.get(`http://localhost:8080/item/${goodsInfoId}/buy`,
+        console.log(sessionStorage.getItem('user_token'));
+        axios.post(`http://localhost:8080/nftItem/${goodsInfoId}/buy`, {
+            'count': count
+        },
         {
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
         .then((res) => {
             console.log("res.data", res.data);
-            // console.log('data is ' + JSON.stringify(res.data));
-            alert("구매가 완료되었습니다!");
-            document.location.href = '/';
+            console.log(count+"개 구매완료!");
+        
+    
+
         })
         .catch((err) => {console.log("Error", err)});
 
@@ -130,9 +135,9 @@ function ContentGoods()
 
                         <div className="disc_1_2">
                             <div className="disc_1_2_big">{contentgoodsdata.title}</div>  
-                            <div className="d5_bottom_icon">
+                            {/* <div className="d5_bottom_icon">
                                 <button onClick={onClickLikeGoods} type="button" className={d5Like}></button>
-                            </div>
+                            </div> */}
                         </div>
 
                     </div>
@@ -179,7 +184,7 @@ function ContentGoods()
                                     </button>
                                 </div>
                             </dl>
-                        <div className="d5_bottom_buy"><button onClick={onClickBuyGoods}>Buy Now</button></div>
+                        <div className="d5_bottom_buy"><GoodsBuyButton onClick={onClickBuyGoods}>Buy Now</GoodsBuyButton></div>
                     </div>
 
 
@@ -201,5 +206,22 @@ function ContentGoods()
         </div>
     );
 }
+
+const GoodsBuyButton = styled.button`
+display: flex;
+padding: 0px 10px;
+justify-content: center;
+text-align: center;
+width: 200px;
+height: 54px;
+border-radius: 10px;
+line-height: 54px;
+font-weight: bold;
+
+background-color: ${props => props.backgroundcolor};
+color : ${props => props.color};
+border: ${props => props.border};
+margin-top: ${props => props.margin};
+`;
 
 export default ContentGoods;

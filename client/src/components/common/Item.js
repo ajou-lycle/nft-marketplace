@@ -84,7 +84,7 @@ export default function NftItem() {
           </ul>
         </div>
         <RowLine />
-        {/* <div className="">
+        {/* <div>
           <Link to='/add_nft'>
             <PostButton>NFT 등록하기</PostButton>
           </Link>

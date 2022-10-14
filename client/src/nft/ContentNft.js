@@ -100,6 +100,24 @@ function ContentNft()
 
     }
 
+    const onClickRealBuyNft=() => {
+        console.log(sessionStorage.getItem('user_token'));
+        axios.post(`http://localhost:8080/nftItem/${nftInfoId}/buy`, {},
+        {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
+        .then((res) => {
+            console.log("res.data", res.data)
+        
+    
+
+        })
+        .catch((err) => {console.log("Error", err)});
+
+    }
+
+
 
 
     
@@ -141,6 +159,10 @@ function ContentNft()
                             <dt className="d4_left">created date</dt>
                             <dd className="d4_right">{contentnftdata.createdDate}</dd>
                         </dl>
+                        <dl className="content_pic_disc_4_2">
+                            <dt className="d4_left">status</dt>
+                            <dd className="d4_right">{contentnftdata.status}</dd>
+                        </dl>
                     </div>
 
                     <div className = "content_pic_disc_5">
@@ -158,7 +180,9 @@ function ContentNft()
 
                     <div className="d5_bottom_cart">
                         
-                        <div className="d5_bottom_buy"><button onClick={onClickBuyNft}>Buy Now</button></div>
+                        <div className="d5_bottom_buy_nft">
+                            { <NftBuyButton onClick={onClickBuyNft}>Buy Now</NftBuyButton> }
+                            </div>
                     </div>
 
                     
@@ -175,6 +199,7 @@ function ContentNft()
                 {/* <button onClick={onClickShowNft} type="button">조회</button> */}
                 <Link to={`/edit_nft/${nftInfoId}`}><button type="button">수정</button></Link>
                 <button onClick={onClickDeleteNft} type="button">삭제</button>
+                <button onClick={onClickRealBuyNft} type="button">구매 확정</button>
                 
 
 
@@ -182,6 +207,23 @@ function ContentNft()
 
         </div>
     );
+
 }
+const NftBuyButton = styled.button`
+display: flex;
+padding: 0px 10px;
+justify-content: center;
+text-align: center;
+width: 200px;
+height: 54px;
+border-radius: 10px;
+line-height: 54px;
+font-weight: bold;
+
+background-color: ${props => props.backgroundcolor};
+color : ${props => props.color};
+border: ${props => props.border};
+margin-top: ${props => props.margin};
+`;
 
 export default ContentNft;
