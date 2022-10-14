@@ -1,0 +1,136 @@
+.whole_nft_add {
+    width: 100%;
+    height : 10000px;
+
+}
+
+.whole_center_nft_add {
+    display: flex;
+    flex-direction: column;
+    width: 1100px;
+    height: 10000px;
+    margin: 0px auto;
+    padding: 30px 0px 0px;
+}
+
+.nft_add_form {
+    width: 1050px;
+    height: 750.04px;
+    display: flex;
+    justify-content: center;
+    margin: 0px auto;
+}
+
+
+.nft_add_form_disc {
+    display: flex;
+    flex-direction: column;
+    text-align:left;
+    width: 560px;
+    height: 1100px;
+    font-weight: bold;
+}
+
+.nft_add_form_disc_1{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+    width: 560px;
+    height: 83.04px;
+}
+
+
+.nft_add_form_disc_1_2{
+    display: flex;
+    width: 560px;
+    height: 58px;
+    font-size: 24px;
+    color: rgb(51, 51, 51);
+    line-height: 34px;
+    letter-spacing: -0.5px;
+}
+
+.addnft_title{
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    height: 58px;
+}
+
+.addnft_title_text{
+
+
+    width: 500px;
+    height: px;
+    font-size: 24px;
+    color: rgb(51, 51, 51);
+    line-height: 34px;
+    letter-spacing: -0.5px;
+}
+
+
+
+
+.add_things{
+    display: flex;
+    flex-direction: column;
+    width: 560px;
+    height: 500px;
+    font-size: 14px;
+
+    
+
+}
+
+.add_name {
+    display: flex;
+    width: 560px;
+    height: 25px;
+    padding: 17px 0px 18px;
+
+}
+
+
+.d_left{
+    width: 128px;
+    height: 55px;
+    color: rgb(102, 102, 102);
+    line-height: 55px;
+
+}
+
+.d_right{
+    width: 432px;
+    height: 55px;
+    color: #333333;
+    line-height: 55px;
+    background-color: lightgray;
+    border-radius: 10px;
+
+}
+
+.add_content {
+    display: flex;
+    width: 560px;
+    height: 25px;
+    border-top: 1px solid rgb(244, 244, 244);
+    padding: 17px 0px 18px;
+    
+}
+.add_image {
+    display: flex;
+    width: 560px;
+    height: 75px;
+    border-top: 1px solid rgb(244, 244, 244);
+    padding: 17px 0px 18px;
+    
+}
+
+.nft_add_button {
+    display: flex;
+    margin-left: 50px;
+    margin-right: 50px;
+    justify-content: space-between;
+
+}
+

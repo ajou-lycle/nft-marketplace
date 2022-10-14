@@ -1,0 +1,45 @@
+.main_disc {
+    display:flex;
+    height: 100px;
+
+}
+.main_disc_in {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 100px;
+
+}
+.menuButton {
+    display: flex;
+    position: sticky;
+    width: 100%;
+    justify-content: center;
+
+
+}
+
+.content_bar_1_true {
+
+    background-color: #44C97C;
+    font-weight: bold;
+
+}
+
+.content_bar_1_false {
+    background-color: #72E0A1;
+
+}
+
+.content_bar_2_true {
+
+    background-color: #44C97C;
+    font-weight: bold;
+
+}
+
+.content_bar_2_false {
+    background-color: #72E0A1;
+
+}
