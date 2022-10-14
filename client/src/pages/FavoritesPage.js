@@ -30,10 +30,11 @@ export default function FavoritesPage() {
         
         <div>
           <ItemBox>NFT ITEM</ItemBox>
+          <div>
+            
+          </div>
         </div>
-        <div>
-          <ItemBox>GOODS ITEM</ItemBox>
-        </div>
+        
 
       </MyPageContent>
 
@@ -75,6 +76,7 @@ const MyPageTitle = styled.div`
 const ItemBox = styled.div`
   display:flex;
   margin-right:10px;
+  margin-left:20px;
   width:120px;
   font-size:24px;
   border : 2px solid rgb(46, 204, 113);

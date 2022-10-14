@@ -67,7 +67,6 @@ export default function NftItem() {
 
   return(
     <div className="NftItem_wrap">
-      <div>
         <h3 className="item_title">
           NFT ITEM
         </h3> 
@@ -146,50 +145,7 @@ export default function NftItem() {
               })}
 
             </div>
-      </div>
-      
-      
-      
-      
-
-      {/* <div className="item_grid">
-
-        <div className="nft_item">
-
-          <div className="nft_item_img">
-            <div className="nft_item_img_">
-              <ItemImg src="img/nft_img.png" loading="lazy" className="item_img" />
-              <div>
-                <FavoriteBorder />
-              </div>
-            </div>
-          </div>
-
-          <div className="nft_item_txt">
-            <div className="nft_date">
-              <span className="nft_item_date">22.07.23</span>
-            </div>
-            <div className="nft_name">
-              Pyscho NFT ITEM
-            </div>
-            <div className="nft_user">
-              <UserImg src="img/lamarket_logo.png" />
-              <span className="nft_item_user">UserName</span>
-            </div>
-            <div className="nft_price">
-              $ 0.9
-            </div>
-            <div className="nft_item_views">
-              views 23
-            </div>
-
-          </div>
-
-        </div>
-
-        
-
-      </div> */}
+          
 
     </div>
   );

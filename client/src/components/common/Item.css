@@ -1,5 +1,5 @@
 .NftItem_wrap {
-  width: 1050px;
+  width: 1000px;
   margin: 0px auto;
   padding:10px 50px;
   display: block;
@@ -57,6 +57,7 @@
   flex-wrap: wrap;
   gap : 50px;
   width:1000px;
+  margin:0 auto;
   /* border:1px solid red; */
 }
 
