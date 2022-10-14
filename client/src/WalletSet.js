@@ -33,7 +33,15 @@ export default function WalletPage() {
         <div className="mypage_wallet">
           <ProfileInfo>Wallet Address</ProfileInfo>
           <InfoInput placeholder="walletAddress" disabled />
+
+          <ProfileInfo>My Token</ProfileInfo>
+          <InfoInput placeholder="token" disabled />
+
+          <ProfileInfo>보유 중인 NFT</ProfileInfo>
+          <div>**보유한 nft 아이템 추후 추가</div>
         </div>
+
+
 
         
 
