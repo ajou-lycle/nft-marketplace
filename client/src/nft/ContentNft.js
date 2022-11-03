@@ -4,13 +4,19 @@ import styled from "styled-components";
 import './ContentNft.css';
 import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
+import '../recoil/User.js'; 
+import {useRecoilState} from "recoil";
+import { isLiked } from "../recoil/User.js";
+import { recoilPersist } from "recoil-persist";
 
 
 function ContentNft()
 {
+
+    // const {persistAtom} = recoilPersist()
     const {nftInfoId} = useParams();
 
-    const [d5Like,setD5Like] = useState("d5_like_false");
+    const [d5Like,setD5Like] = useRecoilState(isLiked);
     const [isClicked, setIsClicked] = useState(false);
 
     const changeContentbarColor = () => {
@@ -55,6 +61,9 @@ function ContentNft()
                 Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
         .then((res) => {
             console.log("res.data", res.data)
+            // if (res.data.isLike) {
+                
+            // }
         
     
 
