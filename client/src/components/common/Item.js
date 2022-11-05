@@ -8,7 +8,6 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 export default function NftItem() {
-
   const [inputData, setInputData] = useState([]);
 
   function sortLike() {
@@ -69,14 +68,7 @@ export default function NftItem() {
     <div className="NftItem_wrap">
         <h3 className="item_title">
           NFT ITEM
-          <Link to='/add_nft'>
-            <PostButton>NFT 등록하기</PostButton>
-          </Link>
         </h3> 
-
-        <div className="post_button">
-
-        </div>
         <div className="order_bar">
           <ul className="order_ul">
             <li className="order_li" onClick={sortDate}>
@@ -180,7 +172,6 @@ const RowLine = styled.span`
 
 const PostButton = styled.button`
   padding: 10px;
-  height: 60px;
   border-radius: 6px;
   background-color: rgb(46, 204, 113);
   font-size: 18px;
@@ -188,9 +179,10 @@ const PostButton = styled.button`
   color: white;
   text-align: center;
   cursor: pointer;
+  margin-right:20px;
   border:none;
-  float: right;
-
+  float:right;
+  margin-bottom:30px;
 `;
 
 

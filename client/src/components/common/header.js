@@ -37,7 +37,7 @@ export default function Header(props) {
     <div style={{
       display:"flex",
       padding:"10px 50px",
-      width:"1100px",
+      width:"1000px",
       alignItems:"center",
       margin:"0 auto",
     }}>
@@ -113,7 +113,7 @@ const SearchInput = styled.input`
   font-size:20px;
   padding-left: 15px;
   padding-right: 15px;
-  margin-right:50px;
+  margin-right:30px;
 `;
 
 const UserButton = styled.div`
