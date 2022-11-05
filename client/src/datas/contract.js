@@ -33,9 +33,11 @@ const initERC1155Token = async (web3, ERC1155TokenFactoryContract, collectionNam
 export const initWeb3 = () => {
     const web3 = new Web3(Web3.givenProvider || TruffleConfig.goerli_infura.provider());
     const networkID = TruffleConfig.networks.goerli_infura.network_id;
-    const contract = initERC1155TokenFactory(web3, networkID);
+    const ERC1155TokenFactoryContract = initERC1155TokenFactory(web3, networkID);
 
-    return { web3, networkID, contract };
+
+
+    return { web3, networkID, ERC1155TokenFactoryContract };
 }
 
 export const fetchERC1155TokenIfNotExist = async (web3, eth, collectionName) => {
@@ -47,5 +49,7 @@ export const fetchERC1155TokenIfNotExist = async (web3, eth, collectionName) => 
         }
     }
 
-    return await initERC1155Token(web3, eth.contracts[0], collectionName);
+    const ERC1155TokenFactoryContract = Object.values(eth.contracts[0])[0];
+
+    return await initERC1155Token(web3, ERC1155TokenFactoryContract, collectionName);
 }

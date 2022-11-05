@@ -10,7 +10,7 @@ function EthProvider({ children }) {
   const init = useCallback(
     () => {
       let { web3, networkID, contract } = initWeb3();
-      
+
       const data = {
         web3: web3,
         networkID: networkID,
