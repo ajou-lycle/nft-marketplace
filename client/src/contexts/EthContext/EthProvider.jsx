@@ -1,37 +1,44 @@
 import React, { useReducer, useCallback, useEffect } from "react";
 import Web3 from "web3";
-import EthContext from "./EthContext";
-import { reducer, actions, initialState } from "./state";
+import { useRecoilState } from "recoil";
+
+import TruffleConfig from "../../config/truffle-config.js";
+import { ethState } from '../../recoil/Eth.js';
+import ERC1155Token from "../../contracts/ERC1155Token.json";
+import ERC1155TokenFactory from "../../contracts/ERC1155TokenFactory.json";
+import EthContext from './EthContext.js';
 
 function EthProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [eth, setEthState] = useRecoilState(ethState);
 
   const init = useCallback(
-    async artifact => {
-      if (artifact) {
-        const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-        const accounts = await web3.eth.requestAccounts();
-        const networkID = await web3.eth.net.getId();
-        const { abi } = artifact;
-        let address, contract;
+    async artifacts => {
+      if (artifacts) {
+        const web3 = new Web3(Web3.givenProvider || TruffleConfig.goerli_infura.provider());
+        const networkID = TruffleConfig.networks.goerli_infura.network_id;
+
+        let address = [], contracts = [];
+
         try {
-          address = artifact.networks[networkID].address;
-          contract = new web3.eth.Contract(abi, address);
+          for (let index = 0; index < artifacts.length; index++) {
+            const { abi } = artifacts[index];
+            address.push(artifacts[index].networks[networkID].address);
+            contracts.push(new web3.eth.Contract(abi, address[index]));
+          }
         } catch (err) {
           console.error(err);
         }
-        dispatch({
-          type: actions.init,
-          data: { artifact, web3, accounts, networkID, contract }
-        });
+
+        setEthState({ artifacts, web3, networkID, contracts });
       }
     }, []);
 
   useEffect(() => {
     const tryInit = async () => {
       try {
-        const artifact = require("../../contracts/SimpleStorage.json");
-        init(artifact);
+        const artifacts = [ERC1155Token, ERC1155TokenFactory];
+
+        init(artifacts);
       } catch (err) {
         console.error(err);
       }
@@ -43,19 +50,19 @@ function EthProvider({ children }) {
   useEffect(() => {
     const events = ["chainChanged", "accountsChanged"];
     const handleChange = () => {
-      init(state.artifact);
+      init(eth.artifacts);
     };
 
     events.forEach(e => window.ethereum.on(e, handleChange));
     return () => {
       events.forEach(e => window.ethereum.removeListener(e, handleChange));
     };
-  }, [init, state.artifact]);
+  }, [init, eth.artifacts]);
 
   return (
     <EthContext.Provider value={{
-      state,
-      dispatch
+      eth,
+      setEthState
     }}>
       {children}
     </EthContext.Provider>

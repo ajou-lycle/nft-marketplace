@@ -1,0 +1,7 @@
+.mypage_wallet {
+  display:flex;
+  flex-direction: column;
+  width:70%;
+  margin:20px;
+  display:flex;
+}
