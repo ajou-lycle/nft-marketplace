@@ -19,7 +19,7 @@
  */
 
 const truffleEnv = require('./truffle-env');
-const mnemonic = truffleEnv.MNEMONIC
+const mnemonic = truffleEnv.MNEMONIC;
 const infura_api_key = truffleEnv.INFURA_API_KEY;
 // const infuraProjectId = process.env["INFURA_PROJECT_ID"];
 
