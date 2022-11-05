@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Web3 from "web3";
 import { useRecoilState } from "recoil";
 
@@ -29,9 +29,10 @@ function EthProvider({ children }) {
           console.error(err);
         }
 
+        console.log(artifacts);
         setEthState({ artifacts, web3, networkID, contracts });
       }
-    }, []);
+    }, [eth]);
 
   useEffect(() => {
     const tryInit = async () => {
