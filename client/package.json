@@ -41,7 +41,8 @@
     "react-app-rewired": "^2.2.1"
   },
   "scripts": {
-    "debug": "react-app-rewired start",
+    "debug": "GENERATE_SOURCEMAP=false react-app-rewired start",
+    "win-debug": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"

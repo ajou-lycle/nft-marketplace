@@ -8,8 +8,9 @@ import EthProvider from './contexts/EthContext/EthProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <RecoilRoot>
+    <EthProvider>
       <ScrollTop />
       <App />
-
+      </EthProvider>
   </RecoilRoot>
 );
