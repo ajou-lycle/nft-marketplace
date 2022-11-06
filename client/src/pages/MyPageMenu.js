@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import IconButton from "@material-ui/core/IconButton";
-import { AccountCircle, AccountBalanceWallet, Favorite, Settings, CameraAlt, InsertPhoto } from "@material-ui/icons";
+import { AccountCircle, AccountBalanceWallet, Favorite, Settings } from "@material-ui/icons";
 import {Link} from 'react-router-dom';
 
 export default function MyPageMenu() {
@@ -41,7 +41,7 @@ export default function MyPageMenu() {
         <RowLine />   
 
         <MypageMenuBar>
-          <Link to='/favorites' style={{textDecoration:"none", color:"#333"}}>
+          <Link to='/myPage/:memberInfoId/like' style={{textDecoration:"none", color:"#333"}}>
             <IconButton>
               <Favorite />
             </IconButton>               

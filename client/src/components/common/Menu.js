@@ -26,23 +26,21 @@ function Menu() {
     }
 
     return(
-      <div>
+        <div>
             <div className="main_disc">
                 <div className="main_disc_in">Barter your Life-Cycle, LYCLE </div>
             </div>
-        <div className="menuButton">
+            <div className="menuButton">
 
-            <Link to ="/market" style={{textDecoration:'none'}}>
-                <MenuButton className={click1} onClick={contentBar1} border="0px none" type="button" height="54" radius="3" margin="0px">MARKET</MenuButton>
-            </Link>
+                <Link to ="/market" style={{textDecoration:'none'}}>
+                    <MenuButton className={click1} onClick={contentBar1} border="0px none" type="button" height="54" radius="3" margin="0px">MARKET</MenuButton>
+                </Link>
 
-            <Link to ="/goods" style={{textDecoration:'none'}}>
-                <MenuButton className={click2} onClick={contentBar2} border="0px none" type="button" height="54" radius="3" margin="0px">GOODS</MenuButton>
-            </Link>
-            
+                <Link to ="/goods" style={{textDecoration:'none'}}>
+                    <MenuButton className={click2} onClick={contentBar2} border="0px none" type="button" height="54" radius="3" margin="0px">GOODS</MenuButton>
+                </Link>
+            </div>
         </div>
-        </div>
-        
     );
 }
 

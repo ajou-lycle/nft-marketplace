@@ -2,7 +2,8 @@ import React from "react";
 import Header from "./components/common/header";
 import MyPageMenu from "./pages/MyPageMenu";
 import styled from "styled-components";
-
+import { Save } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 export default function SettingPage() {
 
@@ -30,19 +31,16 @@ export default function SettingPage() {
         <MyPageTitle>Settings</MyPageTitle>
 
         <div className="mypage_wallet">
-          <ProfileInfo>비밀번호 변경</ProfileInfo>
-          <RowLine></RowLine>
-          <PwdInfo>기존 비밀번호 확인 </PwdInfo>
-          <InfoInput placeholder="기존 비밀번호를 입력해주세요" />
 
-          <PwdInfo>새 비밀번호 입력 </PwdInfo>
-          <InfoInput placeholder="새 비밀번호를 입력해주세요"  />
-
-          <PwdInfo>새 비밀번호 재확인</PwdInfo>
-          <InfoInput placeholder="새 비밀번호를 한 번 더 입력해주세요" />
+          <EditButton>회원정보 수정</EditButton>
+          <Link to="/settings/pwd" style={{textDecoration:"none"}}>
+            <EditButton>비밀번호 변경</EditButton>
+          </Link>
+          
+          
         </div>
 
-        <SaveButton>Save</SaveButton>
+        
 
       </MyPageContent>
 
@@ -84,6 +82,18 @@ const SaveButton = styled.div`
   cursor: pointer;
   float:right;
   margin-right:220px;
+`;
+
+const EditButton = styled.div`
+  padding:10px 0px;
+  border-radius:6px;
+  background-color:rgb(46,204,113);
+  font-size:15px;
+  color:white;
+  font-weight:600;
+  text-align:center;
+  cursor:pointer;
+  margin: 0px 10px 30px 0px;
 `;
 
 const MyPageTitle = styled.div`

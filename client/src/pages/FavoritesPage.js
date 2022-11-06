@@ -1,9 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/common/header";
 import styled from "styled-components";
 import MyPageMenu from "./MyPageMenu";
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
+import { FavoriteBorder } from "@material-ui/icons";
 
 export default function FavoritesPage() {
+
+  const {memberId} = useParams();
+
+  const [favorData, setFavorData] = useState('');
+
+  const viewFavoritesData = () => {
+    let userToken = sessionStorage.getItem('user_token');
+    console.log(userToken);
+    axios.get(`http://localhost:8080/myPage/9/like`,
+    {
+      withCredentials : true,
+      headers : {
+        Authorization : `Bearer ${sessionStorage.getItem('user_token')}`,
+      }})
+      .then((res) => {
+        console.log("res.data", res.data);
+        setFavorData(res.data);
+      }).catch((err) => {
+        console.log("Error", err);
+      })
+  }
+
+  useEffect(() => {
+    viewFavoritesData();
+  }, []);
+
 
   return(
     <div>
@@ -30,9 +59,6 @@ export default function FavoritesPage() {
         
         <div>
           <ItemBox>NFT ITEM</ItemBox>
-          <div>
-            
-          </div>
         </div>
         
 
@@ -81,4 +107,22 @@ const ItemBox = styled.div`
   font-size:24px;
   border : 2px solid rgb(46, 204, 113);
   justify-content:center;
+`;
+
+const ItemImg = styled.img`
+  border-radius:5px;
+`;
+
+const UserImg = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius:70%;
+  
+`;
+
+const CheckSale = styled.span`
+  font-size:11px;
+  color:gray;
+  border:2px solid rgb(46, 204, 113); 
+  border-radius:4px;
 `;
