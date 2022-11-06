@@ -62,7 +62,9 @@ export default function GoodsItem() {
   return(
     <div className="NftItem_wrap">
       <h3 className="item_title">
+      <div className="item_title1">
         GOODS ITEM
+        </div>
       </h3>
       <div className="order_bar">
           <ul className="order_ul">

@@ -143,8 +143,8 @@ function ContentGoods()
                     </div>
                     
                 
-                    <div className = "content_pic_disc_4">
-                        <dl className="content_pic_disc_4_1">
+                    <div>
+                        <dl className="content_pic_disc_4_2">
                             <dt className="d4_left">seller</dt>
                             <dd className="d4_right">LYCLE</dd>
                         </dl>
@@ -161,6 +161,12 @@ function ContentGoods()
                             <dd className="d4_right">{contentgoodsdata.createdDate}</dd>
                         </dl>
                     </div>
+
+                    <Content_goods_4>
+                        "
+                    {contentgoodsdata.content}
+                    "
+                    </Content_goods_4>
 
                     <div className = "content_pic_disc_5">
 
@@ -195,10 +201,12 @@ function ContentGoods()
             </div>
 
                 </div>
-                <div className="disc_long">{contentgoodsdata.content}</div>
+                {/* <div className="disc_long">{contentgoodsdata.content}</div> */}
                 {/* <button onClick={onClickShowNft} type="button">조회</button> */}
-                <Link to={`/edit_goods/${goodsInfoId}`}><button type="button">수정</button></Link>
-                <button onClick={onClickDeleteGoods} type="button">삭제</button>
+                <Buttons>
+                <Link to={`/edit_goods/${goodsInfoId}`} ><ButtonEditDelete type="button">수정</ButtonEditDelete></Link>
+                <ButtonEditDelete onClick={onClickDeleteGoods} type="button">삭제</ButtonEditDelete>
+                </Buttons>
 
 
             </div>
@@ -206,6 +214,25 @@ function ContentGoods()
         </div>
     );
 }
+
+const Content_goods_4 = styled.div`
+display: flex;
+width: 560px;
+height: 190px;
+border-radius:10px;
+margin-top: 30px;
+margin-bottom: 50px;
+background-color: #fffacd;
+line-height: 200px;
+text-align: center;
+justify-content: center;
+`
+
+const Buttons = styled.div`
+margin-top: 70px;
+display: flex;
+justify-content: center;
+`
 
 const GoodsBuyButton = styled.button`
 display: flex;
@@ -217,11 +244,35 @@ height: 54px;
 border-radius: 10px;
 line-height: 54px;
 font-weight: bold;
+font-size: 20px;
+justify-content: center;
+margin-right: 10px;
+margin-left: 10px;
 
 background-color: ${props => props.backgroundcolor};
 color : ${props => props.color};
-border: ${props => props.border};
+border: 3px solid black;
 margin-top: ${props => props.margin};
+`;
+
+const ButtonEditDelete = styled.button`
+display: flex;
+padding: 0px 10px;
+justify-content: center;
+text-align: center;
+width: 130px;
+height: 54px;
+border-radius: 30px;
+line-height: 54px;
+font-weight: bold;
+font-size: 20px;
+justify-content: center;
+margin-right: 20px;
+margin-left: 20px;
+
+background-color: #fffacd;
+color : black;
+border: 5px solid #D9F1D7;
 `;
 
 export default ContentGoods;

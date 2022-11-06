@@ -51,10 +51,11 @@ const MenuButton = styled.button`
     padding: 0px 10px;
     text-align: center;
     overflow: hidden;
-    width: 550px;
+    width: 500px;
     height: 70px;
     margin: 0px auto;
-    // cursor: pointer;
+    cursor: pointer;
+    border-radius: 50px;
     
 
     background-color: ${props => props.backgroundcolor};
