@@ -67,7 +67,9 @@ contract('ERC1155TokenFactory', (accounts) => {
       expect(totalSupply).to.be.a.bignumber.equal(new BN(1));
       this.totalSupply = totalSupply;
       
-
+      const uri = await ERC1155TokenContract.uri(ERC1155ItemId);
+      expect(uri).to.be.equal(`${process.env.BASE_URI_NFT}${futureERC1155TokenContractAddress}/${ERC1155ItemId}.json`);
+      
       /*
         event TransferSingle(
           address indexed operator, // msg.sender 

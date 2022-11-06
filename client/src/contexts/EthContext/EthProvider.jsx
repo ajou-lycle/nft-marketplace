@@ -1,63 +1,53 @@
-import React, { useReducer, useCallback, useEffect } from "react";
-import Web3 from "web3";
+import React, { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
-
-import TruffleConfig from "../../config/truffle-config.js";
 import { ethState } from '../../recoil/Eth.js';
-import ERC1155Token from "../../contracts/ERC1155Token.json";
-import ERC1155TokenFactory from "../../contracts/ERC1155TokenFactory.json";
+import { initWeb3, getUserCoinBalance, getTokenBalance, getTokenImageUri, getNftListByWalletAddress, getRegistedNftList } from "../../datas/contract.js";
 import EthContext from './EthContext.js';
 
 function EthProvider({ children }) {
   const [eth, setEthState] = useRecoilState(ethState);
 
   const init = useCallback(
-    async artifacts => {
-      if (artifacts) {
-        const web3 = new Web3(Web3.givenProvider || TruffleConfig.goerli_infura.provider());
-        const networkID = TruffleConfig.networks.goerli_infura.network_id;
+    async () => {
+      let { web3, accounts, networkID, contracts } = await initWeb3();
 
-        let address = [], contracts = [];
+      const data = {
+        web3: web3,
+        accounts: accounts,
+        networkID: networkID,
+        contracts: contracts
+      };
 
-        try {
-          for (let index = 0; index < artifacts.length; index++) {
-            const { abi } = artifacts[index];
-            address.push(artifacts[index].networks[networkID].address);
-            contracts.push(new web3.eth.Contract(abi, address[index]));
-          }
-        } catch (err) {
-          console.error(err);
-        }
+      const coinBalance = await getUserCoinBalance(data);
+      const tokenBalance = await getTokenBalance(data);
+      const uri = await getTokenImageUri(data);
+      const userNftList = await getNftListByWalletAddress(data);
+      const registedNftList = await getRegistedNftList(data);
 
-        setEthState({ artifacts, web3, networkID, contracts });
-      }
-    }, []);
+      console.log(coinBalance, tokenBalance, uri, userNftList, registedNftList);
+
+      setEthState(data);
+    }, [setEthState]);
 
   useEffect(() => {
     const tryInit = async () => {
-      try {
-        const artifacts = [ERC1155Token, ERC1155TokenFactory];
-
-        init(artifacts);
-      } catch (err) {
-        console.error(err);
-      }
+      await init();
     };
 
-    tryInit();
+     tryInit();
   }, [init]);
 
   useEffect(() => {
     const events = ["chainChanged", "accountsChanged"];
-    const handleChange = () => {
-      init(eth.artifacts);
+    const handleChange = async () => {
+      await init();
     };
 
     events.forEach(e => window.ethereum.on(e, handleChange));
     return () => {
       events.forEach(e => window.ethereum.removeListener(e, handleChange));
     };
-  }, [init, eth.artifacts]);
+  }, [init]);
 
   return (
     <EthContext.Provider value={{
