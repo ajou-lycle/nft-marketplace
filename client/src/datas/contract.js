@@ -126,18 +126,70 @@ export const getTokenImageUri = async (eth) => {
     return tokenJson.image;
 }
 
-export const mint = async (eth) => {
-    let LycleTokenContract;
-    for (const contract of eth.contracts) {
-        const keys = Object.keys(contract);
+// TODO: import blockchain
+export const getNftListByWalletAddress = async (eth) => {
+    // dummy data
+    const nftUris = [
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/1.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/2.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/3.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/4.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/5.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/6.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/7.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/8.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/9.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/10.json"
+    ];
 
-        if (keys[0] === CollectionNameEnum.LYCLE_TOKEN) {
-            LycleTokenContract = contract[CollectionNameEnum.LYCLE_TOKEN];
-        }
+    let result = [];
+
+    for(const nftUri of nftUris) {
+        const nftJson = JSON.parse(await getObjectFromS3(nftUri));
+        result.push(nftJson);
     }
 
-    const ERC1155ItemJsonPath = `0x6E321633A2fDd93a48f08d7271088C837cCd2697/tokens/json/1.json`;
-    const ERC1155ItemJsonBytes = eth.web3.utils.asciiToHex(ERC1155ItemJsonPath);
-
-    const result = await LycleTokenContract.methods.mint("0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38", "0", "100", ERC1155ItemJsonBytes).send({from: TruffleEnv.DEPLOYER_ACCOUNT});
+    return result;
 }
+
+// TODO: import blockchain
+export const getRegistedNftList = async (eth) => {
+    // dummy data
+    const nftUris = [
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/1.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/2.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/3.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/4.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/5.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/6.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/7.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/8.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/9.json",
+        "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/10.json"
+    ];
+
+    let result = [];
+    
+    for(const nftUri of nftUris) {
+        const nftJson = JSON.parse(await getObjectFromS3(nftUri));
+        result.push(nftJson);
+    }
+
+    return result;
+}
+
+// export const mint = async (eth) => {
+//     let LycleTokenContract;
+//     for (const contract of eth.contracts) {
+//         const keys = Object.keys(contract);
+
+//         if (keys[0] === CollectionNameEnum.LYCLE_TOKEN) {
+//             LycleTokenContract = contract[CollectionNameEnum.LYCLE_TOKEN];
+//         }
+//     }
+
+//     const ERC1155ItemJsonPath = `0x6E321633A2fDd93a48f08d7271088C837cCd2697/tokens/json/1.json`;
+//     const ERC1155ItemJsonBytes = eth.web3.utils.asciiToHex(ERC1155ItemJsonPath);
+
+//     const result = await LycleTokenContract.methods.mint("0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38", "0", "100", ERC1155ItemJsonBytes).send({from: TruffleEnv.DEPLOYER_ACCOUNT});
+// }
