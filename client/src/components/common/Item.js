@@ -19,6 +19,7 @@ export default function NftItem() {
     likeSorting.sort(likeCompare('likeCnt'));
     setInputData(likeSorting);
   }
+  
 
   function sortView() {
     let viewSorting = [...inputData];

@@ -4,6 +4,8 @@ import styled from "styled-components";
 import './ContentNft.css';
 import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
+// import '../datas/contract.js';
+import { getNftListByWalletAddress, result} from "../datas/contract.js";
 
 
 function ContentNft()
@@ -21,6 +23,8 @@ function ContentNft()
 
     const [contentnftdata,setContentNftData] = useState('');
 
+    const [nftresult, setnftresult] = useState('');
+
     const onClickShowNft=() => {
         axios.get(`http://localhost:8080/nftItem/${nftInfoId}`,
         {
@@ -36,9 +40,20 @@ function ContentNft()
         .catch((err) => {console.log("Error", err)});
 
     }
+    
+
+    const ShownftResult=()=> {
+        setnftresult(result[0]);
+        console.log(nftresult);
+        // console.log(result);
+        // console.log(getNftListByWalletAddress);
+        // console.log(nftresult);
+    }
 
     useEffect(()=> {
         onClickShowNft();
+        getNftListByWalletAddress();
+        // ShownftResult();
     },[]);
 
     const onClickLikeNft=() => {
@@ -127,15 +142,30 @@ function ContentNft()
         <div className = "whole">
             <div className = "whole_center">
                 <div className = "content_pic_and_disc">
-                <img src = "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg" className = "content_pic"/>
+                    <div className = "content_pic_and_disc_left">
+                <img src = "https://s3.ap-northeast-2.amazonaws.com/lycle-bucket/0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/png/1.png" className = "content_pic"/>
+                <dl className="content_pic_disc_4_2">
+                            <dt className="d4_left">EDITION</dt>
+                            <dd className="d4_right">{nftresult.edition}</dd>
+                        </dl>
+                        <dl className="content_pic_disc_4_2">
+                            <dt className="d4_left">DNA</dt>
+                            <dd className="d4_right">{nftresult.dna}</dd>
+                        </dl>
+                        <dl className="content_pic_disc_4_2">
+                            <dt className="d4_left">GRADE</dt>
+                            <dd className="d4_right">{nftresult.grade}</dd>
+                        </dl>
+                </div>
                 <div className = "content_pic_disc">
                     <div className = "content_pic_disc_1">
                         <div className="disc_1_1">NFT</div>
 
                         <div className="disc_1_2">
-                            <div className="disc_1_2_big">{contentnftdata.title}</div>  
+                            <div className="disc_1_2_big">{nftresult.name}</div>  
                             <div className="d5_bottom_icon">
                                 <button onClick={onClickLikeNft} type="button" className={d5Like}></button>
+                                <button onClick={ShownftResult} type="button"></button>
                             </div>
                         </div>
 
@@ -195,7 +225,7 @@ function ContentNft()
             </div>
 
                 </div>
-                <div className="disc_long">{contentnftdata.content}</div>
+                <div className="disc_long">{nftresult.description}</div>
                 {/* <button onClick={onClickShowNft} type="button">조회</button> */}
                 <Link to={`/edit_nft/${nftInfoId}`}><button type="button">수정</button></Link>
                 <button onClick={onClickDeleteNft} type="button">삭제</button>

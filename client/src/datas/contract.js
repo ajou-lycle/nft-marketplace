@@ -126,6 +126,8 @@ export const getTokenImageUri = async (eth) => {
     return tokenJson.image;
 }
 
+export const result= [];
+
 // TODO: import blockchain
 export const getNftListByWalletAddress = async (eth) => {
     // dummy data
@@ -142,14 +144,14 @@ export const getNftListByWalletAddress = async (eth) => {
         "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/10.json"
     ];
 
-    let result = [];
+    // let result = [];
 
     for(const nftUri of nftUris) {
         const nftJson = JSON.parse(await getObjectFromS3(nftUri));
         result.push(nftJson);
     }
+     console.log(result);
 
-    return result;
 }
 
 // TODO: import blockchain

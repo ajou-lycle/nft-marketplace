@@ -35,6 +35,11 @@
     font-weight: bold;
 }
 
+.content_pic_and_disc_left {
+    display: flex;
+    flex-direction: column;
+}
+
 .content_pic_disc_1{
     display: flex;
     flex-direction: column;
