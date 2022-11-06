@@ -23,7 +23,10 @@ import FavoritesPage from "../pages/FavoritesPage";
 import ItemPage from "../pages/ItemPage";
 import Item2 from "../components/common/Item2";
 import GoodsPage from "../pages/GoodsPage";
-
+import SearchList from "../components/common/Search";
+import FilterPage from "../pages/FilterPage";
+import PwdChange from "../PwdChange";
+import PwdPage from "../pages/PwdPage";
 
 export default function RootRoute() {
   return(
@@ -42,15 +45,19 @@ export default function RootRoute() {
         <Route path="/edit_goods/:goodsInfoId" element = {<PageEditGoods/>}></Route>
 
         <Route path="/join" element={<SignUp />} />
-        <Route path="/mypage" element={<MyPage />} />
+        {/* <Route path="/myPage" element={<MyPage />} /> */}
+        <Route path="/myPage/:memberInfoId" element={<MyPage />} />
+
         <Route path="/profile" element={<MyPage />} />
         <Route path="/wallet" element={<WalletPage />} />
         <Route path="/settings" element={<SettingPage />}/>
-        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/myPage/:memberInfoId/like" element={<FavoritesPage />} />
         <Route path="/itemPage" element={<ItemPage />}/>
         <Route path="/market" element={<Page1 />} />
         <Route path="/item2" element={<Item2 />} />
         <Route path="/goods" element={<GoodsPage />} />
+        <Route path="/search/:searchWord" element={<FilterPage />} />
+        <Route path="/settings/pwd" element={<PwdPage />} />
       </Routes>
     </BrowserRouter>
 

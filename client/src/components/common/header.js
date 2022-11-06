@@ -1,14 +1,16 @@
 import React, { useState , useEffect} from "react";
 import { useRecoilState } from "recoil";
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import styled from "styled-components";
 import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
 import { isLoginState } from "../../recoil/User";
+import SearchList from "./Search";
+import ItemPage from "../../pages/ItemPage";
+import { Search } from '@material-ui/icons';
+import axios from "axios";
 
-
-
-export default function Header(props) {
+export default function Header() {
 
   // const isLogin=props.isLogin;
   const [isLogin,setIsLogin]=useRecoilState(isLoginState);
@@ -29,9 +31,24 @@ export default function Header(props) {
   const onLogout = () => {
     sessionStorage.removeItem('user_token');
     document.location.href = '/';
-    
+  }
 
-}
+  const [searchWord, setSearchWord] = useState("");
+  
+  const onChangeSearch = (e) => {
+    setSearchWord(e.target.value);
+    console.log(searchWord);
+  }
+
+  const onSubmit = async () => {
+    window.location.href = "/search/" + searchWord;
+  }
+  
+  const onKeyPress = (e) => {
+    if(e.key=='Enter')
+      onSubmit();
+  }
+
 
   return(
     <div style={{
@@ -41,17 +58,26 @@ export default function Header(props) {
       alignItems:"center",
       margin:"0 auto",
     }}>
-      <div>
-        {/* <LogoImg src={require("img/lamarket_logo.png")}/> */}
-        <LogoImg src="img/lamarket_logo.png"/>
+
+      <div style={{display:"flex"}}>
+        <Link to="/" style={{textDecoration:"none", color:"black"}}>
+          <LogoImg src="img/web_logo.png" />
+        </Link>
       </div>
 
-      <div>
-        <HeaderText>Lamarket</HeaderText>
-      </div>
+      {/* <div>
+        <Link to="/" style={{textDecoration:"none", color:"black"}}>
+          <HeaderText>Lamarket</HeaderText>
+        </Link>
+      </div> */}
 
-      <div>
-        <SearchInput type='text' placeholder="search items"></SearchInput>
+      <div style={{display:"flex"}}>
+        <SearchInput type='search' placeholder="search items" onChange={onChangeSearch} value={searchWord} onKeyPress={onKeyPress} />
+        <SearchButton type="button" onClick={() => {
+            onSubmit();
+          }}>
+          <Search/>
+        </SearchButton>
       </div>
 
       
@@ -79,21 +105,22 @@ export default function Header(props) {
   
 
 
-
       <div>
-        <Link to="/mypage" style={{textDecoration:"none"}}>
+        <Link to={`/myPage/9`} style={{textDecoration:"none"}}>
           <IconButton style={{fontSize:"40px"}}>
             <AccountCircleOutlined  style={{fontSize:"inherit"}}/>
           </IconButton>
         </Link>
       </div>
+
       
     </div>
   );
 }
 
 const LogoImg = styled.img`
-  width:60px;
+  width:100px;
+  heigth:40px;
   margin-right:30px;
 `;
 
@@ -104,7 +131,7 @@ const HeaderText = styled.div`
 `;
 
 const SearchInput = styled.input`
-  width:420px;
+  width:340px;
   height: 40px;
   margin:0 auto;
   border: 1px solid grey;
@@ -113,7 +140,7 @@ const SearchInput = styled.input`
   font-size:20px;
   padding-left: 15px;
   padding-right: 15px;
-  margin-right:30px;
+  // margin-right:30px;
 `;
 
 const UserButton = styled.div`
@@ -127,4 +154,14 @@ const UserButton = styled.div`
   text-align: center;
   cursor: pointer;
   margin-right:20px;
+`;
+
+const SearchButton = styled.button`
+  // border:1px solid rgb(46,204,113);
+  background-color:transparent;
+  cursor:pointer;
+  height:40px;
+  // border-radius:6px;
+  border:none;
+  margin-right:30px;
 `;
