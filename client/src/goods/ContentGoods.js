@@ -42,7 +42,7 @@ function ContentGoods()
     const [contentgoodsdata,setContentGoodsData] = useState('');
 
     const onClickShowGoods=() => {
-        axios.get(`http://localhost:8080/item/${goodsInfoId}`,
+        axios.get(`http://13.125.198.232:8080/item/${goodsInfoId}`,
         {
             withCredentials: true,
             headers: {
@@ -83,7 +83,7 @@ function ContentGoods()
     const onClickDeleteGoods=() => {
         let userToken = sessionStorage.getItem('user_token');
         console.log(userToken);
-        axios.delete(`http://localhost:8080/item/${goodsInfoId}`,
+        axios.delete(`http://13.125.198.232:8080/item/${goodsInfoId}`,
         {
             withCredentials: true,
             headers: {
@@ -103,7 +103,7 @@ function ContentGoods()
     const onClickBuyGoods=() => {
 
         console.log(sessionStorage.getItem('user_token'));
-        axios.post(`http://localhost:8080/nftItem/${goodsInfoId}/buy`, {
+        axios.post(`http://13.125.198.232:8080/nftItem/${goodsInfoId}/buy`, {
             'count': count
         },
         {

@@ -20,6 +20,11 @@ export const isLiked = atom ({
     effects_UNSTABLE : [persistAtom],
 })
 
+export const constmemberId = atom({
+    key : "constmemberId",
+    default : 0,
+})
+
 // export const itemImgState = atom({
 //     key : "itemImg",
 //     default : '',

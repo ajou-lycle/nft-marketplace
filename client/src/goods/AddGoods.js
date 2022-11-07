@@ -30,7 +30,7 @@ function AddGoods()
 
     const onClickAddGoods=() => {
         console.log('add goods');
-        axios.post('http://localhost:8080/item', {
+        axios.post('http://13.125.198.232:8080/item', {
             // userData
         'itemImg' : goodsitemImg,
         'title' : goodstitle,
