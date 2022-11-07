@@ -12,9 +12,6 @@ import PageContentGoods from "../pages/PageContentGoods";
 import PageAddGoods from "../pages/PageAddGoods";
 import PageEditGoods from "../pages/PageEditGoods";
 
-
-
-
 import SignUp from "../SignUp";
 import MyPage from "../pages/MyPage.js";
 import WalletPage from "../WalletSet";
@@ -29,20 +26,29 @@ import PwdChange from "../PwdChange";
 import PwdPage from "../pages/PwdPage";
 
 export default function RootRoute() {
-  return(
+  return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Page1/>} />
-        <Route path="/login" element = {<Login/>}></Route>
-        <Route path="/menu" element = {<Menu/>}></Route>
+        <Route path="/" element={<Page1 />} />
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/menu" element={<Menu />}></Route>
 
-        <Route path="/contents_nft/:nftInfoId" element = {<PageContentNft/>}></Route>
-        <Route path="/add_nft" element = {<PageAddNft/>}></Route>
-        <Route path="/edit_nft/:nftInfoId" element = {<PageEditNft/>}></Route>
+        <Route
+          path="/contents_nft/:nftInfoId"
+          element={<PageContentNft />}
+        ></Route>
+        <Route path="/add_nft" element={<PageAddNft />}></Route>
+        <Route path="/edit_nft/:nftInfoId" element={<PageEditNft />}></Route>
 
-        <Route path="/contents_goods/:goodsInfoId" element = {<PageContentGoods/>}></Route>
-        <Route path="/add_goods" element = {<PageAddGoods/>}></Route>
-        <Route path="/edit_goods/:goodsInfoId" element = {<PageEditGoods/>}></Route>
+        <Route
+          path="/contents_goods/:goodsInfoId"
+          element={<PageContentGoods />}
+        ></Route>
+        <Route path="/add_goods" element={<PageAddGoods />}></Route>
+        <Route
+          path="/edit_goods/:goodsInfoId"
+          element={<PageEditGoods />}
+        ></Route>
 
         <Route path="/join" element={<SignUp />} />
         {/* <Route path="/myPage" element={<MyPage />} /> */}
@@ -50,9 +56,9 @@ export default function RootRoute() {
 
         <Route path="/profile" element={<MyPage />} />
         <Route path="/wallet" element={<WalletPage />} />
-        <Route path="/settings" element={<SettingPage />}/>
+        <Route path="/settings" element={<SettingPage />} />
         <Route path="/myPage/:memberInfoId/like" element={<FavoritesPage />} />
-        <Route path="/itemPage" element={<ItemPage />}/>
+        <Route path="/itemPage" element={<ItemPage />} />
         <Route path="/market" element={<Page1 />} />
         <Route path="/item2" element={<Item2 />} />
         <Route path="/goods" element={<GoodsPage />} />
@@ -60,6 +66,5 @@ export default function RootRoute() {
         <Route path="/settings/pwd" element={<PwdPage />} />
       </Routes>
     </BrowserRouter>
-
   );
 }
