@@ -35,7 +35,7 @@ function Login() {
 
         const onClickConfirm=()=> { 
             console.log('click login');
-            axios.post('/api/auth/login',{
+            axios.post('http://13.125.198.232:8080/auth/login',{
                 'accountName': inputId,
                 'password' : inputPw
             },{withCredentials:true})

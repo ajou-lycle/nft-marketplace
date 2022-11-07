@@ -50,7 +50,7 @@ function EditGoods()
 
     const onClickEditGoods=() => {
         console.log('add goods');
-        axios.put(`http://localhost:8080/item/${goodsInfoId}`, {
+        axios.put(`http://13.125.198.232:8080/item/${goodsInfoId}`, {
         title : goodstitle,
         price : goodsprice,
         content : goodscontent

@@ -6,7 +6,7 @@ import { AccountCircle, AccountBalanceWallet, Favorite, Settings, CameraAlt, Ins
 import './ProfileSet.css';
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 export default function ProfileSet() {
 

@@ -28,7 +28,7 @@ function EditNft()
     // };
     const [contentnftdata,setContentNftData] = useState('');
     const ShowSellerNftinfo=() => {
-        axios.get(`http://localhost:8080/nftItem/post`,
+        axios.get(`http://13.125.198.232:8080/nftItem/post`,
         {
             withCredentials: true,
             headers: {
@@ -50,7 +50,7 @@ function EditNft()
 
     const onClickEditNft=() => {
         console.log('add nft');
-        axios.put(`http://localhost:8080/nftItem/${nftInfoId}`, {
+        axios.put(`http://13.125.198.232:8080/nftItem/${nftInfoId}`, {
         title : nfttitle,
         price : nftprice,
         content : nftcontent
