@@ -2,61 +2,51 @@ import { pink } from "@material-ui/core/colors";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import IconButton from "@material-ui/core/IconButton";
-import { AccountCircle, AccountBalanceWallet, Favorite, Settings, CameraAlt, InsertPhoto } from "@material-ui/icons";
-import './ProfileSet.css';
+import {
+  AccountCircle,
+  AccountBalanceWallet,
+  Favorite,
+  Settings,
+  CameraAlt,
+  InsertPhoto,
+} from "@material-ui/icons";
+import "./ProfileSet.css";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
-export default function ProfileSet() {
+const ProfileSet = () => {
+  const { memberInfoId } = useParams();
+  const [userData, setUserData] = useState("");
 
-  const {memberInfoId} = useParams();
-  
-  const [userData, setUserData] = useState({
-    memberId : '',
-    accountName : '',
-    nickname : '',
-    email : '',
-    profileImg : '', 
-    walletAddress : '',
-    tokenCnt : '',
-    isOwner : '',
-  });
-  
   const fileInput = useRef(null);
 
   const viewUserData = () => {
-    axios.get(`http://localhost:8080/myPage/${memberInfoId}`,
-    {
+    axios
+      .get(`http://13.125.198.232:8080/myPage/${memberInfoId}`, {
         withCredentials: true,
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, 
-          },
-        })
-    .then((res) => {
+          Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+        },
+      })
+      .then((res) => {
         console.log("res.data", res.data);
         setUserData(res.data);
-        
-        
-    })
-    .catch((err) => {console.log("Error", err)});
+      })
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
 
-}
-
-useEffect(()=> {
+  useEffect(() => {
     viewUserData();
-},[]);
-
-
-
+  }, []);
 
   const onImgChange = (e) => {
     // const formData = new FormData();
     // formData.append('file', event.target.files[0]);
     // const response = await apliClient.post('', formData);
     // //response.data.location이 업로드한 파일의 url
-
-
     // if(e.target.files[0]) {
     //   //setFile(e.target.files[0]);
     // } else {
@@ -70,51 +60,56 @@ useEffect(()=> {
     //   }
     // }
     // reader.readAsDataURL(e.target.files[0]);
-  }
+  };
 
-
-  return(
-    <div style={{
-      display:"flex",
-      padding:"10px 0px",
-      width:"1100px",
-      margin:"0 auto",
-    }}>
-
-
+  return (
+    <div
+      style={{
+        display: "flex",
+        padding: "10px 0px",
+        width: "1100px",
+        margin: "0 auto",
+      }}
+    >
       <ColumnLine />
 
       <MyPageContent className="mypage_content">
         <MyPageTitle>Your Profile</MyPageTitle>
 
         <div className="mypage_profile">
-
           <div className="mypage_profile_img">
+            <img
+              src="img/profile_image.jpg"
+              className="profile_image"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                fileInput.current.click();
+              }}
+            />
 
-            <img src="img/profile_image.jpg" className="profile_image" style={{cursor:"pointer"}} onClick={() => {
-              fileInput.current.click()
-            }}/>
-
-            <div style={{display:"flex", justifyContent:"center"}}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <IconButton>
                 <CameraAlt />
               </IconButton>
-              <IconButton onClick={() => {
-                fileInput.current.click()
-              }}>
-                <InsertPhoto />         
+              <IconButton
+                onClick={() => {
+                  fileInput.current.click();
+                }}
+              >
+                <InsertPhoto />
               </IconButton>
-              <input type='file' style={{display:'none'}} accept='image/*'
-              name='profile_img'
-              onChange={onImgChange}
-              ref={fileInput} />
-
+              <input
+                type="file"
+                style={{ display: "none" }}
+                accept="image/*"
+                name="profile_img"
+                onChange={onImgChange}
+                ref={fileInput}
+              />
             </div>
-
           </div>
 
           <div className="mypage_profile_description">
-
             <ProfileInfo>User ID</ProfileInfo>
             <UserInfo>{userData.accountName}</UserInfo>
             {/* <InfoInput placeholder="" disabled /> */}
@@ -130,63 +125,53 @@ useEffect(()=> {
             <ProfileInfo>Wallet Address</ProfileInfo>
             <UserInfo>{userData.walletAddress}</UserInfo>
             {/* <InfoInput placeholder="Wallet Address - 변경 불가능" disabled /> */}
-
           </div>
         </div>
 
         {/* <SaveButton>Save</SaveButton> */}
-
       </MyPageContent>
-
-
-
-
     </div>
   );
-}
-
-
+};
 
 const MyPageContent = styled.div`
-  margin-left:10px;
+  margin-left: 10px;
   width: 100%;
   padding: 10px;
 `;
 
-
-
 const ColumnLine = styled.span`
-  display:flex;
-  width:1px;
-  height:100%;
-  background:#ddd;
+  display: flex;
+  width: 1px;
+  height: 100%;
+  background: #ddd;
 `;
 
 const ProfileInfo = styled.div`
-  font-size:18px;
-  font-weight:600;
-  letter-spacing:-0.4px;
-  margin-bottom:15px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  margin-bottom: 15px;
 `;
 
 const InfoInput = styled.input`
-  background-color:#ddd;
-  border:none;
-  border-radius:10px;
-  width:440px;
-  height:44px;
-  margin-bottom:30px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 10px;
+  width: 440px;
+  height: 44px;
+  margin-bottom: 30px;
   padding: 0px 20px 0px 20px;
 `;
 
 const UserInfo = styled.div`
-  background-color:#ddd;
-  border-radius:10px;
-  width:440px;
-  height:44px;
-  margin-bottom:30px;
-  display:flex;
-  align-items:center;
+  background-color: #ddd;
+  border-radius: 10px;
+  width: 440px;
+  height: 44px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
   padding: 0px 20px 0px 20px;
 `;
 
@@ -200,13 +185,15 @@ const SaveButton = styled.div`
   color: white;
   text-align: center;
   cursor: pointer;
-  float:right;
-  margin-right:55px;
+  float: right;
+  margin-right: 55px;
 `;
 
 const MyPageTitle = styled.div`
-  font-size:30px;
-  font-weight:600;
-  margin-bottom:15px;
-  margin-left:20px;
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  margin-left: 20px;
 `;
+
+export default ProfileSet;
