@@ -31,14 +31,6 @@ abstract contract ERC1155TokenSupplyCheck is ERC1155Supply, ERC1155URIStorage {
         uint256[] memory amounts,
         bytes memory data
     ) internal virtual override(ERC1155, ERC1155Supply) {
-        if (from == address(0)) {
-            for (uint256 i = 0; i < ids.length; ++i) {
-                if(totalSupply(i) != 0) {
-                    require((keccak256(abi.encodePacked(uri(ids[i]))) == keccak256(abi.encodePacked(ERC1155.uri(213), data))), "Can't be minted.");
-                }
-            }
-        }
-
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
