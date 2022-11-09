@@ -12,17 +12,18 @@ import PageContentGoods from "../pages/PageContentGoods";
 import PageAddGoods from "../pages/PageAddGoods";
 import PageEditGoods from "../pages/PageEditGoods";
 
-import SignUp from "../SignUp";
+import SignUp from "../pages/SignUp";
 import MyPage from "../pages/MyPage.js";
-import WalletPage from "../WalletSet";
-import SettingPage from "../Settings";
+// import WalletPage from "../WalletSet";
+import WalletPage from "../mypage/WalletSet";
+import SettingPage from "../mypage/Settings";
 import FavoritesPage from "../pages/FavoritesPage";
 import ItemPage from "../pages/ItemPage";
 import Item2 from "../components/common/Item2";
 import GoodsPage from "../pages/GoodsPage";
 import SearchList from "../components/common/Search";
 import FilterPage from "../pages/FilterPage";
-import PwdChange from "../PwdChange";
+import PwdChange from "../mypage/PwdChange";
 import PwdPage from "../pages/PwdPage";
 
 export default function RootRoute() {
