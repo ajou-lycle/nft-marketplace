@@ -51,9 +51,9 @@ const isExistERC1155TokenByCollectionName = (eth, collectionName) => {
     }
 }
 export const initWeb3 = async () => {
-    const web3 = new Web3(Web3.givenProvider || TruffleConfig.goerli_infura.provider());
+    const web3 = new Web3(Web3.givenProvider || TruffleConfig.networks.goerli_infura.provider);
     const accounts = await web3.eth.requestAccounts();
-    const networkID = TruffleConfig.networks.goerli_infura.network_id;
+    const networkID = TruffleConfig.networks.goerli_infura.network_id;  
     const ERC1155TokenFactoryContractObject = initERC1155TokenFactory(web3, networkID);
     const collectionNameList = Object.values(CollectionNameEnum);
 
