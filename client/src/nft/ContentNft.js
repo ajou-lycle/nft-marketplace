@@ -4,13 +4,19 @@ import styled from "styled-components";
 import './ContentNft.css';
 import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
+import '../recoil/User.js'; 
+import {useRecoilState} from "recoil";
+import { isLiked } from "../recoil/User.js";
+import { recoilPersist } from "recoil-persist";
 
 
 function ContentNft()
 {
+
+    // const {persistAtom} = recoilPersist()
     const {nftInfoId} = useParams();
 
-    const [d5Like,setD5Like] = useState("d5_like_false");
+    const [d5Like,setD5Like] = useRecoilState(isLiked);
     const [isClicked, setIsClicked] = useState(false);
 
     const changeContentbarColor = () => {
@@ -22,7 +28,7 @@ function ContentNft()
     const [contentnftdata,setContentNftData] = useState('');
 
     const onClickShowNft=() => {
-        axios.get(`http://localhost:8080/nftItem/${nftInfoId}`,
+        axios.get(`http://13.125.198.232:8080/nftItem/${nftInfoId}`,
         {
             withCredentials: true,
             headers: {
@@ -48,13 +54,16 @@ function ContentNft()
 
         let userToken = sessionStorage.getItem('user_token');
         console.log(userToken);
-        axios.post(`http://localhost:8080/nftItem/${nftInfoId}/like`, {},
+        axios.post(`http://13.125.198.232:8080/nftItem/${nftInfoId}/like`, {},
         {
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
         .then((res) => {
             console.log("res.data", res.data)
+            // if (res.data.isLike) {
+                
+            // }
         
     
 
@@ -66,7 +75,7 @@ function ContentNft()
     const onClickDeleteNft=() => {
         let userToken = sessionStorage.getItem('user_token');
         console.log(userToken);
-        axios.delete(`http://localhost:8080/nftItem/${nftInfoId}`,
+        axios.delete(`http://13.125.198.232:8080/nftItem/${nftInfoId}`,
         {
             withCredentials: true,
             headers: {
@@ -85,7 +94,7 @@ function ContentNft()
 
     const onClickBuyNft=() => {
 
-            axios.get(`http://localhost:8080/nftItem/${nftInfoId}/buy`,
+            axios.get(`http://13.125.198.232:8080/nftItem/${nftInfoId}/buy`,
             {
                 withCredentials: true,
                 headers: {
@@ -102,7 +111,7 @@ function ContentNft()
 
     const onClickRealBuyNft=() => {
         console.log(sessionStorage.getItem('user_token'));
-        axios.post(`http://localhost:8080/nftItem/${nftInfoId}/buy`, {},
+        axios.post(`http://13.125.198.232:8080/nftItem/${nftInfoId}/buy`, {},
         {
             withCredentials: true,
             headers: {

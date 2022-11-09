@@ -1,14 +1,12 @@
 import React from "react";
-import JoinPage from "./JoinPage";
-import Header from "./components/common/header";
+import JoinPage from "../signup/JoinPage";
+import Header from "../components/common/header";
 
 export default function SignUp() {
-
-  return(
+  return (
     <div>
       <Header />
       <JoinPage />
     </div>
-
   );
 }

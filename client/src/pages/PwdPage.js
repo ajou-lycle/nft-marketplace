@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "../components/common/header";
-import ProfileSet from "../mypage/ProfileSet";
+import PwdChange from "../mypage/PwdChange";
 import MyPageMenu from "./MyPageMenu";
 
-export default function MyPage() {
+export default function PwdPage() {
   return (
     <div>
       <Header />
@@ -17,7 +17,7 @@ export default function MyPage() {
         }}
       >
         <MyPageMenu />
-        <ProfileSet />
+        <PwdChange />
       </div>
     </div>
   );

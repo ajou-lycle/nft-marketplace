@@ -8,7 +8,7 @@ export default function PageContentGoods() {
 return(
     <div>
         <Header/>
-        <Menu/>
+        {/* <Menu/> */}
         <ContentGoods/>
     </div>
     );

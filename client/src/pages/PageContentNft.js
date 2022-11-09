@@ -8,7 +8,7 @@ export default function PageContentNft() {
 return(
     <div>
         <Header/>
-        <Menu/>
+        {/* <Menu/> */}
         <ContentNft/>
     </div>
   );
