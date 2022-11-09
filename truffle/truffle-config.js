@@ -68,7 +68,7 @@
        },
        network_id: 5,
        gas: 0x1c9c380,    
-       gasPrice: 100000000000,  // 20 gwei (in wei) (default: 100 gwei)
+       gasPrice: 90000000000,  // 20 gwei (in wei) (default: 100 gwei)
      }
      //
      // An additional network, but with some advanced options…

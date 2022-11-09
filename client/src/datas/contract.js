@@ -227,3 +227,18 @@ export const mint = async (eth) => {
 
     const result = await ERC1155TokenContract.methods.mint("0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38", "3", "1", ERC1155ItemJsonBytes).send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
 }
+
+export const burn = async (eth) => {
+    let ERC1155TokenContract;
+    for (const contract of eth.contracts) {
+        const keys = Object.keys(contract);
+
+        if (keys[0] === CollectionNameEnum.LACK_OF_SLEEP_LAMA) {
+            ERC1155TokenContract = contract[CollectionNameEnum.LACK_OF_SLEEP_LAMA];
+        }
+    }
+
+   await ERC1155TokenContract.methods.burn("0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38", "3", "1").send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+   await ERC1155TokenContract.methods.burn("0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38", "2", "1").send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+   await ERC1155TokenContract.methods.burn("0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38", "1", "1").send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+}

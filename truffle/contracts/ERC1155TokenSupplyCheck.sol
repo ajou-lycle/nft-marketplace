@@ -52,7 +52,7 @@ abstract contract ERC1155TokenSupplyCheck is ERC1155Supply, ERC1155URIStorage {
             for (uint256 i = 0; i < ids.length; i++) {
                 for (uint256 j = 0; j < _holdedTokenIds[from].length; j++) {
                     if(ids[i] == _holdedTokenIds[from][j]) {
-                        if(balanceOf(from, ids[i]) == amounts[i]) { 
+                        if(balanceOf(from, ids[i]) == 0) { 
                             _remove(from, ids[i]);
                         }
                     }

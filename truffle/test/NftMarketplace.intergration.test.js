@@ -257,7 +257,7 @@ contract('Nft Marketplace intergration test', (accounts) => {
       const recipientHoldedNftIds = await ERC1155TokenContract.holdedTokenIds(recipient);
       const anotherHoldedNftIds = await ERC1155TokenContract.holdedTokenIds(anotherAccount);
 
-      expect(deployerHoldedNftIds.length).to.be.equal(2);
+      expect(deployerHoldedNftIds.length).to.be.equal(3);
       expect(recipientHoldedNftIds.length).to.be.equal(1);
       expect(anotherHoldedNftIds.length).to.be.equal(0);
 
@@ -275,6 +275,55 @@ contract('Nft Marketplace intergration test', (accounts) => {
       expect(event.operator).to.be.equal(deployerAccount);
       expect(event.from).to.be.a.bignumber.equal(deployerAccount);
       expect(event.to).to.be.a.bignumber.equal(recipient);
+      expect(event.id).to.be.bignumber.equal(new BN(ERC1155ItemId));
+      expect(event.value).to.be.bignumber.equal(new BN(ERC1155ItemAmount));
+    });
+  });
+
+  describe('burn NFT', async () => {
+    it('burn item of deployer, id 0', async () => {
+      let ERC1155TokenFactoryContract = this.ERC1155TokenFactory;
+
+      const ERC1155ItemId = 0;
+      const ERC1155ItemAmount = 1;
+
+      const ERC1155TokenContractAddress = await ERC1155TokenFactoryContract.ERC1155TokenArray(0);
+      const ERC1155TokenContract = await ERC1155Token.at(ERC1155TokenContractAddress);
+
+      const exist = await ERC1155TokenContract.exists(ERC1155ItemId);
+      expect(exist).to.be.equal(true);
+
+      const burnResult = await ERC1155TokenContract.burn(deployerAccount, ERC1155ItemId, ERC1155ItemAmount);
+
+      const deployerBalanceOfItem0 = await ERC1155TokenContract.balanceOf(deployerAccount, ERC1155ItemId);
+      expect(deployerBalanceOfItem0).to.be.a.bignumber.equal(new BN(0));
+      this.balanceOf = deployerBalanceOfItem0;
+
+      const totalSupplyItem0 = await ERC1155TokenContract.totalSupply(ERC1155ItemId);
+      expect(totalSupplyItem0).to.be.a.bignumber.equal(new BN(1));
+
+      const deployerHoldedNftIds = await ERC1155TokenContract.holdedTokenIds(deployerAccount);
+      const recipientHoldedNftIds = await ERC1155TokenContract.holdedTokenIds(recipient);
+      const anotherHoldedNftIds = await ERC1155TokenContract.holdedTokenIds(anotherAccount);
+
+      expect(deployerHoldedNftIds.length).to.be.equal(2);
+      expect(recipientHoldedNftIds.length).to.be.equal(1);
+      expect(anotherHoldedNftIds.length).to.be.equal(0);
+
+      /*
+        event TransferSingle(
+          address indexed operator, // msg.sender 
+          address indexed from, // from
+          address indexed to, // 0
+          uint256 id, // id
+          uint256 value); // amount
+      */
+
+      const event = burnResult.logs[0].args;
+
+      expect(event.operator).to.be.equal(deployerAccount);
+      expect(event.from).to.be.a.bignumber.equal(deployerAccount);
+      expect(event.to).to.be.a.bignumber.equal(new BN(0));
       expect(event.id).to.be.bignumber.equal(new BN(ERC1155ItemId));
       expect(event.value).to.be.bignumber.equal(new BN(ERC1155ItemAmount));
     });
