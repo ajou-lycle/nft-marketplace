@@ -18,23 +18,23 @@
  *
  */
 
- const truffleEnv = require('./truffle-env');
- const mnemonic = truffleEnv.MNEMONIC;
- const infura_api_key = truffleEnv.INFURA_API_KEY;
- // const infuraProjectId = process.env["INFURA_PROJECT_ID"];
- 
- const HDWalletProvider = require('@truffle/hdwallet-provider');
- const AccountIndex = 0;
- 
- module.exports = {
-   networks: {
-     goerli_infura: {
-       provider: function () {
-         return new HDWalletProvider(mnemonic, "https://goerli.infura.io/v3/" + infura_api_key, AccountIndex)
-       },
-       network_id: 5,
-       gas: 0x1c9c380,
-       // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
-     }
-   },
- }
+const truffleEnv = require('./truffle-env');
+const mnemonic = truffleEnv.MNEMONIC;
+const infura_api_key = truffleEnv.INFURA_API_KEY;
+// const infuraProjectId = process.env["INFURA_PROJECT_ID"];
+
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const AccountIndex = 0;
+
+module.exports = {
+  networks: {
+    goerli_infura: {
+      provider: () => {
+        return new HDWalletProvider({ mnemonic: mnemonic, providerOrUrl: "https://goerli.infura.io/v3/" + infura_api_key, addressIndex:AccountIndex });
+      },
+      network_id: 5,
+      gas: 0x1c9c380,
+      // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
+    }
+  },
+}
