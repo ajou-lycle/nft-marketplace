@@ -1,0 +1,25 @@
+.mypage_profile {
+  display:flex;
+  padding:10px;
+}
+
+.mypage_profile_img {
+  width:30%;
+  text-align: center;
+  margin-right: 30px;
+}
+
+.profile_image {
+  width:200px;
+  height:200px;
+  border-radius: 70%;
+  background-color: #ddd;
+}
+
+.mypage_profile_description {
+  display:flex;
+  flex-direction: column;
+  width:70%;
+  margin:20px;
+  display:flex;
+}
