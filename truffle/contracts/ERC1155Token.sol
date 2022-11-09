@@ -7,6 +7,7 @@ import './ERC1155TokenSupplyCheck.sol';
 contract ERC1155Token is ERC1155PresetMinterPauser, ERC1155TokenSupplyCheck {
     string private _name;
     string private _symbol;
+
     constructor(string memory contractName, string memory contractSymbol, string memory baseURI, address owner) ERC1155PresetMinterPauser(baseURI, owner) {
         _name = contractName;
         _symbol = contractSymbol;

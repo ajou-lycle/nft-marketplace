@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { ethState } from '../../recoil/Eth.js';
-import { initWeb3, getUserCoinBalance, getTokenBalance, getTokenImageUri, getNftListByWalletAddress, getRegistedNftList, mint } from "../../datas/contract.js";
+import { initWeb3, getUserCoinBalance, getTokenBalance, getTokenImageUri, getNftListByWalletAddress, getRegistedNftList, mint, burn } from "../../datas/contract.js";
 import EthContext from './EthContext.js';
 
 function EthProvider({ children }) {
@@ -20,6 +20,7 @@ function EthProvider({ children }) {
         };
 
         // await mint(data);
+        await burn(data);
 
         const coinBalance = await getUserCoinBalance(data);
         const tokenBalance = await getTokenBalance(data);
