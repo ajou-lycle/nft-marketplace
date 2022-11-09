@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import "./JoinPage.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import "./JoinPage.css";
 
 const JoinPage = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const JoinPage = () => {
   //POST 회원가입 등록
   const register = () => {
     axios
-      .post("http://13.125.198.232:8080/auth/sign-up", {
+      .post("http://3.36.126.75:8080/auth/sign-up", {
         accountName: id,
         password: pwd,
         nickname: name,
@@ -56,7 +56,7 @@ const JoinPage = () => {
 
   const checkId = (e) => {
     axios
-      .post("http://13.125.198.232:8080/valid/accountName/exists", {
+      .post("http://3.36.126.75:8080/valid/accountName/exists", {
         accountName: id,
       })
       .then((res) => {
@@ -77,7 +77,7 @@ const JoinPage = () => {
 
   const checkNickname = (e) => {
     axios
-      .post("http://13.125.198.232:8080/valid/nickname/exists", {
+      .post("http://3.36.126.75:8080/valid/nickname/exists", {
         nickname: name,
       })
       .then((res) => {
@@ -98,7 +98,7 @@ const JoinPage = () => {
 
   const checkWallet = (e) => {
     axios
-      .post("http://13.125.198.232:8080/valid/walletAddress/exists", {
+      .post("http://3.36.126.75:8080/valid/walletAddress/exists", {
         walletAddress: wallet,
       })
       .then((res) => {
@@ -118,7 +118,7 @@ const JoinPage = () => {
 
   const sendEmail = (e) => {
     axios
-      .post("http://13.125.198.232:8080/valid/email/send", {
+      .post("http://3.36.126.75:8080/valid/email/send", {
         email: email,
       })
       .then((res) => {
@@ -131,7 +131,7 @@ const JoinPage = () => {
 
   const configEmail = (e) => {
     axios
-      .post("http://13.125.198.232:8080/valid/email/check", {
+      .post("http://3.36.126.75:8080/valid/email/check", {
         email: email,
       })
       .then((res) => {

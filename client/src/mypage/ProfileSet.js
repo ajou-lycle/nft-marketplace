@@ -23,7 +23,7 @@ const ProfileSet = () => {
 
   const viewUserData = () => {
     axios
-      .get(`http://13.125.198.232:8080/myPage/${memberInfoId}`, {
+      .get(`http://3.36.126.75:8080/myPage/${memberInfoId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
