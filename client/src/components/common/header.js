@@ -6,6 +6,7 @@ import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
 import { isLoginState } from "../../recoil/User";
 import { Search } from "@material-ui/icons";
+import '../../recoil/User.js'
 
 const Header = () => {
   // const isLogin=props.isLogin;
