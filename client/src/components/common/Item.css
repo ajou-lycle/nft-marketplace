@@ -1,16 +1,16 @@
 .NftItem_wrap {
   width: 1000px;
   margin: 0px auto;
-  padding:10px 50px;
+  padding: 10px 50px;
   display: block;
   /* border:3px solid pink; */
 }
 
 .item_title {
-  padding:23px 0px 20px;
+  padding: 23px 0px 20px;
   font-weight: 600;
   font-size: 28px;
-  color: rgb(51,51,51);
+  color: rgb(51, 51, 51);
   line-height: 35px;
   letter-spacing: -1px;
   text-align: center;
@@ -23,13 +23,13 @@
   -webkit-box-pack: justify;
   justify-content: right;
   text-align: center;
-  width:1000px;
+  width: 1000px;
   /* border:1px solid gray; */
   /* margin-bottom:10px; */
 }
 
 .order_ul {
-  position:relative;
+  position: relative;
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -48,24 +48,29 @@
   cursor: pointer;
 }
 
-
 /* item grid */
 
 .item_grid {
-  display:flex;
+  display: flex;
   grid-template-columns: repeat(3, 1fr);
   flex-wrap: wrap;
-  gap : 50px;
-  width:1000px;
-  margin:0 auto;
+  gap: 50px;
+  width: 1000px;
+  margin: 0 auto;
   /* border:1px solid red; */
 }
 
 .nft_item {
   flex: 0 0 300px;
-  height: 650px;
-  color:rgb(51,51,51);
-  cursor:pointer;
+  height: 500px;
+  color: rgb(51, 51, 51);
+  cursor: pointer;
+  margin-bottom: 100px;
+  border-radius: 20px;
+}
+
+.nft_item:hover {
+  box-shadow: 20px 20px 20px grey;
 }
 
 .nft_item_img {
@@ -76,8 +81,8 @@
 .nft_item_img_ {
   overflow: hidden;
   position: relative;
-  background-color: rgb(245,245,245);
-  width:300px;
+  background-color: rgb(245, 245, 245);
+  width: 300px;
   height: 300px;
 }
 
@@ -91,8 +96,7 @@
 }
 
 .nft_item_txt {
-  padding:10px 10px 15px 15px;
-  
+  padding: 10px 10px 15px 15px;
 }
 
 .nft_date {
@@ -103,15 +107,15 @@
 
 .nft_item_date {
   font-size: 11px;
-  color:gray;
+  color: gray;
 }
 
 .nft_name {
-  font-size:20px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 29px;
   margin-bottom: 9px;
-  padding:0px;
+  padding: 0px;
   letter-spacing: normal;
 }
 
@@ -122,12 +126,12 @@
 }
 
 .nft_item_user {
-  font-size:15px;
-  margin-left : 10px;
+  font-size: 15px;
+  margin-left: 10px;
 }
 
 .nft_price {
-  font-size:17px;
+  font-size: 17px;
   font-weight: 600;
 }
 
@@ -141,5 +145,18 @@
 .like_icon {
   color: gray;
   display: flex;
-  justify-content: right;  
+  justify-content: right;
+}
+
+.nft_item_like_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nft_item_footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
 }

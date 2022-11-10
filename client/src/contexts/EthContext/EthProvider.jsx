@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { ethState } from '../../recoil/Eth.js';
-import { initWeb3, getUserCoinBalance, getTokenBalance, getTokenImageUri, getNftListByWalletAddress, getRegistedNftList } from "../../datas/contract.js";
+import { initWeb3, getUserCoinBalance, getTokenBalance, getTokenImageUri, getNftListByWalletAddress, getRegistedNftList, mint, burn } from "../../datas/contract.js";
 import EthContext from './EthContext.js';
 
 function EthProvider({ children }) {
@@ -9,24 +9,31 @@ function EthProvider({ children }) {
 
   const init = useCallback(
     async () => {
-      let { web3, accounts, networkID, contracts } = await initWeb3();
+      try {
+        let { web3, accounts, networkID, contracts } = await initWeb3();
 
-      const data = {
-        web3: web3,
-        accounts: accounts,
-        networkID: networkID,
-        contracts: contracts
-      };
+        const data = {
+          web3: web3,
+          accounts: accounts,
+          networkID: networkID,
+          contracts: contracts
+        };
 
-      const coinBalance = await getUserCoinBalance(data);
-      const tokenBalance = await getTokenBalance(data);
-      const uri = await getTokenImageUri(data);
-      const userNftList = await getNftListByWalletAddress(data);
-      const registedNftList = await getRegistedNftList(data);
+        // await mint(data);
+        await burn(data);
 
-      console.log(coinBalance, tokenBalance, uri, userNftList, registedNftList);
+        const coinBalance = await getUserCoinBalance(data);
+        const tokenBalance = await getTokenBalance(data);
+        const uri = await getTokenImageUri(data);
+        const userNftList = await getNftListByWalletAddress(data);
+        const registedNftList = await getRegistedNftList(data);
 
-      setEthState(data);
+        console.log(coinBalance, tokenBalance, uri, userNftList, registedNftList);
+
+        setEthState(data);
+      } catch (e) {
+        console.log(e);
+      }
     }, [setEthState]);
 
   useEffect(() => {
@@ -34,7 +41,7 @@ function EthProvider({ children }) {
       await init();
     };
 
-     tryInit();
+    tryInit();
   }, [init]);
 
   useEffect(() => {
