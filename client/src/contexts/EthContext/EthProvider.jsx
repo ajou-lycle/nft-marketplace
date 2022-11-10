@@ -20,7 +20,7 @@ function EthProvider({ children }) {
         };
 
         // await mint(data);
-        await burn(data);
+        // await burn(data);
 
         const coinBalance = await getUserCoinBalance(data);
         const tokenBalance = await getTokenBalance(data);

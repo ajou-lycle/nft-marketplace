@@ -190,7 +190,7 @@ export const getRegistedNftList = async (eth) => {
     return result;
 }
 
-export const buyNft = async (eth, collectionName, nftId, to, price) => {
+export const buyNft = async (eth, collectionName, nftId, owner, price) => {
     return new Promise(async (resolve, reject) => {
         const ERC1155TokenContract = isExistERC1155TokenByCollectionName(eth, collectionName);
 
@@ -205,10 +205,20 @@ export const buyNft = async (eth, collectionName, nftId, to, price) => {
         assert(balanceOfNft > 0, "The balance of nft is 0");
 
         try {
-            
+            await eth.web3.eth.sendTransaction({from: eth.accounts[0], to: owner, value: price});
         } catch (e) {
-
+            reject(new Error(`Can't send Ether from ${eth.accounts[0]} to ${owner}.`));
         }
+
+        const ERC1155ItemJsonBytes = await ERC1155TokenContract.methods.uri(nftId).call();
+
+        try {
+            await ERC1155TokenContract.methods.safeTransferFrom(owner, eth.accounts[0], nftId, 1, ERC1155ItemJsonBytes).send({from: TruffleEnv.DEPLOYER_ACCOUNT});
+        } catch (e) {
+            reject(new Error(`Can't send NFT from ${owner} to ${eth.accounts[0]}.`));
+        }
+
+        resolve();
     });
 }
 
