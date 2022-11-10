@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import "./Item.css";
-import IconButton from "@material-ui/core/IconButton";
-import { Favorite, FavoriteBorder, Room } from "@material-ui/icons";
+import React from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { FavoriteBorder } from "@material-ui/icons";
+import "./Item.css";
 
-export default function NftItem() {
+const SearchList = () => {
   const [inputData, setInputData] = useState([]);
+  const params = useParams();
 
   function sortLike() {
     let likeSorting = [...inputData];
@@ -44,14 +44,15 @@ export default function NftItem() {
   useEffect((e) => {
     async function fetchData() {
       const res = await axios.get(
-        "http://3.36.126.75:8080/nftItem?page=0&size=9"
+        "http://3.36.126.75:8080/nftItem?page=0&size=50&title=" +
+          params.searchWord
       );
       const _inputData = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.nftItemId,
         created_date: rowData.createdDate,
         profileImg: rowData.profileImg,
-        memberId: rowData.memberId,
         nickname: rowData.nickname,
+        memberId: rowData.memberId,
         nftItemImg: rowData.nftItemImg,
         price: rowData.price,
         likeCnt: rowData.likeCnt,
@@ -117,33 +118,29 @@ export default function NftItem() {
                 <div className="nft_name">{rowData.title}</div>
                 <div className="nft_user">
                   <UserImg src="img/lamarket_logo.png" />
-                  <span className="nft_item_user">{rowData.nickname}</span>
+                  <span className="nft_item_user">{rowData.account}</span>
                 </div>
 
                 <div className="nft_price">
                   <span>$ {rowData.price}</span>
 
-                  <div className="nft_item_footer">
+                  <div style={{ marginTop: "8px" }}>
                     {rowData.status == "sale" ? (
                       <CheckSale>판매중</CheckSale>
                     ) : (
                       <CheckSale>판매완료</CheckSale>
                     )}
-                    <div className="nft_item_like_container">
-                      <FavoriteBorder
-                        style={{
-                          color: "gray",
-                          float: "right",
-                          fontSize: "28px",
-                        }}
-                      />
-                      <div
-                        className="nft_item_views"
-                        style={{ float: "right" }}
-                      >
-                        {rowData.likeCnt}
-                      </div>
+                    <div className="nft_item_views" style={{ float: "right" }}>
+                      {rowData.likeCnt}
                     </div>
+
+                    <FavoriteBorder
+                      style={{
+                        color: "gray",
+                        float: "right",
+                        fontSize: "28px",
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -153,7 +150,7 @@ export default function NftItem() {
       </div>
     </div>
   );
-}
+};
 
 const ItemImg = styled.img`
   border-radius: 5px;
@@ -195,3 +192,5 @@ const CheckSale = styled.span`
   border: 2px solid rgb(46, 204, 113);
   border-radius: 4px;
 `;
+
+export default SearchList;

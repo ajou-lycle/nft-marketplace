@@ -39,7 +39,7 @@ function AddNft()
 
     const onClickAddNft=() => {
         console.log('add nft');
-        axios.post('http://localhost:8080/nftItem', {
+        axios.post('http://13.125.198.232:8080/nftItem', {
             // userData
         'nftItemImg' : nftitemImg,
         'title' : nfttitle,

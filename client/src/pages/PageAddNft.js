@@ -8,7 +8,7 @@ export default function PageAddNft() {
 return(
     <div>
         <Header/>
-        <Menu/>
+        {/* <Menu/> */}
         <AddNft/>
     </div>
     );

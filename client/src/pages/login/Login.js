@@ -1,41 +1,39 @@
 import React, { useEffect } from "react";
-import {useRecoilState} from "recoil";
-import {useState} from "react";
-import axios from 'axios';
-import {useNavigate, Link, Navigate} from 'react-router-dom';
+import { useRecoilState } from "recoil";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import { idState, isLogin } from "../../recoil/User";
 import styled from "styled-components";
-import './Login.css'; 
-
+import "./Login.css";
 
 function Login() {
-    // const loginReal = () => {
-    //     document.location.href('/contents');
-    // }
+  // const loginReal = () => {
+  //     document.location.href('/contents');
+  // }
 
-    // const [isValid, setIsValid] = useState(false);
+  // const [isValid, setIsValid] = useState(false);
 
+  // const naviagate=useNavigate();
+  // const email = document.getElementById("accountName");
+  // const password = document.getElementById('pw');
 
-    // const naviagate=useNavigate();
-    // const email = document.getElementById("accountName");
-    // const password = document.getElementById('pw');
+  const [inputId, setInputId] = useState("");
+  const [inputPw, setInputPw] = useState("");
 
-    const [inputId, setInputId] = useState('');
-    const [inputPw, setInputPw] = useState('');
-    
+  // input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
+  const handleInputId = (e) => {
+    setInputId(e.target.value);
+  };
 
-    	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
-        const handleInputId = (e) => {
-            setInputId(e.target.value)
-        }
-    
-        const handleInputPw = (e) => {
-            setInputPw(e.target.value)
-        }
+  const handleInputPw = (e) => {
+    setInputPw(e.target.value);
+  };
+
 
         const onClickConfirm=()=> { 
             console.log('click login');
-            axios.post('/api/auth/login',{
+            axios.post('http://13.125.198.232:8080/auth/login',{
                 'accountName': inputId,
                 'password' : inputPw
             },{withCredentials:true})
@@ -96,27 +94,25 @@ function Login() {
                         </Link>
                     </div>
                 </form>
-            </div>
-        </div>
-    )
 
-    
-}
+      </div>
+    </div>
+  ); }
+
 
 const LoginButton = styled.button`
-    display: block;
-    padding: 0px 10px;
-    text-align: center;
-    overflow: hidden;
-    width: 100%;
-    height: 54px;
-    border-radius: 3px;
-    cursor:pointer;
+  display: block;
+  padding: 0px 10px;
+  text-align: center;
+  overflow: hidden;
+  width: 100%;
+  height: 54px;
+  border-radius: 3px;
+  cursor: pointer;
 
-    background-color: ${props => props.backgroundcolor};
-    color : ${props => props.color};
-    border: ${props => props.border};
-    margin-top: ${props => props.margin};
+  background-color: ${(props) => props.backgroundcolor};
+  color: ${(props) => props.color};
+  border: ${(props) => props.border};
+  margin-top: ${(props) => props.margin};
 `;
-
 export default Login;
