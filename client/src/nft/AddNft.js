@@ -2,6 +2,7 @@ import React, { useEffect, useState} from "react";
 import './AddNft.css';
 import styled from "styled-components";
 import axios from 'axios';
+import {checkMetaMaskInstalled} from "../contracts.js";
 
 
 //import { Info } from "@material-ui/icons";
@@ -15,6 +16,10 @@ function AddNft()
     //     price : 0,
     //     content : ''
     // });
+
+    useEffect(() => {
+        console.log('메타마스크가 설치되어있는지 확인중..');
+      });
 
     const [nftitemImg, setnftitemImg] = useState('');
     const [nfttitle, setnftTitle] = useState('');
@@ -38,6 +43,11 @@ function AddNft()
 
 
     const onClickAddNft=() => {
+        if (condition) {
+            
+        } else {
+            
+        }
         console.log('add nft');
         axios.post('http://13.125.198.232:8080/nftItem', {
             // userData

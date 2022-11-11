@@ -16,6 +16,10 @@
   text-align: center;
 }
 
+.add_nft {
+  display: flex;
+}
+
 .order_bar {
   display: flex;
   -webkit-box-align: center;

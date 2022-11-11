@@ -65,9 +65,12 @@ const isExistERC1155TokenByCollectionName = (eth, collectionName) => {
 export const checkMetaMaskInstalled = () => {
   window.addEventListener("load", () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
+      console.log("설치되어있음"); //다현 추가
       return true;
     } else {
+      console.log("설치안됐다"); //다현 추가
       return false;
+      
     }
   });
 };
