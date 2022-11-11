@@ -23,7 +23,6 @@ const initERC1155TokenFactory = (web3, networkId) => {
 };
 
 const initERC1155Token = async (
-
     web3,
     ERC1155TokenFactoryContract,
     collectionName
