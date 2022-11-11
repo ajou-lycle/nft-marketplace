@@ -2,7 +2,7 @@ import React, { useEffect, useState} from "react";
 import './AddNft.css';
 import styled from "styled-components";
 import axios from 'axios';
-import {checkMetaMaskInstalled} from "../contracts.js";
+import {checkMetaMaskInstalled} from "../datas/contract.js";
 
 
 //import { Info } from "@material-ui/icons";
@@ -43,11 +43,6 @@ function AddNft()
 
 
     const onClickAddNft=() => {
-        if (condition) {
-            
-        } else {
-            
-        }
         console.log('add nft');
         axios.post('http://13.125.198.232:8080/nftItem', {
             // userData
