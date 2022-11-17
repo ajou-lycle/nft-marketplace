@@ -44,7 +44,7 @@ const SearchList = () => {
   useEffect((e) => {
     async function fetchData() {
       const res = await axios.get(
-        "http://3.36.126.75:8080/nftItem?page=0&size=50&title=" +
+        "http://3.38.210.200:8080/nftItem?page=0&size=50&title=" +
           params.searchWord
       );
       const _inputData = await res.data.itemList.map((rowData) => ({

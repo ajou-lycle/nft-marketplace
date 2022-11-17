@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/common/header";
 import styled from "styled-components";
-import MyPageMenu from "./MyPageMenu";
+import MyPageMenu from "../pages/MyPageMenu";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { FavoriteBorder } from "@material-ui/icons";
 
-export default function FavoritesPage() {
-  const { memberId } = useParams();
-
+const FavoritesPage = () => {
+  const memberInfoId = window.localStorage.getItem("memberId");
+  // const token_ = window.localStorage.getItem("accessToken");
+  // console.log(token_);
   const [favorData, setFavorData] = useState("");
 
   const viewFavoritesData = () => {
     let userToken = sessionStorage.getItem("user_token");
     console.log(userToken);
     axios
-      .get(`http://13.125.198.232:8080/myPage/9/like`, {
+      .get(`http://3.38.210.200:8080/myPage/like/${memberInfoId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
         },
+        params: {
+          page: 0,
+          size: 10,
+        },
       })
       .then((res) => {
-        console.log("res.data", res.data);
-        setFavorData(res.data);
+        console.log(res.data);
+        console.log("res.data", res.data.itemList);
+        setFavorData(res.data.itemList);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -68,7 +74,7 @@ export default function FavoritesPage() {
       </div>
     </div>
   );
-}
+};
 
 const MyPageContent = styled.div`
   margin-left: 10px;
@@ -116,3 +122,5 @@ const CheckSale = styled.span`
   border: 2px solid rgb(46, 204, 113);
   border-radius: 4px;
 `;
+
+export default FavoritesPage;

@@ -63,22 +63,24 @@ const isExistERC1155TokenByCollectionName = (eth, collectionName) => {
 };
 
 export const checkMetaMaskInstalled = () => {
-  window.addEventListener("load", () => {
-    if (window.ethereum && window.ethereum.isMetaMask) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  if (window.ethereum && window.ethereum.isMetaMask) {
+    return true;
+  } else {
+    return false;
+  }
 };
+
+// 6f1984f65cb64e4a2dba921e75cf31cde1c84f1039ad9320ebe73447e39f7ab2
 export const initWeb3 = async () => {
-  return new Promise(async (reslove, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (!checkMetaMaskInstalled()) {
       reject(new Error("MetaMask isn't installed"));
       return;
     }
 
-    const web3 = new Web3(window.ethereum);
+    const web3 = new Web3(
+      window.ethereum || TruffleConfig.networks.goerli_infura.provider
+    );
     const accounts = await web3.eth.requestAccounts();
     const networkID = TruffleConfig.networks.goerli_infura.network_id;
     const ERC1155TokenFactoryContractObject = initERC1155TokenFactory(
@@ -104,7 +106,7 @@ export const initWeb3 = async () => {
       contracts.push({ [collectionName]: result.contract });
     }
 
-    reslove({ web3, accounts, networkID, contracts });
+    resolve({ web3, accounts, networkID, contracts });
   });
 };
 
@@ -168,7 +170,7 @@ export const getTokenBalance = async (eth) => {
   }
 
   const balance = await ERC1155TokenContract.methods
-    .balanceOf(eth.accounts[0], 0)
+    .balanceOf(eth.accounts[0], 1)
     .call();
 
   return balance;
@@ -184,7 +186,7 @@ export const getTokenImageUri = async (eth) => {
     return;
   }
 
-  const tokenUri = await ERC1155TokenContract.methods.uri(0).call();
+  const tokenUri = await ERC1155TokenContract.methods.uri(1).call();
   const tokenJson = JSON.parse(await getObjectFromS3(tokenUri));
 
   return tokenJson.image;
@@ -204,7 +206,6 @@ export const getNftListByWalletAddress = async (eth) => {
     const holdedTokenIds = await ERC1155TokenContract.methods
       .holdedTokenIds(eth.accounts[0])
       .call();
-
     let nftJsons = [];
 
     for (const holdedTokenId of holdedTokenIds) {
@@ -212,6 +213,7 @@ export const getNftListByWalletAddress = async (eth) => {
         .uri(holdedTokenId)
         .call();
       nftJsons.push(JSON.parse(await getObjectFromS3(nftUri)));
+      console.log("nft제이슨", nftJsons);
     }
 
     mapNftJsonToCollectionName.push({ [collectionName]: nftJsons });
@@ -224,16 +226,16 @@ export const getNftListByWalletAddress = async (eth) => {
 export const getRegistedNftList = async (eth) => {
   // dummy data
   const nftUris = [
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/1.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/2.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/3.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/4.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/5.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/6.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/7.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/8.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/9.json",
-    "0xfd191AAcC1C2d499202e85DDCFFA1233674f988c/nfts/json/10.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/1.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/2.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/3.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/4.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/5.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/6.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/7.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/8.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/9.json",
+    "0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/10.json",
   ];
 
   let result = [];
@@ -246,7 +248,7 @@ export const getRegistedNftList = async (eth) => {
   return result;
 };
 
-export const buyNft = async (eth, collectionName, nftId, to, price) => {
+export const buyNft = async (eth, collectionName, nftId, owner, price) => {
   return new Promise(async (resolve, reject) => {
     const ERC1155TokenContract = isExistERC1155TokenByCollectionName(
       eth,
@@ -266,29 +268,100 @@ export const buyNft = async (eth, collectionName, nftId, to, price) => {
     assert(balanceOfNft > 0, "The balance of nft is 0");
 
     try {
-    } catch (e) {}
+      await eth.web3.eth.sendTransaction({
+        from: eth.accounts[0],
+        to: owner,
+        value: price,
+      });
+    } catch (e) {
+      reject(
+        new Error(`Can't send Ether from ${eth.accounts[0]} to ${owner}.`)
+      );
+    }
+
+    const ERC1155ItemJsonBytes = await ERC1155TokenContract.methods
+      .uri(nftId)
+      .call();
+
+    try {
+      await ERC1155TokenContract.methods
+        .safeTransferFrom(
+          owner,
+          eth.accounts[0],
+          nftId,
+          1,
+          ERC1155ItemJsonBytes
+        )
+        .send({ from: TruffleEnv.DEPLOYER_ACCOUNT });
+    } catch (e) {
+      reject(new Error(`Can't send NFT from ${owner} to ${eth.accounts[0]}.`));
+    }
+
+    resolve();
   });
 };
 
 export const mint = async (eth) => {
   let ERC1155TokenContract;
+  let LycleTokenContract;
   for (const contract of eth.contracts) {
     const keys = Object.keys(contract);
 
     if (keys[0] === CollectionNameEnum.LACK_OF_SLEEP_LAMA) {
       ERC1155TokenContract = contract[CollectionNameEnum.LACK_OF_SLEEP_LAMA];
     }
+
+    if (keys[0] === CollectionNameEnum.LYCLE_TOKEN) {
+      LycleTokenContract = contract[CollectionNameEnum.LYCLE_TOKEN];
+    }
   }
 
-  const ERC1155ItemJsonPath = `0x09384DD45F1318290Cc256a590F337318e4fb47E/nfts/json/3.json`;
+  const LycleTokenJsonPath =
+    "/0x607d831c41b49dF8Fc99c72d67487C14629A8CC2/tokens/json/1.json";
+  const LycleTokenJsonBytes = eth.web3.utils.asciiToHex(LycleTokenJsonPath);
+
+  LycleTokenContract.methods
+    .mint(
+      "0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE",
+      "1",
+      "100",
+      LycleTokenJsonBytes
+    )
+    .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+
+  const ERC1155ItemJsonPath = `/0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/1.json`;
   const ERC1155ItemJsonBytes = eth.web3.utils.asciiToHex(ERC1155ItemJsonPath);
 
-  const result = await ERC1155TokenContract.methods
+  ERC1155TokenContract.methods
     .mint(
-      "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38",
-      "3",
+      "0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE",
+      "1",
       "1",
       ERC1155ItemJsonBytes
+    )
+    .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+
+  const ERC1155Item2JsonPath = `/0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/1.json`;
+  const ERC1155Item2JsonBytes = eth.web3.utils.asciiToHex(ERC1155Item2JsonPath);
+
+  ERC1155TokenContract.methods
+    .mint(
+      "0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE",
+      "2",
+      "1",
+      ERC1155Item2JsonBytes
+    )
+    .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+
+  const ERC1155Item3JsonPath = `/0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/1.json`;
+  const ERC1155Item3JsonBytes = eth.web3.utils.asciiToHex(ERC1155Item3JsonPath);
+
+  ERC1155TokenContract.methods
+    .mint(
+      "0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE",
+      "3",
+      "1",
+      ERC1155Item3JsonBytes
     )
     .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
 };

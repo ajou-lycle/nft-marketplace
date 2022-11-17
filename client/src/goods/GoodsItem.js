@@ -43,9 +43,7 @@ export default function GoodsItem() {
 
   useEffect((e) => {
     async function fetchItemData() {
-      const res = await axios.get(
-        "http://13.125.198.232:8080/item?sort=recent"
-      );
+      const res = await axios.get("http://3.38.210.200:8080/item?sort=recent");
       const _inputItem = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.itemId,
         created_date: rowData.createdDate,

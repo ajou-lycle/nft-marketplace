@@ -30,75 +30,110 @@ function Login() {
     setInputPw(e.target.value);
   };
 
+  const onClickConfirm = () => {
+    console.log("click login");
+    axios
+      .post(
+        "http://3.38.210.200:8080/auth/login",
+        {
+          accountName: inputId,
+          password: inputPw,
+        },
+        { withCredentials: true }
+      )
 
-        const onClickConfirm=()=> { 
-            console.log('click login');
-            axios.post('http://13.125.198.232:8080/auth/login',{
-                'accountName': inputId,
-                'password' : inputPw
-            },{withCredentials:true})
+      .then((res) => {
+        console.log("res.data.accessToken :: ", res.data.accessToken);
+        localStorage.setItem("memberId", res.data.memberId);
+        console.log("멤버아이디, ", res.data.memberId);
+        if (res.data.accessToken === "f") {
+          // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
+          console.log("======================", res.data.accessToken);
+          alert("입력하신 정보가 일치하지 않습니다.");
+        } else {
+          console.log("======================", "로그인 성공");
+          sessionStorage.setItem("user_token", res.data.accessToken);
+        }
+        // 작업 완료 되면 페이지 이동(새로고침)
+        document.location.href = "/";
+      })
+      .catch((err) => {
+        console.warn(">>> LOGIN ERROR", err.message);
+      });
+  };
 
-            .then(res =>{
-                console.log('res.data.accessToken :: ', res.data.accessToken);
+  return (
+    <div className="login_whole">
+      <div className="login_title">로그인</div>
+      <div className="login_id_password_whole">
+        <form>
+          <div className="login_id_password">
+            <div className="login_box">
+              <div className="login_id_enter">
+                <label htmlFor="input_id"></label>
+                <input
+                  name="input_id"
+                  placeholder="아이디를 입력해주세요"
+                  type="text"
+                  id="accountName"
+                  class="css-1bkd15f e1uzxhvi2"
+                  value={inputId}
+                  onChange={handleInputId}
+                />
+              </div>
+            </div>
+            <div className="login_box">
+              <div className="login_password_enter">
+                <input
+                  name="input_pw"
+                  placeholder="비밀번호를 입력해주세요"
+                  type="password"
+                  id="pw"
+                  class="css-1bkd15f e1uzxhvi2"
+                  value={inputPw}
+                  onChange={handleInputPw}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="find_id_password">
+            <a className="find_id">아이디 찾기</a>
+            <span className="find_icon"></span>
+            <a className="find_id">비밀번호 찾기 </a>
+          </div>
+          <div className="login_button">
+            <LoginButton
+              onClick={onClickConfirm}
+              backgroundcolor="#44C97C"
+              color="rgb(255,255,255)"
+              border="0px none"
+              type="button"
+              height="54"
+              radius="3"
+              margin="0px"
+            >
+              <span class="css-ymwvow e4nu7ef1">로그인</span>
+            </LoginButton>
 
-                if(res.data.accessToken=== 'f'){
-                    // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-                    console.log('======================',res.data.accessToken)
-                    alert('입력하신 정보가 일치하지 않습니다.')}
-                    else {
-                        
-                        console.log('======================','로그인 성공')
-                        sessionStorage.setItem('user_token',res.data.accessToken)
-                    }
-                // 작업 완료 되면 페이지 이동(새로고침)
-                  document.location.href = '/';
-
-            })
-            .catch()
-            
-        
-        };
-
-    
-    return (
-        <div className="login_whole">
-            <div className="login_title">로그인</div>
-            <div className="login_id_password_whole">
-                <form>
-                    <div className="login_id_password">
-                        <div className="login_box">
-                            <div className="login_id_enter">
-
-                                <label htmlFor="input_id"></label>
-                                <input name="input_id" placeholder="아이디를 입력해주세요" type="text" id="accountName" class="css-1bkd15f e1uzxhvi2" value={inputId} onChange={handleInputId} />
-
-                            </div>
-                        </div>
-                        <div className="login_box">
-                            <div className="login_password_enter">
-                                <input name="input_pw" placeholder="비밀번호를 입력해주세요" type="password" id="pw" class="css-1bkd15f e1uzxhvi2" value={inputPw} onChange={handleInputPw} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="find_id_password">
-                        <a className="find_id">아이디 찾기</a>
-                        <span className = "find_icon"></span>
-                        <a className ="find_id">비밀번호 찾기 </a>
-                    </div>
-                    <div className="login_button">
-
-                        <LoginButton onClick={onClickConfirm} backgroundcolor="#44C97C" color="rgb(255,255,255)" border="0px none" type="button" height="54" radius="3" margin="0px"><span class="css-ymwvow e4nu7ef1">로그인</span></LoginButton>
-                    
-                        <Link to="/join" style={{textDecoration:"none"}}>
-                            <LoginButton backgroundcolor="rgb(255,255,255)" color="#44C97C" border="1px solid #44C97C" type="button" height="54" radius="3" margin="10px" ><span class="css-ymwvow e4nu7ef1">회원가입</span></LoginButton>
-                        </Link>
-                    </div>
-                </form>
-
+            <Link to="/join" style={{ textDecoration: "none" }}>
+              <LoginButton
+                backgroundcolor="rgb(255,255,255)"
+                color="#44C97C"
+                border="1px solid #44C97C"
+                type="button"
+                height="54"
+                radius="3"
+                margin="10px"
+              >
+                <span class="css-ymwvow e4nu7ef1">회원가입</span>
+              </LoginButton>
+            </Link>
+          </div>
+        </form>
       </div>
     </div>
-  ); }
-
+  );
+}
 
 const LoginButton = styled.button`
   display: block;

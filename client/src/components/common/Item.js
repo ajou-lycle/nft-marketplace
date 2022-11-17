@@ -6,9 +6,23 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import Pagination from "rc-pagination";
 
 export default function NftItem() {
   const [inputData, setInputData] = useState([]);
+
+  //한 페이지에 보여줄 데이터의 개수
+  const [limit, setLimit] = useState(9);
+
+  //데이터의 총 개수를 setTotalCount에 저장해서 사용
+  const [totalCount, setTotalCount] = useState(90);
+
+  //페이지 초기 값은 1페이지
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (current) => {
+    setCurrentPage(current);
+  };
 
   function sortLike() {
     let likeSorting = [...inputData];
@@ -43,9 +57,7 @@ export default function NftItem() {
 
   useEffect((e) => {
     async function fetchData() {
-      const res = await axios.get(
-        "http://3.36.126.75:8080/nftItem?page=0&size=9"
-      );
+      const res = await axios.get("http://3.38.210.200:8080/nftItem");
       const _inputData = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.nftItemId,
         created_date: rowData.createdDate,
@@ -151,6 +163,12 @@ export default function NftItem() {
           );
         })}
       </div>
+      <Pagination
+        total={totalCount}
+        current={currentPage}
+        limit={limit}
+        onChange={handlePageChange}
+      />
     </div>
   );
 }

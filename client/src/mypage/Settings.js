@@ -6,6 +6,8 @@ import { Save } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 export default function SettingPage() {
+  const memberInfoId = window.localStorage.getItem("memberId");
+
   return (
     <div>
       <Header />
@@ -33,7 +35,14 @@ export default function SettingPage() {
             <MyPageTitle>Settings</MyPageTitle>
 
             <div className="mypage_wallet">
-              <EditButton>회원정보 수정</EditButton>
+              <Link
+                to={{
+                  pathname: `/settings/edit`,
+                }}
+                style={{ textDecoration: "none" }}
+              >
+                <EditButton>회원정보 수정</EditButton>
+              </Link>
               <Link to="/settings/pwd" style={{ textDecoration: "none" }}>
                 <EditButton>비밀번호 변경</EditButton>
               </Link>
