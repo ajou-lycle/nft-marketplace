@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./Item.css";
 import IconButton from "@material-ui/core/IconButton";
+
 import { Favorite, FavoriteBorder } from "@material-ui/icons";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import axios from "axios";
+import { serverAddress } from "../../recoil/User";
 
 export default function NftItem2() {
   const [inputD, setInputD] = useState([]);
+  const [address, setAddress] = useRecoilState(serverAddress);
 
   useEffect((e) => {
     async function fetchData() {
       const res = await axios.get(
-        "http://3.38.210.200:8080/nftItem?page=0&size=9"
+        `http://${address}:8080/nftItem?page=0&size=9`
       );
       const _inputD = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.nftItemId,

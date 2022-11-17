@@ -7,8 +7,11 @@ import axios from "axios";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Pagination from "rc-pagination";
+import { serverAddress } from "../../recoil/User";
+import { useRecoilState } from "recoil";
 
 export default function NftItem() {
+  const [address, setAddress] = useRecoilState(serverAddress);
   const [inputData, setInputData] = useState([]);
 
   //한 페이지에 보여줄 데이터의 개수
@@ -57,7 +60,9 @@ export default function NftItem() {
 
   useEffect((e) => {
     async function fetchData() {
-      const res = await axios.get("http://3.38.210.200:8080/nftItem");
+      const res = await axios.get(
+        `http://${address}:8080/nftItem?page=0&size=9`
+      );
       const _inputData = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.nftItemId,
         created_date: rowData.createdDate,
@@ -94,11 +99,11 @@ export default function NftItem() {
         </ul>
       </div>
       <RowLine />
-      {/* <div>
-          <Link to='/add_nft'>
-            <PostButton>NFT 등록하기</PostButton>
-          </Link>
-        </div> */}
+      <div>
+        <Link to="/add_nft">
+          <PostButton>NFT 등록하기</PostButton>
+        </Link>
+      </div>
 
       <div className="item_grid">
         {inputData.map((rowData) => {

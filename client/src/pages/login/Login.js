@@ -3,9 +3,10 @@ import { useRecoilState } from "recoil";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link, Navigate } from "react-router-dom";
-import { idState, isLogin } from "../../recoil/User";
+import { address, idState, isLogin, serverAddress } from "../../recoil/User";
 import styled from "styled-components";
 import "./Login.css";
+import "../../recoil/User.js";
 
 function Login() {
   // const loginReal = () => {
@@ -17,7 +18,7 @@ function Login() {
   // const naviagate=useNavigate();
   // const email = document.getElementById("accountName");
   // const password = document.getElementById('pw');
-
+  const [address, setAddress] = useRecoilState(serverAddress);
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
 
@@ -34,14 +35,13 @@ function Login() {
     console.log("click login");
     axios
       .post(
-        "http://3.38.210.200:8080/auth/login",
+        `http://${address}:8080/auth/login`,
         {
           accountName: inputId,
           password: inputPw,
         },
         { withCredentials: true }
       )
-
       .then((res) => {
         console.log("res.data.accessToken :: ", res.data.accessToken);
         localStorage.setItem("memberId", res.data.memberId);

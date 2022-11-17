@@ -87,7 +87,7 @@ export const initWeb3 = async () => {
       web3,
       networkID
     );
-    const collectionNameList = Object.values(CollectionNameEnum);
+    const collectionEnumList = Object.values(CollectionNameEnum);
 
     let contracts = [
       {
@@ -96,14 +96,14 @@ export const initWeb3 = async () => {
       },
     ];
 
-    for (const collectionName of collectionNameList) {
+    for (const collectionEnum of collectionEnumList) {
       const result = await initERC1155Token(
         web3,
         ERC1155TokenFactoryContractObject.ERC1155TokenFactory,
-        collectionName
+        collectionEnum.name
       );
 
-      contracts.push({ [collectionName]: result.contract });
+      contracts.push({ [collectionEnum.name]: result.contract });
     }
 
     resolve({ web3, accounts, networkID, contracts });
@@ -162,7 +162,7 @@ export const getUserTokenBalanceByCollectionName = async (
 export const getTokenBalance = async (eth) => {
   const ERC1155TokenContract = isExistERC1155TokenByCollectionName(
     eth,
-    CollectionNameEnum.LYCLE_TOKEN
+    CollectionNameEnum.LYCLE_TOKEN.name
   );
 
   if (ERC1155TokenContract === undefined) {
@@ -179,7 +179,7 @@ export const getTokenBalance = async (eth) => {
 export const getTokenImageUri = async (eth) => {
   const ERC1155TokenContract = isExistERC1155TokenByCollectionName(
     eth,
-    CollectionNameEnum.LYCLE_TOKEN
+    CollectionNameEnum.LYCLE_TOKEN.name
   );
 
   if (ERC1155TokenContract === undefined) {
@@ -213,10 +213,9 @@ export const getNftListByWalletAddress = async (eth) => {
         .uri(holdedTokenId)
         .call();
       nftJsons.push(JSON.parse(await getObjectFromS3(nftUri)));
-      console.log("nft제이슨", nftJsons);
     }
 
-    mapNftJsonToCollectionName.push({ [collectionName]: nftJsons });
+    mapNftJsonToCollectionName.push(nftJsons);
   }
 
   return mapNftJsonToCollectionName;
@@ -307,12 +306,13 @@ export const mint = async (eth) => {
   for (const contract of eth.contracts) {
     const keys = Object.keys(contract);
 
-    if (keys[0] === CollectionNameEnum.LACK_OF_SLEEP_LAMA) {
-      ERC1155TokenContract = contract[CollectionNameEnum.LACK_OF_SLEEP_LAMA];
+    if (keys[0] === CollectionNameEnum.LACK_OF_SLEEP_LAMA.name) {
+      ERC1155TokenContract =
+        contract[CollectionNameEnum.LACK_OF_SLEEP_LAMA.name];
     }
 
-    if (keys[0] === CollectionNameEnum.LYCLE_TOKEN) {
-      LycleTokenContract = contract[CollectionNameEnum.LYCLE_TOKEN];
+    if (keys[0] === CollectionNameEnum.LYCLE_TOKEN.name) {
+      LycleTokenContract = contract[CollectionNameEnum.LYCLE_TOKEN.name];
     }
   }
 
@@ -371,8 +371,9 @@ export const burn = async (eth) => {
   for (const contract of eth.contracts) {
     const keys = Object.keys(contract);
 
-    if (keys[0] === CollectionNameEnum.LACK_OF_SLEEP_LAMA) {
-      ERC1155TokenContract = contract[CollectionNameEnum.LACK_OF_SLEEP_LAMA];
+    if (keys[0] === CollectionNameEnum.LACK_OF_SLEEP_LAMA.name) {
+      ERC1155TokenContract =
+        contract[CollectionNameEnum.LACK_OF_SLEEP_LAMA.name];
     }
   }
 
