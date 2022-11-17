@@ -7,6 +7,7 @@ import {checkMetaMaskInstalled, getNftListByWalletAddress, initWeb3,initERC1155T
 import { walletState } from "../recoil/Wallet.js";
 import useEth from "../contexts/EthContext/useEth.js";
 import { CollectionNameEnum } from "../datas/enum/collection_name_enum.js";
+import TestNftImgList from './TestNftImgList.js';
 
 //import { Info } from "@material-ui/icons";
 
@@ -58,8 +59,16 @@ function AddNft()
         const getAddress = async() => {
            const result = await getNftListByWalletAddress(eth);
            setNftList(result);
-           console.log(result[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index]);
+           console.log(result[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0]);
         }
+
+    const getData = () => {
+        if(nftList.length == 0) {
+            return <p style={{ display: "inline" }}></p>
+        }
+
+        return <p>{nftList[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0].name}</p>
+    }
 
     return(
         <div className = "whole_nft_add">
@@ -80,7 +89,7 @@ function AddNft()
                             <dd><NftAddLeft type='text' id="nfttitle" placeholder="Enter NFT name" value={nfttitle} onChange={(e) => setnftTitle(e.target.value)}></NftAddLeft></dd>
                         </dl>
                         <dl className="add_image">
-                            <dt className="d_left">NFT CONTENT</dt>
+                            <dt className="d_left">NFT CONTENT{getData()}</dt>
                             <dd>< textarea id="nftcontent" placeholder="Enter NFT content" value={nftcontent} onChange={(e) => setnftContent(e.target.value)} style={{width:'350px',padding: '20px', height:'70px', resize:'none',border: '1px solid grey'}}/></dd>
                         </dl>
                         <dl className="add_content">
@@ -108,7 +117,7 @@ function AddNft()
                 </div>
                 </div>
                 <div className="my_nft">
-
+                    <TestNftImgList></TestNftImgList>
                     
                 </div>
 
