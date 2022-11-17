@@ -6,7 +6,6 @@ import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
 import { isLoginState } from "../../recoil/User";
 import { Search } from "@material-ui/icons";
-import '../../recoil/User.js'
 
 const Header = () => {
   // const isLogin=props.isLogin;
@@ -14,13 +13,11 @@ const Header = () => {
   useEffect(() => {
     if (sessionStorage.getItem("user_token") === null) {
       // sessionStorage 에 user_id 라는 key 값으로 저장된 값이 없다면
-      console.log("isLogin ?? :: ", isLogin);
       setIsLogin(false);
     } else {
       // sessionStorage 에 user_id 라는 key 값으로 저장된 값이 있다면
       // 로그인 상태 변경
       setIsLogin(true);
-      console.log("isLogin ?? :: ", isLogin);
     }
   });
 

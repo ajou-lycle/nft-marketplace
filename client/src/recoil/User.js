@@ -31,5 +31,10 @@ export const serverAddress = atom({
     default :'3.38.210.200',
 })
 
+export const MetaMaskInstalledRecoil = atom({
+    key: "MetaMaskRecoil",
+    default:false,
+})
+
 
 

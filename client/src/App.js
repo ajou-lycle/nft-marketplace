@@ -11,21 +11,30 @@ function App() {
 
   useEffect(() => {
     setIsMetaMaskInstalled(checkMetaMaskInstalled());
+    console.log(`app.js ${isMetaMaskInstalled}`);
   }, [isMetaMaskInstalled]);
 
-  return isMetaMaskInstalled ? (
+  return (
     <RecoilRoot>
       <EthProvider>
         <ScrollTop />
         <RootRoute />
       </EthProvider>
     </RecoilRoot>
-  ) : (
-    <RecoilRoot>
-      <ScrollTop />
-      <RootRoute />
-    </RecoilRoot>
   );
+  // return isMetaMaskInstalled ? (
+  //   <RecoilRoot>
+  //     <EthProvider>
+  //       <ScrollTop />
+  //       <RootRoute />
+  //     </EthProvider>
+  //   </RecoilRoot>
+  // ) : (
+  //   <RecoilRoot>
+  //     <ScrollTop />
+  //     <RootRoute />
+  //   </RecoilRoot>
+  // );
 }
 
 export default App;
