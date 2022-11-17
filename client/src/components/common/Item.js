@@ -6,8 +6,12 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { serverAddress } from "../../recoil/User";
+import { useRecoilState } from "recoil";
 
 export default function NftItem() {
+
+  const [address,setAddress]=useRecoilState(serverAddress);
   const [inputData, setInputData] = useState([]);
 
   function sortLike() {
@@ -18,6 +22,7 @@ export default function NftItem() {
     likeSorting.sort(likeCompare("likeCnt"));
     setInputData(likeSorting);
   }
+  
 
   function sortView() {
     let viewSorting = [...inputData];
@@ -44,7 +49,7 @@ export default function NftItem() {
   useEffect((e) => {
     async function fetchData() {
       const res = await axios.get(
-        "http://3.36.126.75:8080/nftItem?page=0&size=9"
+        `http://${address}:8080/nftItem?page=0&size=9`
       );
       const _inputData = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.nftItemId,
@@ -82,11 +87,11 @@ export default function NftItem() {
         </ul>
       </div>
       <RowLine />
-      {/* <div>
+      <div>
           <Link to='/add_nft'>
             <PostButton>NFT 등록하기</PostButton>
           </Link>
-        </div> */}
+        </div>
 
       <div className="item_grid">
         {inputData.map((rowData) => {

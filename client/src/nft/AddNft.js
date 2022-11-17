@@ -1,44 +1,27 @@
-import React, { useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState} from "react";
 import './AddNft.css';
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
 import axios from 'axios';
-
+import {checkMetaMaskInstalled, getNftListByWalletAddress, initWeb3,initERC1155Token} from "../datas/contract.js";
+import { walletState } from "../recoil/Wallet.js";
+import useEth from "../contexts/EthContext/useEth.js";
+import { CollectionNameEnum } from "../datas/enum/collection_name_enum.js";
 
 //import { Info } from "@material-ui/icons";
 
-
 function AddNft()
 {
-    // const [info,setInfo] = useState({
-    //     itemImg : '',
-    //     title : '',
-    //     price : 0,
-    //     content : ''
-    // });
+    const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
+    const [nftList,setNftList] =useState([]);
+    const {eth, setEthState} = useEth();
 
     const [nftitemImg, setnftitemImg] = useState('');
     const [nfttitle, setnftTitle] = useState('');
     const [nftprice, setnftPrice] = useState(0);
     const [nftcontent, setnftContent] = useState('');
 
-
-
-
-    // const userData = {
-    
-    //     'nftItemImg' : itemImg,
-    //     'title' : title,
-    //     'price': price,
-    //     'content' : content
-    // };
-
-
-
-    
-
-
     const onClickAddNft=() => {
-        console.log('add nft');
         axios.post('http://13.125.198.232:8080/nftItem', {
             // userData
         'nftItemImg' : nftitemImg,
@@ -60,17 +43,23 @@ function AddNft()
             console.log("res.data", res.data)
             alert("등록이 완료되었습니다!");
             document.location.href = '/';
-        
-        
-    
-
         })
         .catch((err) => {console.log("Error", err)});
     
     }
 
+    
 
+    useEffect(() => {
+            getAddress();
+    }, [eth]);
 
+        //initWeb3();
+        const getAddress = async() => {
+           const result = await getNftListByWalletAddress(eth);
+           setNftList(result);
+           console.log(result[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index]);
+        }
 
     return(
         <div className = "whole_nft_add">
@@ -80,14 +69,14 @@ function AddNft()
                     <div className = "nft_add_form_disc_1">
                         <div className="nft_add_form_disc_1_2">
                             <div className="addnft_title">
-                                <div className="addnft_title_text">NFT 등록</div>
+                                <div className="addnft_title_text"></div>
                             </div>
                         
                         </div>
                     </div>
                     <div className = "add_things">
                         <dl className="add_name">
-                            <dt className="d_left">NFT NAME</dt>
+                            <dt className="d_left"></dt>
                             <dd><NftAddLeft type='text' id="nfttitle" placeholder="Enter NFT name" value={nfttitle} onChange={(e) => setnftTitle(e.target.value)}></NftAddLeft></dd>
                         </dl>
                         <dl className="add_image">
@@ -117,6 +106,10 @@ function AddNft()
                     </div>
 
                 </div>
+                </div>
+                <div className="my_nft">
+
+                    
                 </div>
 
 

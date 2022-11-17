@@ -12,7 +12,7 @@ function EthProvider({ children }) {
       try {
         let { web3, accounts, networkID, contracts } = await initWeb3();
 
-        const data = {
+        const ethData = {
           web3: web3,
           accounts: ["0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE"],
           // accounts: accounts,
@@ -20,18 +20,16 @@ function EthProvider({ children }) {
           contracts: contracts
         };
 
-        // await mint(data);
-        // await burn(data);
+        // const nftList = await getNftListByWalletAddress(ethData);
+        // const walletData = {
+        //   coinBalance: await getUserCoinBalance(ethData),
+        //   tokenBalance: await getTokenBalance(ethData),
+        //   nftList: await getNftListByWalletAddress(ethData)
+        // };
 
-        const coinBalance = await getUserCoinBalance(data);
-        const tokenBalance = await getTokenBalance(data);
-        const uri = await getTokenImageUri(data);
-        const userNftList = await getNftListByWalletAddress(data);
-        const registedNftList = await getRegistedNftList(data);
-
-        console.log(coinBalance, tokenBalance, uri, userNftList, registedNftList);
-
-        setEthState(data);
+        setEthState(ethData);
+        console.log(ethData);
+        // setWalletState(walletData);
       } catch (e) {
         console.log(e);
       }

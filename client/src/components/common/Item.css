@@ -16,6 +16,10 @@
   text-align: center;
 }
 
+.add_nft {
+  display: flex;
+}
+
 .order_bar {
   display: flex;
   -webkit-box-align: center;
@@ -84,6 +88,8 @@
   background-color: rgb(245, 245, 245);
   width: 300px;
   height: 300px;
+  border-top-left-radius: 70px;
+  border-bottom-right-radius: 70px;
 }
 
 .item_img {

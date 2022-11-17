@@ -1,6 +1,6 @@
 .whole {
     width: 100%;
-    height : 10000px;
+    height : 100%;
 
 }
 
@@ -33,6 +33,11 @@
     width: 560px;
     height: 750.04px;
     font-weight: bold;
+}
+
+.content_pic_and_disc_left {
+    display: flex;
+    flex-direction: column;
 }
 
 .content_pic_disc_1{
