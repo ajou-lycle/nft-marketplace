@@ -6,6 +6,7 @@ import axios from "axios";
 import { FavoriteBorder } from "@material-ui/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { serverAddress } from "../recoil/User";
 
 export default function GoodsItem() {
   const [inputItem, SetInputItem] = useState([]);
@@ -44,8 +45,9 @@ export default function GoodsItem() {
   useEffect((e) => {
     async function fetchItemData() {
       const res = await axios.get(
-        "http://13.125.198.232:8080/item?sort=recent"
+        `http://3.38.210.200:8080/item?sort=recent`
       );
+      console.log(serverAddress);
       const _inputItem = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.itemId,
         created_date: rowData.createdDate,
@@ -86,7 +88,7 @@ export default function GoodsItem() {
                 <div className="nft_item_img">
                   <div className="nft_item_img_">
                     <ItemImg
-                      src="img/nft_img.png"
+                      src={rowData.item_img}
                       loading="lazy"
                       className="item_img"
                     />

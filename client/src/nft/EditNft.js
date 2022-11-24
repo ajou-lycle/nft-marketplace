@@ -28,7 +28,7 @@ function EditNft() {
   const [contentnftdata, setContentNftData] = useState("");
   const ShowSellerNftinfo = () => {
     axios
-      .get(`http://3.36.126.75:8080/nftItem/post`, {
+      .get(`http://3.38.210.200:8080/nftItem/post`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
@@ -51,7 +51,7 @@ function EditNft() {
     console.log("add nft");
     axios
       .put(
-        `http://13.125.198.232:8080/nftItem/${nftInfoId}`,
+        `http://3.38.210.200:8080/nftItem/${nftInfoId}`,
         {
           title: nfttitle,
           price: nftprice,

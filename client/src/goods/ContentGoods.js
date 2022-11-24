@@ -42,7 +42,7 @@ function ContentGoods()
     const [contentgoodsdata,setContentGoodsData] = useState('');
 
     const onClickShowGoods=() => {
-        axios.get(`http://13.125.198.232:8080/item/${goodsInfoId}`,
+        axios.get(`http://3.38.210.200:8080/item/${goodsInfoId}`,
         {
             withCredentials: true,
             headers: {
@@ -83,7 +83,7 @@ function ContentGoods()
     const onClickDeleteGoods=() => {
         let userToken = sessionStorage.getItem('user_token');
         console.log(userToken);
-        axios.delete(`http://13.125.198.232:8080/item/${goodsInfoId}`,
+        axios.delete(`http://3.38.210.200:8080/item/${goodsInfoId}`,
         {
             withCredentials: true,
             headers: {
@@ -103,7 +103,7 @@ function ContentGoods()
     const onClickBuyGoods=() => {
 
         console.log(sessionStorage.getItem('user_token'));
-        axios.post(`http://13.125.198.232:8080/nftItem/${goodsInfoId}/buy`, {
+        axios.post(`http://3.38.210.200:8080/nftItem/${goodsInfoId}/buy`, {
             'count': count
         },
         {
@@ -128,7 +128,7 @@ function ContentGoods()
         <div className = "whole">
             <div className = "whole_center">
                 <div className = "content_pic_and_disc">
-                <img src = "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg" className = "content_pic"/>
+                <img src = {contentgoodsdata.itemImg} className = "content_pic"/>
                 <div className = "content_pic_disc">
                     <div className = "content_pic_disc_1">
                         <div className="disc_1_1">GOODS</div>

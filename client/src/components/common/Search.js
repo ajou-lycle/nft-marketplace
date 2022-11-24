@@ -44,7 +44,7 @@ const SearchList = () => {
   useEffect((e) => {
     async function fetchData() {
       const res = await axios.get(
-        "http://3.36.126.75:8080/nftItem?page=0&size=50&title=" +
+        "http://3.38.210.200:8080/nftItem?page=0&size=50&title=" +
           params.searchWord
       );
       const _inputData = await res.data.itemList.map((rowData) => ({
@@ -97,7 +97,7 @@ const SearchList = () => {
                 <div className="nft_item_img">
                   <div className="nft_item_img_">
                     <ItemImg
-                      src="img/nft_img.png"
+                      src={rowData.nftItemImg}
                       loading="lazy"
                       className="item_img"
                     />

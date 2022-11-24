@@ -25,20 +25,16 @@ export const constmemberId = atom({
     default : 0,
 })
 
-// export const itemImgState = atom({
-//     key : "itemImg",
-//     default : '',
-// })
-// export const titleState = atom({
-//     key : "title",
-//     default : '',
-// })
-// export const priceState = atom({
-//     key : "price",
-//     default : '',
-// })
-// export const contentState = atom({
-//     key : "content",
-//     default : '',
-// })
+
+export const serverAddress = atom({
+    key : "serverAddress",
+    default :'3.38.210.200',
+})
+
+export const MetaMaskInstalledRecoil = atom({
+    key: "MetaMaskRecoil",
+    default:false,
+})
+
+
 
