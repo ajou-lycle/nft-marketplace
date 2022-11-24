@@ -7,40 +7,55 @@ import axios from 'axios';
 function AddGoods()
 {
 
-    const [goodsitemImg, setgoodsitemImg] = useState('');
+    const [itemImg, setgoodsitemImg] = useState('');
     const [goodstitle, setgoodsTitle] = useState('');
     const [goodsprice, setgoodsPrice] = useState(0);
     const [goodscontent, setgoodsContent] = useState('');
+    const [files, setFiles] = useState('');
+    const [imageFile, setImageFile] = useState(null);
+    const [localImageURL, setLocalImageURL] = useState("");
 
 
+    const onClickAddGoods=async(e) => {
+        if (e && e.preventDefault) e.preventDefault();
 
-
-    // const userData = {
-    
-    //     'nftItemImg' : itemImg,
-    //     'title' : title,
-    //     'price': price,
-    //     'content' : content
-    // };
-
-
-
-    
-
-
-    const onClickAddGoods=() => {
+        console.log("handleSubmit시작됨");
         console.log('add goods');
-        axios.post('http://13.125.198.232:8080/item', {
-            // userData
-        'itemImg' : goodsitemImg,
-        'title' : goodstitle,
-        'price': goodsprice,
-        'content' : goodscontent
-        }
+
+        let formData = new FormData();
+        let userData = {
+    
+            'itemImg' :localImageURL,
+            'title' : goodstitle,
+            'price': goodsprice,
+            'content' : goodscontent
+        };
+
+        console.log(userData);
+        
+        formData.append('file', imageFile);
+        formData.append('postItemDto', new Blob([JSON.stringify(userData)], {
+            type: "application/json"
+        }));
+
+        // convertURLtoFile(goodsitemImg).then((file) => {
+        //     setgoodsitemImg(file);
+        //   });
+
+        console.log(formData.get("file"));
+        console.log(formData.get("postItemDto"));
+
+        // for (var entries of formData.keys()) console.log(entries);
+
+
+
+        await axios.post('http://3.38.210.200:8080/item', formData
         ,  {
             withCredentials:true,
             headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }
+            Authorization: `Bearer ${sessionStorage.getItem('user_token')}`,
+            "Content-Type": "multipart/form-data"
+         }
         }, )
         .then((res) => {
             console.log("res.data", res.data)
@@ -53,6 +68,16 @@ function AddGoods()
         })
         .catch((err) => {console.log("Error", err)});
     
+    }
+
+    const onLoadFile = (e) => {
+        if (!e.target.files) {
+            return;
+          }
+        console.log(e.target.files[0]);
+        setImageFile(e.target.files[0]);
+        setLocalImageURL(URL.createObjectURL(e.target.files[0]));
+        console.log(localImageURL);
     }
 
 
@@ -72,6 +97,9 @@ function AddGoods()
                         </div>
                     </div>
                     <div className = "add_things">
+                    <form>
+  <input type="file" id="goodsitemImg" accept="image/*" onChange={onLoadFile} />
+</form>
                         <dl className="add_name">
                             <dt className="d_left">GOODS NAME</dt>
                             <dd><GoodsAddLeft type='text' id="goodstitle" placeholder="Enter Goods name" value={goodstitle} onChange={(e) => setgoodsTitle(e.target.value)}></GoodsAddLeft></dd>
@@ -80,10 +108,10 @@ function AddGoods()
                             <dt className="d_left">GOODS CONTENT</dt>
                             <dd>< textarea id="goodscontent" placeholder="Enter Goods content" value={goodscontent} onChange={(e) => setgoodsContent(e.target.value)} style={{width:'350px',padding: '20px', height:'70px', resize:'none',border: '1px solid grey'}}/></dd>
                         </dl>
-                        <dl className="add_content">
+                        {/* <dl className="add_content">
                             <dt className="d_left">GOODS IMAGE</dt>
                             <dd><GoodsAddLeft type='text' id="goodsitemImg" placeholder="Enter Goods image" value={goodsitemImg} onChange={(e) => setgoodsitemImg(e.target.value)}></GoodsAddLeft></dd>
-                        </dl>
+                        </dl> */}
                         <dl className="add_content">
                             <dt className="d_left">GOODS PRICE</dt>
                             <dd><GoodsAddLeft type="number" id="goodsprice" placeholder="Enter Goods price" value={goodsprice} onChange={(e) => setgoodsPrice(e.target.value)}></GoodsAddLeft></dd>

@@ -34,14 +34,28 @@ function ContentNft() {
       .then((res) => {
         console.log("res.data", res.data);
         setContentNftData(res.data);
+        if (res.data.isLike==true) {
+          setD5Like("d5_like_true");
+         } else {
+          setD5Like("d5_like_false");
+         }
       })
       .catch((err) => {
         console.log("Error", err);
       });
   };
 
+
   useEffect(() => {
     onClickShowNft();
+    console.log(contentnftdata);
+  //  if (contentnftdata.isLike==true) {
+  //   setD5Like("d5_like_true");
+  //  } else {
+  //   setD5Like("d5_like_false");
+  //  }
+   console.log("새로고침");
+   console.log(contentnftdata.isLike);
   }, []);
 
   const onClickLikeNft = () => {
@@ -136,10 +150,15 @@ function ContentNft() {
     <div className="whole">
       <div className="whole_center">
         <div className="content_pic_and_disc">
+          <div className="pic_edit">
           <img
-            src="https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg"
+            src={contentnftdata.nftItemImg}
             className="content_pic"
           />
+                      <Content_goods_4>
+            {contentnftdata.content}
+            </Content_goods_4>
+          </div>
           <div className="content_pic_disc">
             <div className="content_pic_disc_1">
               <div className="disc_1_1">NFT</div>
@@ -147,11 +166,12 @@ function ContentNft() {
               <div className="disc_1_2">
                 <div className="disc_1_2_big">{contentnftdata.title}</div>
                 <div className="d5_bottom_icon">
-                  <button
+                  <button onClick={onClickLikeNft} type="button" className={d5Like}/>
+                  {/* {contentnftdata.isLike?   ( <button
                     onClick={onClickLikeNft}
-                    type="button"
-                    className={d5Like}
-                  ></button>
+                    type="button" className="d5_like_true"/>) : (<button
+                      onClick={onClickLikeNft}
+                      type="button" className="d5_like_false"/>)} */}
                 </div>
               </div>
             </div>
@@ -179,6 +199,7 @@ function ContentNft() {
               </dl>
             </div>
 
+
             <div className="content_pic_disc_5">
               <div className="d5_top">
                 <div className="current_price_box">
@@ -200,17 +221,18 @@ function ContentNft() {
             </div>
           </div>
         </div>
-        <div className="disc_long">{contentnftdata.content}</div>
         {/* <button onClick={onClickShowNft} type="button">조회</button> */}
-        <Link to={`/edit_nft/${nftInfoId}`}>
-          <button type="button">수정</button>
+        <Buttons>
+        <Link to={`/edit_nft/${nftInfoId}`} style={{textDecoration:'none'}}>
+          <ButtonEditDelete type="button">수정</ButtonEditDelete>
         </Link>
-        <button onClick={onClickDeleteNft} type="button">
+        <ButtonEditDelete onClick={onClickDeleteNft} type="button">
           삭제
-        </button>
-        <button onClick={onClickRealBuyNft} type="button">
+        </ButtonEditDelete>
+        <ButtonEditDelete onClick={onClickRealBuyNft} type="button">
           구매 확정
-        </button>
+        </ButtonEditDelete>
+        </Buttons>
       </div>
     </div>
   );
@@ -230,6 +252,45 @@ const NftBuyButton = styled.button`
   color: ${(props) => props.color};
   border: ${(props) => props.border};
   margin-top: ${(props) => props.margin};
+`;
+
+const Content_goods_4 = styled.div`
+display: flex;
+width: 400px;
+height: 100px;
+border-radius:10px;
+margin-top: 30px;
+margin-bottom: 50px;
+background-color: #fffacd;
+text-align: center;
+justify-content: center;
+font-weight: bold;
+`
+const Buttons = styled.div`
+margin-top: 70px;
+display: flex;
+justify-content: center;
+text-decoration-line: none;
+`
+
+const ButtonEditDelete = styled.button`
+display: flex;
+padding: 0px 10px;
+justify-content: center;
+text-align: center;
+width: 130px;
+height: 54px;
+border-radius: 30px;
+line-height: 54px;
+font-weight: bold;
+font-size: 20px;
+justify-content: center;
+margin-right: 20px;
+margin-left: 20px;
+
+background-color: #fffacd;
+color : black;
+border: 5px solid #D9F1D7;
 `;
 
 export default ContentNft;

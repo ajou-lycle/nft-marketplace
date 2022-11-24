@@ -7,7 +7,7 @@ import {checkMetaMaskInstalled, getNftListByWalletAddress, initWeb3,initERC1155T
 import { walletState } from "../recoil/Wallet.js";
 import useEth from "../contexts/EthContext/useEth.js";
 import { CollectionNameEnum } from "../datas/enum/collection_name_enum.js";
-import TestNftImgList from './TestNftImgList.js';
+
 
 //import { Info } from "@material-ui/icons";
 
@@ -16,19 +16,24 @@ function AddNft()
     const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
     const [nftList,setNftList] =useState([]);
     const {eth, setEthState} = useEth();
-
     const [nftitemImg, setnftitemImg] = useState('');
-    const [nfttitle, setnftTitle] = useState('');
-    const [nftprice, setnftPrice] = useState(0);
-    const [nftcontent, setnftContent] = useState('');
+const [nfttitle, setnftTitle] = useState('');
+const [nftprice, setnftPrice] = useState(0);
+const [nftcontent, setnftContent] = useState('');
+// const [dna,setDna] = useState('');
+// const [grade,setGrade] =useState('');
+
+
 
     const onClickAddNft=() => {
-        axios.post('http://13.125.198.232:8080/nftItem', {
+        axios.post('http://3.38.210.200:8080/nftItem', {
             // userData
         'nftItemImg' : nftitemImg,
         'title' : nfttitle,
         'price': nftprice,
-        'content' : nftcontent
+        'content' : nftcontent,
+        // 'nftId' : dna,
+        // 'collectionName' : grade
         }
         ,  {
             withCredentials:true,
@@ -59,7 +64,7 @@ function AddNft()
         const getAddress = async() => {
            const result = await getNftListByWalletAddress(eth);
            setNftList(result);
-           console.log(result[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0]);
+           console.log(result[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0],"소유nft");
         }
 
     const getData = () => {
@@ -70,6 +75,13 @@ function AddNft()
         return <p>{nftList[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0].name}</p>
     }
 
+    const getNftInfo = () => {
+
+        setnftTitle()
+
+        
+    }
+
     return(
         <div className = "whole_nft_add">
             <div className = "whole_center_nft_add">
@@ -78,23 +90,19 @@ function AddNft()
                     <div className = "nft_add_form_disc_1">
                         <div className="nft_add_form_disc_1_2">
                             <div className="addnft_title">
-                                <div className="addnft_title_text"></div>
+                                <div className="addnft_title_text"> NFT 등록 </div>
                             </div>
                         
                         </div>
                     </div>
                     <div className = "add_things">
                         <dl className="add_name">
-                            <dt className="d_left"></dt>
-                            <dd><NftAddLeft type='text' id="nfttitle" placeholder="Enter NFT name" value={nfttitle} onChange={(e) => setnftTitle(e.target.value)}></NftAddLeft></dd>
+                            <dt className="d_left">NFT TITLE</dt>
+                            <div className="d_right">{nfttitle}</div>
                         </dl>
                         <dl className="add_image">
-                            <dt className="d_left">NFT CONTENT{getData()}</dt>
-                            <dd>< textarea id="nftcontent" placeholder="Enter NFT content" value={nftcontent} onChange={(e) => setnftContent(e.target.value)} style={{width:'350px',padding: '20px', height:'70px', resize:'none',border: '1px solid grey'}}/></dd>
-                        </dl>
-                        <dl className="add_content">
-                            <dt className="d_left">NFT IMAGE</dt>
-                            <dd><NftAddLeft type='text' id="nftitemImg" placeholder="Enter NFT image" value={nftitemImg} onChange={(e) => setnftitemImg(e.target.value)}></NftAddLeft></dd>
+                            <dt className="d_left">NFT CONTENT</dt>
+                            <div className="d_disc">{nftcontent}</div>
                         </dl>
                         <dl className="add_content">
                             <dt className="d_left">NFT PRICE</dt>
@@ -116,13 +124,63 @@ function AddNft()
 
                 </div>
                 </div>
+                <div className="mynft_text">내가 보유한 NFT</div>
                 <div className="my_nft">
-                    <TestNftImgList></TestNftImgList>
+    
+            {
+
+                nftList.map((nft)=>{
+                    switch(nftList.indexOf(nft)) {
+                        case CollectionNameEnum.LACK_OF_SLEEP_LAMA.index:
+                            let imgList = [];
+
+                            for(const lslNft of nft) {
+                                const getNftInfo =() => {
+                                    setnftTitle(lslNft.name);
+                                    setnftContent(lslNft.description);
+                                    setnftitemImg(lslNft.image);
+                                    // setDna(lslNft.dna);
+                                    // setGrade(lslNft.grade);
+                                }
+                                imgList.push(
+                                    <div>
+                                        <img src={lslNft.image} onClick={getNftInfo} className="nftImage"/>
+                                        <div className="nftImage_disc">
+                                        <p>{lslNft.name}</p>
+                                        <p>{lslNft.description}</p>
+                                        <div>
+                                            {
+                                                lslNft.attributes.map((attribute) => {
+                                                    return (<div>
+                                                        <p>{attribute.trait_type}: {attribute.value}</p>
+                                                    </div>)
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+                                    </div>
+                                );
+                                
+                    
+                                
+                                console.log(lslNft);
+                                //setnftTitle({lslNft.});
+                                
+                            }
+                            return imgList;
+                        default:
+                            break;
+                    }
+                })
+            }
+        
                     
                 </div>
 
 
             </div>
+
+            
 
         </div>
     );
@@ -148,11 +206,15 @@ const NftAddButton = styled.button`
 `;
 
 const NftAddLeft = styled.input`
-    width:350px;
-    height: 50px;
+
     border: 1px solid grey;
-    border-radius:10px;
     align-items:center;
     font-size:15px;
-    padding-left: 20px;
+
+    width: 374px;
+    height: 55px;
+    margin-left: 40px;
+    line-height: 55px;
+    border-radius: 10px;
+    padding-left: 15px;
     `;
