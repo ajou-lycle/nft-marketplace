@@ -46,7 +46,7 @@ function Login() {
       .then((res) => {
         console.log("res.data.accessToken :: ", res.data.accessToken);
         localStorage.setItem("memberId", res.data.memberId);
-        // console.log("멤버아이디, ", res.data.memberId);
+        console.log("멤버아이디, ", res.data.memberId);
         if (res.data.accessToken === "f") {
           // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
           console.log("======================", res.data.accessToken);
