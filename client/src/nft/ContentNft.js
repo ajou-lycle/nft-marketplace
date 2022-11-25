@@ -274,6 +274,7 @@ const NftBuyButton = styled.button`
   margin-top: ${(props) => props.margin};
 `;
 
+<<<<<<< HEAD
 const Content_goods_4 = styled.div`
 display: flex;
 width: 400px;
@@ -314,3 +315,6 @@ border: 5px solid #D9F1D7;
 `;
 
 export default ContentNft;
+=======
+export default ContentNft;
+>>>>>>> da7dc4d45a3e51516494e6aca096e6835a04ae85

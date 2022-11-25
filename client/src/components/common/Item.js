@@ -6,13 +6,26 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import Pagination from "rc-pagination";
 import { serverAddress } from "../../recoil/User";
 import { useRecoilState } from "recoil";
 
 export default function NftItem() {
-
-  const [address,setAddress]=useRecoilState(serverAddress);
+  const [address, setAddress] = useRecoilState(serverAddress);
   const [inputData, setInputData] = useState([]);
+
+  //한 페이지에 보여줄 데이터의 개수
+  const [limit, setLimit] = useState(9);
+
+  //데이터의 총 개수를 setTotalCount에 저장해서 사용
+  const [totalCount, setTotalCount] = useState(90);
+
+  //페이지 초기 값은 1페이지
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (current) => {
+    setCurrentPage(current);
+  };
 
   function sortLike() {
     let likeSorting = [...inputData];
@@ -22,7 +35,6 @@ export default function NftItem() {
     likeSorting.sort(likeCompare("likeCnt"));
     setInputData(likeSorting);
   }
-  
 
   function sortView() {
     let viewSorting = [...inputData];
@@ -89,10 +101,10 @@ export default function NftItem() {
       </div>
       <RowLine />
       <div>
-          <Link to='/add_nft'>
-            <PostButton>NFT 등록하기</PostButton>
-          </Link>
-        </div>
+        <Link to="/add_nft">
+          <PostButton>NFT 등록하기</PostButton>
+        </Link>
+      </div>
 
       <div className="item_grid">
         {inputData.map((rowData) => {
@@ -157,6 +169,12 @@ export default function NftItem() {
           );
         })}
       </div>
+      <Pagination
+        total={totalCount}
+        current={currentPage}
+        limit={limit}
+        onChange={handlePageChange}
+      />
     </div>
   );
 }

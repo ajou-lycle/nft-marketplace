@@ -48,6 +48,7 @@ export default function GoodsItem() {
         `http://3.38.210.200:8080/item?sort=recent`
       );
       console.log(serverAddress);
+
       const _inputItem = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.itemId,
         created_date: rowData.createdDate,

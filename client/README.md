@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+## My info
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```js
+// 유저 지갑 주소 가져오는 방법
+const [eth, setEthState] = useRecoilState(ethState);
+const walletAddress = eth.accounts[0];
 
-## Available Scripts
+// 유저 지갑 잔고 가져오는 방법
+const [eth, setEthState] = useRecoilState(ethState);
+const coinBalance = await getUserCoinBalance(eth);
 
-In the project directory, you can run:
+// 유저 토큰 잔고 가져오는 방법
+const [eth, setEthState] = useRecoilState(ethState);
+const tokenBalance = await getTokenBalance(eth);
 
-### `npm start`
+// 유저가 보유한 NFT 리스트 가져오는 방법
+const [eth, setEthState] = useRecoilState(ethState);
+const userNftJsonList = await getNftListByWalletAddress(eth);
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## NFT Json 형식
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```json
+{
+  "name": "Lack of sleep lama #1",
+  "description": "This lama is lack of sleep now because of assignment. And often loses sleep because of mosquitoes. Please catch up on some sleep for the lama.",
+  "image": "https://lycle-bucket.s3.ap-northeast-2.amazonaws.com/0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/png/1.png",
+  "dna": "9a005ad27af3e4c9c0726a19b00f323dff057b56",
+  "edition": 1,
+  "date": 1667997712363,
+  "grade": "normal",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Skyblue"
+    },
+    {
+      "trait_type": "Body",
+      "value": "body"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "line dark circle"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Close"
+    },
+    {
+      "trait_type": "Cheek",
+      "value": "none"
+    },
+    {
+      "trait_type": "Accessory",
+      "value": "Sun"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}
+```

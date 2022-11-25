@@ -4,8 +4,41 @@ import MyPageMenu from "../pages/MyPageMenu";
 import { IconButton } from "@material-ui/core";
 import styled from "styled-components";
 import "./WalletSet.css";
+import { useRecoilState } from "recoil";
+import { ethState } from "../recoil/Eth";
+import { getNftListByWalletAddress, initWeb3 } from "../datas/contract";
+import { useEffect } from "react";
+import "../datas/contract.js";
 
 export default function WalletPage() {
+  // 유저 지갑 주소 가져오는 방법
+  // const [eth, setEthState] = useRecoilState(ethState);
+  // const wallet_address = eth?.accounts?.[0];
+  // console.log("wallet:", wallet_address);
+
+  // // 유저 지갑 잔고 가져오는 방법
+  // const ABCD = async () => {
+  //   const coinBalance = await getUserCoinBalance(eth);
+  // };
+
+  // 유저 토큰 잔고 가져오는 방법
+  // const tokenBalance = await getTokenBalance(eth);
+
+  // // 유저가 보유한 NFT 리스트 가져오는 방법
+  const [nftList, setNftList] = useRecoilState(ethState);
+
+  useEffect((e) => {
+    initWeb3();
+    console.log("useEffect시작");
+    const viewNFTList = async () => {
+      const userNftJsonList = await getNftListByWalletAddress(nftList);
+      console.log("Hi");
+      console.log("userNftJsonList: ", userNftJsonList);
+    };
+
+    viewNFTList();
+  }, []);
+
   return (
     <div>
       <Header />
@@ -35,6 +68,7 @@ export default function WalletPage() {
             <div className="mypage_wallet">
               <ProfileInfo>Wallet Address</ProfileInfo>
               <InfoInput placeholder="walletAddress" disabled />
+              {/* <div>test : {wallet_address}</div> */}
 
               <ProfileInfo>My Token</ProfileInfo>
               <InfoInput placeholder="token" disabled />

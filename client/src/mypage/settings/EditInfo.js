@@ -9,16 +9,21 @@ import {
   Settings,
   CameraAlt,
   InsertPhoto,
+  Save,
 } from "@material-ui/icons";
-import "./ProfileSet.css";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Form } from "react-router-dom";
 
-const ProfileSet = () => {
-  // const { memberInfoId } = useParams();
+const EditInfo = (props) => {
   const memberInfoId = window.localStorage.getItem("memberId");
   const [userData, setUserData] = useState("");
+
+  const [nickname, setNickname] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+  const [profileImg, setProfileImg] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [pwd, setPwd] = useState("");
 
   const fileInput = useRef(null);
 
@@ -36,6 +41,9 @@ const ProfileSet = () => {
       .then((res) => {
         console.log("res.data", res.data);
         setUserData(res.data);
+        setNickname(res.data.nickname);
+        setWalletAddress(res.data.walletAddress);
+        setProfileImg(res.data.profileImg);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -46,8 +54,74 @@ const ProfileSet = () => {
     viewUserData();
   }, []);
 
+  const handleSubmit = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    // const form = document.getElementById("form");
+    // console.log("form:", form.checkValidity());
+    // if (!form.checkValidity()) {
+    //   form.classList.add("was-validated");
+    //   return;
+    // }
+    console.log("handleSubmit시작됨");
+
+    //객체 선언
+    let formData = new FormData();
+    //객체를 json type으로 파싱하여 Blob객체 생성, type에 json type 지정
+    // formData.append(
+    //   "nickname",
+    //   new Blob([JSON.stringify(nickname)], { type: "application/json" })
+    // );
+
+    const value = {
+      nickname: nickname,
+      profileImg: profileImg,
+    };
+    formData.append("file", fileInput);
+    formData.append("putMyPageDto", JSON.stringify(value));
+
+    // const blob = new Blob([JSON.stringify(value)], {
+    //   type: "application/json",
+    // });
+
+    // formData.append("data", blob);
+
+    axios
+      .put(
+        `http://3.38.210.200:8080/myPage/${memberInfoId}`,
+        {
+          nickname: nickname,
+          profileImg: profileImg,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+          data: formData,
+        }
+      )
+      .then((res) => {
+        console.log("res.data", res.data);
+        console.log("res:", JSON.stringify(res, null, 2));
+        alert("수정되었습니다.");
+      })
+      .catch((err) => {
+        console.log("Error", err);
+        console.log("등록을 실패하였습니다.");
+      });
+  };
+
   const onImgChange = (e) => {
-    // const formData = new FormData();
+    e.preventDefault();
+
+    //선택된 파일이 없으면 리턴
+    console.log(e.target.files);
+    if (!e.target.files || e.target.files.lenth === 0) return;
+
+    const formData = new FormData();
+    formData.append("profileImg", e.target.files[0], e.target.files[0].name);
+
     // formData.append('file', event.target.files[0]);
     // const response = await apliClient.post('', formData);
     // //response.data.location이 업로드한 파일의 url
@@ -65,6 +139,19 @@ const ProfileSet = () => {
     // }
     // reader.readAsDataURL(e.target.files[0]);
   };
+  const onUploadImage = useCallback((e) => {
+    if (!e.target.files) {
+      return;
+    }
+    console.log(e.target.files[0].name);
+  }, []);
+
+  const onUploadImageButtonClick = useCallback(() => {
+    if (!fileInput.current) {
+      return;
+    }
+    fileInput.current.click();
+  }, []);
 
   return (
     <div
@@ -75,6 +162,7 @@ const ProfileSet = () => {
         margin: "0 auto",
       }}
     >
+      {/* <form onSubmit={handleSubmit} noValidate id="form"> */}
       <ColumnLine />
 
       <MyPageContent className="mypage_content">
@@ -90,6 +178,15 @@ const ProfileSet = () => {
                 fileInput.current.click();
               }}
             />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInput}
+              onChange={onUploadImage}
+            />
+            <button onClick={onUploadImageButtonClick}>
+              이미지 업로드하기
+            </button>
 
             <div style={{ display: "flex", justifyContent: "center" }}>
               <IconButton>
@@ -119,21 +216,44 @@ const ProfileSet = () => {
             {/* <InfoInput placeholder="" disabled /> */}
 
             <ProfileInfo>Nickname</ProfileInfo>
-            <UserInfo>{userData.nickname}</UserInfo>
-            {/* <InfoInput type="text" name="텍스트" value="" /> */}
+            {/* <UserInfo>{userData.nickname}</UserInfo> */}
+            <InfoInput
+              type="text"
+              placeholder="Enter nickname"
+              id="nickname"
+              value={nickname}
+              onChange={(e) => {
+                setNickname(e.target.value);
+              }}
+              required
+              minLength="3"
+              maxLength="10"
+            />
 
             <ProfileInfo>Email Address</ProfileInfo>
             <UserInfo>{userData.email}</UserInfo>
             {/* <InfoInput placeholder="Email Address - 변경 불가능" disabled /> */}
 
             <ProfileInfo>Wallet Address</ProfileInfo>
-            <UserInfo>{userData.walletAddress}</UserInfo>
-            {/* <InfoInput placeholder="Wallet Address - 변경 불가능" disabled /> */}
+            {/* <UserInfo>{userData.walletAddress}</UserInfo> */}
+            <InfoInput
+              type="text"
+              placeholder="Enter walletAddress"
+              id="walletAddress"
+              value={walletAddress}
+              onChange={(e) => {
+                setWalletAddress(e.target.value);
+              }}
+              required
+              minLength="3"
+              maxLength="10"
+            />
           </div>
         </div>
 
-        {/* <SaveButton>Save</SaveButton> */}
+        <SaveButton onClick={handleSubmit}>수정</SaveButton>
       </MyPageContent>
+      {/* </form> */}
     </div>
   );
 };
@@ -200,4 +320,4 @@ const MyPageTitle = styled.div`
   margin-left: 20px;
 `;
 
-export default ProfileSet;
+export default EditInfo;

@@ -6,7 +6,8 @@ import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
 import { isLoginState } from "../../recoil/User";
 import { Search } from "@material-ui/icons";
-import mainLogo from '../../assets/img/main_logo.png';
+import axios from "axios";
+import mainLogo from "../../assets/img/main_logo.png";
 
 const Header = () => {
   // const isLogin=props.isLogin;
@@ -42,7 +43,16 @@ const Header = () => {
     if (e.key == "Enter") onSubmit();
   };
 
-  const { memberInfoId } = useParams();
+  const onClickMyPage = () => {
+    axios
+      .post("http://3.38.210.200:8080/auth/login")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const memberInfoId = window.localStorage.getItem("memberId");
 
   return (
     <HeaderContainer>
@@ -95,12 +105,39 @@ const Header = () => {
       {/* <div> <button type='button' onClick={onLogout}>로그아웃</button></div> */}
 
       <div>
-        <Link to={`/myPage/${memberInfoId}`} style={{ textDecoration: "none" }}>
+        {isLogin ? (
+          <Link
+            to={{
+              pathname: `/myPage/${memberInfoId}`,
+              state: memberInfoId,
+            }}
+            style={{ textDecoration: "none" }}
+          >
+            <IconButton style={{ fontSize: "40px" }}>
+              <AccountCircleOutlined style={{ fontSize: "inherit" }} />
+            </IconButton>
+          </Link>
+        ) : (
+          <div />
+          // <Link to="/login" style={{ textDecoration: "none" }}>
+          //   <UserButton>로그인</UserButton>
+          // </Link>
+        )}
+      </div>
+
+      {/* <div>
+        <Link
+          to={{
+            pathname: `/myPage/${memberInfoId}`,
+            state: memberInfoId,
+          }}
+          style={{ textDecoration: "none" }}
+        >
           <IconButton style={{ fontSize: "40px" }}>
             <AccountCircleOutlined style={{ fontSize: "inherit" }} />
           </IconButton>
         </Link>
-      </div>
+      </div> */}
     </HeaderContainer>
   );
 };

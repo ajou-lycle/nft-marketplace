@@ -11,7 +11,7 @@ const JoinPage = () => {
   //POST 회원가입 등록
   const register = () => {
     axios
-      .post("http://3.36.126.75:8080/auth/sign-up", {
+      .post("http://3.38.210.200:8080/auth/sign-up", {
         accountName: id,
         password: pwd,
         nickname: name,
@@ -56,7 +56,7 @@ const JoinPage = () => {
 
   const checkId = (e) => {
     axios
-      .post("http://3.36.126.75:8080/valid/accountName/exists", {
+      .post("http://3.38.210.200:8080/valid/accountName/exists", {
         accountName: id,
       })
       .then((res) => {
@@ -77,7 +77,7 @@ const JoinPage = () => {
 
   const checkNickname = (e) => {
     axios
-      .post("http://3.36.126.75:8080/valid/nickname/exists", {
+      .post("http://3.38.210.200:8080/valid/nickname/exists", {
         nickname: name,
       })
       .then((res) => {
@@ -98,7 +98,7 @@ const JoinPage = () => {
 
   const checkWallet = (e) => {
     axios
-      .post("http://3.36.126.75:8080/valid/walletAddress/exists", {
+      .post("http://3.38.210.200:8080/valid/walletAddress/exists", {
         walletAddress: wallet,
       })
       .then((res) => {
@@ -118,7 +118,7 @@ const JoinPage = () => {
 
   const sendEmail = (e) => {
     axios
-      .post("http://3.36.126.75:8080/valid/email/send", {
+      .post("http://3.38.210.200:8080/valid/email/send", {
         email: email,
       })
       .then((res) => {
@@ -131,7 +131,7 @@ const JoinPage = () => {
 
   const configEmail = (e) => {
     axios
-      .post("http://3.36.126.75:8080/valid/email/check", {
+      .post("http://3.38.210.200:8080/valid/email/check", {
         email: email,
       })
       .then((res) => {
@@ -149,8 +149,11 @@ const JoinPage = () => {
 
   const handlePwd = (e) => {
     setPwd(e.target.value);
-    //최소 9자, 하나 이상의 문자와 하나의 숫자 정규식
-    const regexPwd = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/;
+    //비밀번호는 8~16자 영문 대소문자, 숫자, 특수문자를 사용해야 한다.
+
+    // const regexPwd = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/;
+    const regexPwd = /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}/;
+
     if (regexPwd.test(pwd)) {
       setPwdValid(true);
     } else {
@@ -159,9 +162,10 @@ const JoinPage = () => {
   };
 
   const handleName = (e) => {
+    const regexNickname = /^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$/;
     setName(e.target.value);
-    //닉네임은 영문 4글자 이상 10자 이하
-    if (e.target.value.length < 4 || e.target.value.length > 10) {
+    //닉네임은 특수문자를 제외한 2~10자리
+    if (regexNickname.test(name)) {
       setNameValid(false);
     } else {
       setNameValid(true);
