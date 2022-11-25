@@ -6,7 +6,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import Pagination from "rc-pagination";
+import Pagination from "react-js-pagination";
 import { serverAddress } from "../../recoil/User";
 import { useRecoilState } from "recoil";
 
@@ -17,14 +17,15 @@ export default function NftItem() {
   //한 페이지에 보여줄 데이터의 개수
   const [limit, setLimit] = useState(9);
 
-  //데이터의 총 개수를 setTotalCount에 저장해서 사용
-  const [totalCount, setTotalCount] = useState(90);
+  //데이터의 총 개수
+  const [count, setCount] = useState(0);
 
   //페이지 초기 값은 1페이지
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (current) => {
     setCurrentPage(current);
+    console.log(currentPage);
   };
 
   function sortLike() {
@@ -61,7 +62,7 @@ export default function NftItem() {
   useEffect((e) => {
     async function fetchData() {
       const res = await axios.get(
-        `http://${address}:8080/nftItem?page=0&size=9`
+        `http://${address}:8080/nftItem?page=${currentPage}&size=${limit}`
       );
       const _inputData = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.nftItemId,
@@ -77,6 +78,8 @@ export default function NftItem() {
         status: rowData.status,
       }));
       setInputData(inputData.concat(_inputData));
+      setCount(_inputData.length);
+      console.log(_inputData.length);
       console.log(_inputData);
     }
     fetchData();
@@ -169,9 +172,12 @@ export default function NftItem() {
         })}
       </div>
       <Pagination
-        total={totalCount}
-        current={currentPage}
-        limit={limit}
+        activePage={currentPage}
+        itemsCountPerPage={9}
+        totalItemsCount={count}
+        pageRangeDisplayed={5}
+        prevPageText={"<"}
+        nextPageText={">"}
         onChange={handlePageChange}
       />
     </div>

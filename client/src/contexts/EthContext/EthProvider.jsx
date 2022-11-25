@@ -36,7 +36,6 @@ function EthProvider({ children }) {
       // };
 
       setEthState(ethData);
-      console.log(ethData);
       // setWalletState(walletData);
     } catch (e) {
       console.log(e);
@@ -45,6 +44,7 @@ function EthProvider({ children }) {
 
   useEffect(() => {
     const tryInit = async () => {
+      console.log("Hello");
       await init();
     };
 

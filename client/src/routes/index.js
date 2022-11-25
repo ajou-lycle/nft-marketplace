@@ -26,6 +26,9 @@ import FilterPage from "../pages/FilterPage";
 import PwdChange from "../mypage/PwdChange";
 import PwdPage from "../pages/PwdPage";
 import EditPage from "../pages/EditPage";
+import PageWallet from "../pages/PageWallet";
+import PageLike from "../pages/PageLike";
+import PageSettings from "../pages/PageSettings";
 
 export default function RootRoute() {
   return (
@@ -53,13 +56,12 @@ export default function RootRoute() {
         ></Route>
 
         <Route path="/join" element={<SignUp />} />
-        {/* <Route path="/myPage" element={<MyPage />} /> */}
         <Route path="/myPage/:memberInfoId" element={<MyPage />} />
 
         <Route path="/profile" element={<MyPage />} />
-        <Route path="/wallet" element={<WalletPage />} />
-        <Route path="/settings" element={<SettingPage />} />
-        <Route path="/myPage/like/:memberInfoId" element={<FavoritesPage />} />
+        <Route path="/wallet" element={<PageWallet />} />
+        <Route path="/settings" element={<PageSettings />} />
+        <Route path="/myPage/like/:memberInfoId" element={<PageLike />} />
         <Route path="/itemPage" element={<ItemPage />} />
         <Route path="/market" element={<Page1 />} />
         <Route path="/item2" element={<Item2 />} />

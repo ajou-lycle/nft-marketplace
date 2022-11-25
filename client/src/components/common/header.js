@@ -104,6 +104,27 @@ const Header = () => {
       {/* <div> <button type='button' onClick={onLogout}>로그아웃</button></div> */}
 
       <div>
+        {isLogin ? (
+          <Link
+            to={{
+              pathname: `/myPage/${memberInfoId}`,
+              state: memberInfoId,
+            }}
+            style={{ textDecoration: "none" }}
+          >
+            <IconButton style={{ fontSize: "40px" }}>
+              <AccountCircleOutlined style={{ fontSize: "inherit" }} />
+            </IconButton>
+          </Link>
+        ) : (
+          <div />
+          // <Link to="/login" style={{ textDecoration: "none" }}>
+          //   <UserButton>로그인</UserButton>
+          // </Link>
+        )}
+      </div>
+
+      {/* <div>
         <Link
           to={{
             pathname: `/myPage/${memberInfoId}`,
@@ -115,7 +136,7 @@ const Header = () => {
             <AccountCircleOutlined style={{ fontSize: "inherit" }} />
           </IconButton>
         </Link>
-      </div>
+      </div> */}
     </HeaderContainer>
   );
 };
