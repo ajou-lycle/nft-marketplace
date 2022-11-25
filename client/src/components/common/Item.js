@@ -62,7 +62,8 @@ export default function NftItem() {
   useEffect((e) => {
     async function fetchData() {
       const res = await axios.get(
-        `http://${address}:8080/nftItem?page=${currentPage}&size=${limit}`
+        // `http://${address}:8080/nftItem?page=${currentPage}&size=${limit}`
+        `http://${address}:8080/nftItem`
       );
       const _inputData = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.nftItemId,
