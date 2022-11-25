@@ -20,7 +20,7 @@ function AddNft()
 const [nfttitle, setnftTitle] = useState('');
 const [nftprice, setnftPrice] = useState(0);
 const [nftcontent, setnftContent] = useState('');
-// const [dna,setDna] = useState('');
+const [nftEdition,setnftEdition] = useState(0);
 // const [grade,setGrade] =useState('');
 
 
@@ -32,8 +32,8 @@ const [nftcontent, setnftContent] = useState('');
         'title' : nfttitle,
         'price': nftprice,
         'content' : nftcontent,
-        // 'nftId' : dna,
-        // 'collectionName' : grade
+        'nftId' : nftEdition,
+        'collectionName' : CollectionNameEnum.LACK_OF_SLEEP_LAMA.name
         }
         ,  {
             withCredentials:true,
@@ -58,6 +58,7 @@ const [nftcontent, setnftContent] = useState('');
 
     useEffect(() => {
             getAddress();
+
     }, [eth]);
 
         //initWeb3();
@@ -139,6 +140,7 @@ const [nftcontent, setnftContent] = useState('');
                                     setnftTitle(lslNft.name);
                                     setnftContent(lslNft.description);
                                     setnftitemImg(lslNft.image);
+                                    setnftEdition(lslNft.edition);
                                     // setDna(lslNft.dna);
                                     // setGrade(lslNft.grade);
                                 }

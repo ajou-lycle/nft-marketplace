@@ -8,6 +8,9 @@ import "../recoil/User.js";
 import { useRecoilState } from "recoil";
 import { isLiked } from "../recoil/User.js";
 import { recoilPersist } from "recoil-persist";
+import { buyNft } from "../datas/contract";
+import useEth from "../contexts/EthContext/useEth.js";
+import "../datas/enum/collection_name_enum.js";
 
 function ContentNft() {
   // const {persistAtom} = recoilPersist()
@@ -20,6 +23,8 @@ function ContentNft() {
     if (isClicked === true) setIsClicked(false);
     if (isClicked === false) setIsClicked(true);
   };
+
+  const {eth, setEthState} = useEth();
 
   const [contentnftdata, setContentNftData] = useState("");
 
@@ -56,6 +61,7 @@ function ContentNft() {
   //  }
    console.log("새로고침");
    console.log(contentnftdata.isLike);
+   console.log(eth,"eth");
   }, []);
 
   const onClickLikeNft = () => {
@@ -106,6 +112,17 @@ function ContentNft() {
       });
   };
 
+//   const getAddress = async() => {
+//     const result = await getNftListByWalletAddress(eth);
+//     setNftList(result);
+//     console.log(result[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0],"소유nft");
+//  }
+
+// const buyNftWeb = async() => {
+//   const result = await buyNft(eth,contentnftdata.collectionName,contentnftdata.nftId,eth.accounts,contentnftdata.price)
+// }
+
+
   const onClickBuyNft = () => {
     axios
       .get(`http://3.38.210.200:8080/nftItem/${nftInfoId}/buy`, {
@@ -116,6 +133,9 @@ function ContentNft() {
       })
       .then((res) => {
         console.log("res.data", res.data);
+        // const buyNftWeb = async() => {
+        //   const result=await buyNft(eth,)
+        // }
         // console.log('data is ' + JSON.stringify(res.data));
         alert("구매가 완료되었습니다!");
         document.location.href = "/mainPage";
