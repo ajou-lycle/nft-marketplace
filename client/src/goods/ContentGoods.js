@@ -91,7 +91,7 @@ function ContentGoods()
         .then((res) => {
             console.log("res.data", res.data);
             alert("삭제가 완료되었습니다!");
-            document.location.href = '/';
+            document.location.href = '/mainPage';
         
     
 
@@ -103,8 +103,8 @@ function ContentGoods()
     const onClickBuyGoods=() => {
 
         console.log(sessionStorage.getItem('user_token'));
-        axios.post(`http://3.38.210.200:8080/nftItem/${goodsInfoId}/buy`, {
-            'count': count
+        axios.post(`http://3.38.210.200:8080/item/${goodsInfoId}/buy`, {
+            "count": count
         },
         {
             withCredentials: true,

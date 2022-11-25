@@ -26,12 +26,13 @@ import FilterPage from "../pages/FilterPage";
 import PwdChange from "../mypage/PwdChange";
 import PwdPage from "../pages/PwdPage";
 import PageLanding from "../pages/PageLanding";
+import PageLanding2 from "../pages/PageLanding2";
 
 export default function RootRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PageLanding/>}/>
+        <Route path="/" element={<PageLanding2/>}/>
         <Route path="/mainpage" element={<Page1 />} />
         <Route path="/login" element={<Login />}></Route>
         <Route path="/menu" element={<Menu />}></Route>
