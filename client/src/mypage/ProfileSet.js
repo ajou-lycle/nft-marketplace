@@ -16,7 +16,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const ProfileSet = () => {
-  // const { memberInfoId } = useParams();
   const memberInfoId = window.localStorage.getItem("memberId");
   const [userData, setUserData] = useState("");
 
@@ -29,13 +28,11 @@ const ProfileSet = () => {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
         },
-        // params: {
-        //   memberId: 4,
-        // },
       })
       .then((res) => {
         console.log("res.data", res.data);
         setUserData(res.data);
+        console.log(res.data.profileImg);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -45,26 +42,6 @@ const ProfileSet = () => {
   useEffect(() => {
     viewUserData();
   }, []);
-
-  const onImgChange = (e) => {
-    // const formData = new FormData();
-    // formData.append('file', event.target.files[0]);
-    // const response = await apliClient.post('', formData);
-    // //response.data.location이 업로드한 파일의 url
-    // if(e.target.files[0]) {
-    //   //setFile(e.target.files[0]);
-    // } else {
-    //   setImage("");
-    //   return;
-    // }
-    // const reader = new FileReader();
-    // reader.onload = () => {
-    //   if(reader.readyState === 2) {
-    //     setImage(reader.result);
-    //   }
-    // }
-    // reader.readAsDataURL(e.target.files[0]);
-  };
 
   return (
     <div
@@ -83,7 +60,7 @@ const ProfileSet = () => {
         <div className="mypage_profile">
           <div className="mypage_profile_img">
             <img
-              src="img/profile_image.jpg"
+              src={userData.profileImg}
               className="profile_image"
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -91,7 +68,7 @@ const ProfileSet = () => {
               }}
             />
 
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            {/* <div style={{ display: "flex", justifyContent: "center" }}>
               <IconButton>
                 <CameraAlt />
               </IconButton>
@@ -110,29 +87,23 @@ const ProfileSet = () => {
                 onChange={onImgChange}
                 ref={fileInput}
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="mypage_profile_description">
             <ProfileInfo>User ID</ProfileInfo>
             <UserInfo>{userData.accountName}</UserInfo>
-            {/* <InfoInput placeholder="" disabled /> */}
 
             <ProfileInfo>Nickname</ProfileInfo>
             <UserInfo>{userData.nickname}</UserInfo>
-            {/* <InfoInput type="text" name="텍스트" value="" /> */}
 
             <ProfileInfo>Email Address</ProfileInfo>
             <UserInfo>{userData.email}</UserInfo>
-            {/* <InfoInput placeholder="Email Address - 변경 불가능" disabled /> */}
 
             <ProfileInfo>Wallet Address</ProfileInfo>
             <UserInfo>{userData.walletAddress}</UserInfo>
-            {/* <InfoInput placeholder="Wallet Address - 변경 불가능" disabled /> */}
           </div>
         </div>
-
-        {/* <SaveButton>Save</SaveButton> */}
       </MyPageContent>
     </div>
   );

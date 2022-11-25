@@ -9,47 +9,33 @@ export default function SettingPage() {
   const memberInfoId = window.localStorage.getItem("memberId");
 
   return (
-    <div>
-      <Header />
-      <div
-        style={{
-          display: "flex",
-          padding: "10px 0px",
-          width: "1100px",
-          margin: "0 auto",
-          marginTop: "10px",
-        }}
-      >
-        <MyPageMenu />
-        <div
-          style={{
-            display: "flex",
-            padding: "10px 0px",
-            width: "1100px",
-            margin: "0 auto",
-          }}
-        >
-          <ColumnLine />
+    <div
+      style={{
+        display: "flex",
+        padding: "10px 0px",
+        width: "1100px",
+        margin: "0 auto",
+      }}
+    >
+      <ColumnLine />
 
-          <MyPageContent className="mypage_content">
-            <MyPageTitle>Settings</MyPageTitle>
+      <MyPageContent className="mypage_content">
+        <MyPageTitle>Settings</MyPageTitle>
 
-            <div className="mypage_wallet">
-              <Link
-                to={{
-                  pathname: `/settings/edit`,
-                }}
-                style={{ textDecoration: "none" }}
-              >
-                <EditButton>회원정보 수정</EditButton>
-              </Link>
-              <Link to="/settings/pwd" style={{ textDecoration: "none" }}>
-                <EditButton>비밀번호 변경</EditButton>
-              </Link>
-            </div>
-          </MyPageContent>
+        <div className="mypage_wallet">
+          <Link
+            to={{
+              pathname: `/settings/edit`,
+            }}
+            style={{ textDecoration: "none" }}
+          >
+            <EditButton>회원정보 수정</EditButton>
+          </Link>
+          <Link to="/settings/pwd" style={{ textDecoration: "none" }}>
+            <EditButton>비밀번호 변경</EditButton>
+          </Link>
         </div>
-      </div>
+      </MyPageContent>
     </div>
   );
 }

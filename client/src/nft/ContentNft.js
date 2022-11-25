@@ -8,9 +8,6 @@ import "../recoil/User.js";
 import { useRecoilState } from "recoil";
 import { isLiked } from "../recoil/User.js";
 import { recoilPersist } from "recoil-persist";
-import { buyNft } from "../datas/contract";
-import useEth from "../contexts/EthContext/useEth.js";
-import "../datas/enum/collection_name_enum.js";
 
 function ContentNft() {
   // const {persistAtom} = recoilPersist()
@@ -23,8 +20,6 @@ function ContentNft() {
     if (isClicked === true) setIsClicked(false);
     if (isClicked === false) setIsClicked(true);
   };
-
-  const {eth, setEthState} = useEth();
 
   const [contentnftdata, setContentNftData] = useState("");
 
@@ -39,29 +34,27 @@ function ContentNft() {
       .then((res) => {
         console.log("res.data", res.data);
         setContentNftData(res.data);
-        if (res.data.isLike==true) {
+        if (res.data.isLike == true) {
           setD5Like("d5_like_true");
-         } else {
+        } else {
           setD5Like("d5_like_false");
-         }
+        }
       })
       .catch((err) => {
         console.log("Error", err);
       });
   };
 
-
   useEffect(() => {
     onClickShowNft();
     console.log(contentnftdata);
-  //  if (contentnftdata.isLike==true) {
-  //   setD5Like("d5_like_true");
-  //  } else {
-  //   setD5Like("d5_like_false");
-  //  }
-   console.log("새로고침");
-   console.log(contentnftdata.isLike);
-   console.log(eth,"eth");
+    //  if (contentnftdata.isLike==true) {
+    //   setD5Like("d5_like_true");
+    //  } else {
+    //   setD5Like("d5_like_false");
+    //  }
+    console.log("새로고침");
+    console.log(contentnftdata.isLike);
   }, []);
 
   const onClickLikeNft = () => {
@@ -112,17 +105,6 @@ function ContentNft() {
       });
   };
 
-//   const getAddress = async() => {
-//     const result = await getNftListByWalletAddress(eth);
-//     setNftList(result);
-//     console.log(result[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0],"소유nft");
-//  }
-
-// const buyNftWeb = async() => {
-//   const result = await buyNft(eth,contentnftdata.collectionName,contentnftdata.nftId,eth.accounts,contentnftdata.price)
-// }
-
-
   const onClickBuyNft = () => {
     axios
       .get(`http://3.38.210.200:8080/nftItem/${nftInfoId}/buy`, {
@@ -133,9 +115,6 @@ function ContentNft() {
       })
       .then((res) => {
         console.log("res.data", res.data);
-        // const buyNftWeb = async() => {
-        //   const result=await buyNft(eth,)
-        // }
         // console.log('data is ' + JSON.stringify(res.data));
         alert("구매가 완료되었습니다!");
         document.location.href = "/mainPage";
@@ -171,13 +150,8 @@ function ContentNft() {
       <div className="whole_center">
         <div className="content_pic_and_disc">
           <div className="pic_edit">
-          <img
-            src={contentnftdata.nftItemImg}
-            className="content_pic"
-          />
-                      <Content_goods_4>
-            {contentnftdata.content}
-            </Content_goods_4>
+            <img src={contentnftdata.nftItemImg} className="content_pic" />
+            <Content_goods_4>{contentnftdata.content}</Content_goods_4>
           </div>
           <div className="content_pic_disc">
             <div className="content_pic_disc_1">
@@ -186,7 +160,11 @@ function ContentNft() {
               <div className="disc_1_2">
                 <div className="disc_1_2_big">{contentnftdata.title}</div>
                 <div className="d5_bottom_icon">
-                  <button onClick={onClickLikeNft} type="button" className={d5Like}/>
+                  <button
+                    onClick={onClickLikeNft}
+                    type="button"
+                    className={d5Like}
+                  />
                   {/* {contentnftdata.isLike?   ( <button
                     onClick={onClickLikeNft}
                     type="button" className="d5_like_true"/>) : (<button
@@ -219,7 +197,6 @@ function ContentNft() {
               </dl>
             </div>
 
-
             <div className="content_pic_disc_5">
               <div className="d5_top">
                 <div className="current_price_box">
@@ -243,15 +220,18 @@ function ContentNft() {
         </div>
         {/* <button onClick={onClickShowNft} type="button">조회</button> */}
         <Buttons>
-        <Link to={`/edit_nft/${nftInfoId}`} style={{textDecoration:'none'}}>
-          <ButtonEditDelete type="button">수정</ButtonEditDelete>
-        </Link>
-        <ButtonEditDelete onClick={onClickDeleteNft} type="button">
-          삭제
-        </ButtonEditDelete>
-        <ButtonEditDelete onClick={onClickRealBuyNft} type="button">
-          구매 확정
-        </ButtonEditDelete>
+          <Link
+            to={`/edit_nft/${nftInfoId}`}
+            style={{ textDecoration: "none" }}
+          >
+            <ButtonEditDelete type="button">수정</ButtonEditDelete>
+          </Link>
+          <ButtonEditDelete onClick={onClickDeleteNft} type="button">
+            삭제
+          </ButtonEditDelete>
+          <ButtonEditDelete onClick={onClickRealBuyNft} type="button">
+            구매 확정
+          </ButtonEditDelete>
         </Buttons>
       </div>
     </div>
@@ -274,47 +254,43 @@ const NftBuyButton = styled.button`
   margin-top: ${(props) => props.margin};
 `;
 
-<<<<<<< HEAD
 const Content_goods_4 = styled.div`
-display: flex;
-width: 400px;
-height: 100px;
-border-radius:10px;
-margin-top: 30px;
-margin-bottom: 50px;
-background-color: #fffacd;
-text-align: center;
-justify-content: center;
-font-weight: bold;
-`
+  display: flex;
+  width: 400px;
+  height: 100px;
+  border-radius: 10px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  background-color: #fffacd;
+  text-align: center;
+  justify-content: center;
+  font-weight: bold;
+`;
 const Buttons = styled.div`
-margin-top: 70px;
-display: flex;
-justify-content: center;
-text-decoration-line: none;
-`
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  text-decoration-line: none;
+`;
 
 const ButtonEditDelete = styled.button`
-display: flex;
-padding: 0px 10px;
-justify-content: center;
-text-align: center;
-width: 130px;
-height: 54px;
-border-radius: 30px;
-line-height: 54px;
-font-weight: bold;
-font-size: 20px;
-justify-content: center;
-margin-right: 20px;
-margin-left: 20px;
+  display: flex;
+  padding: 0px 10px;
+  justify-content: center;
+  text-align: center;
+  width: 130px;
+  height: 54px;
+  border-radius: 30px;
+  line-height: 54px;
+  font-weight: bold;
+  font-size: 20px;
+  justify-content: center;
+  margin-right: 20px;
+  margin-left: 20px;
 
-background-color: #fffacd;
-color : black;
-border: 5px solid #D9F1D7;
+  background-color: #fffacd;
+  color: black;
+  border: 5px solid #d9f1d7;
 `;
 
 export default ContentNft;
-=======
-export default ContentNft;
->>>>>>> da7dc4d45a3e51516494e6aca096e6835a04ae85

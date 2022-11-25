@@ -26,7 +26,6 @@ import FilterPage from "../pages/FilterPage";
 import PwdChange from "../mypage/PwdChange";
 import PwdPage from "../pages/PwdPage";
 import EditPage from "../pages/EditPage";
-// import PageWallet from "../pages/PageWallet";
 import PageWallet from "../pages/PageWallet";
 import PageLike from "../pages/PageLike";
 import PageSettings from "../pages/PageSettings";

@@ -48,7 +48,7 @@ export default function MyPageMenu() {
         <MypageMenuBar>
           <Link
             to={{
-              pathname: `/myPage/${memberInfoId}/like`,
+              pathname: `/myPage/like/${memberInfoId}`,
             }}
             style={{ textDecoration: "none", color: "#333" }}
           >
