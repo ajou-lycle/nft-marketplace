@@ -68,6 +68,7 @@ export default function NftItem() {
       console.log(_inputData);
     }
     fetchData();
+    
   }, []);
 
   return (

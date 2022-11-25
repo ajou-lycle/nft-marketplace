@@ -118,7 +118,7 @@ function ContentNft() {
         console.log("res.data", res.data);
         // console.log('data is ' + JSON.stringify(res.data));
         alert("구매가 완료되었습니다!");
-        document.location.href = "/";
+        document.location.href = "/mainPage";
       })
       .catch((err) => {
         console.log("Error", err);

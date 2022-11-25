@@ -60,7 +60,7 @@ function AddGoods()
         .then((res) => {
             console.log("res.data", res.data)
             alert("등록이 완료되었습니다!");
-            document.location.href = '/';
+            document.location.href = '/mainPage';
         
         
     

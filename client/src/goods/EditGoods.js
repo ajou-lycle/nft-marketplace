@@ -64,7 +64,7 @@ function EditGoods()
         .then((res) => {
             console.log("res.data", res.data);
             alert('수정이 완료되었습니다!');
-            document.location.href = '/';
+            document.location.href = '/mainPage';
 
         
         
@@ -98,15 +98,15 @@ function EditGoods()
                             {/* <dd className="d4_right">{contentdata.nickname}</dd> */}
                             <dd><span></span><span>LYCLE</span></dd>
                         </dl>
-                        <dl className="add_name">
+                        {/* <dl className="add_name">
                             <dt className="d_left">GOODS IMAGE</dt>
                             <dd>{contentgoodsdata.goodsImg}</dd>
-                        </dl>
+                        </dl> */}
                         <dl className="add_name">
                             <dt className="d_left">GOODS NAME</dt>
                             <dd><NftEditLeft type='text' id="title" placeholder="Enter NFT name" value={goodstitle} onChange={(e) => setgoodsTitle(e.target.value)}></NftEditLeft></dd>
                         </dl>
-                        <dl className="add_image">
+                        <dl className="add_goods_content">
                             <dt className="d_left">GOODS CONTENT</dt>
                             <dd>< textarea id="content" placeholder="Enter NFT content" value={goodscontent} onChange={(e) => setgoodsContent(e.target.value)} style={{width:'350px',padding: '20px', height:'70px', resize:'none',border: '1px solid grey'}}/></dd>
                         </dl>

@@ -96,10 +96,10 @@ function EditNft() {
                   <span>{contentnftdata.nickname}</span>
                 </dd>
               </dl>
-              <dl className="add_name">
+              {/* <dl className="add_name">
                 <dt className="d_left">NFT IMAGE</dt>
                 <dd>{contentnftdata.nftImg}</dd>
-              </dl>
+              </dl> */}
               <dl className="add_name">
                 <dt className="d_left">NFT NAME</dt>
                 <dd>
@@ -112,7 +112,7 @@ function EditNft() {
                   ></NftEditLeft>
                 </dd>
               </dl>
-              <dl className="add_image">
+              <dl className="add_goods_content">
                 <dt className="d_left">NFT CONTENT</dt>
                 <dd>
                   <textarea

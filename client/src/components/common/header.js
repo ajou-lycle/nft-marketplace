@@ -6,6 +6,7 @@ import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
 import { isLoginState } from "../../recoil/User";
 import { Search } from "@material-ui/icons";
+import mainLogo from '../../assets/img/main_logo.png';
 
 const Header = () => {
   // const isLogin=props.isLogin;
@@ -23,7 +24,7 @@ const Header = () => {
 
   const onLogout = () => {
     sessionStorage.removeItem("user_token");
-    document.location.href = "/";
+    document.location.href = "/mainPage";
   };
 
   const [searchWord, setSearchWord] = useState("");
@@ -46,8 +47,8 @@ const Header = () => {
   return (
     <HeaderContainer>
       <div>
-        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-          <LogoImg src="img/web_logo.png" />
+        <Link to="/mainPage" style={{ textDecoration: "none", color: "black" }}>
+          <LogoImg src={mainLogo} />
         </Link>
       </div>
 
@@ -115,7 +116,6 @@ const HeaderContainer = styled.div`
 
 const LogoImg = styled.img`
   width: 180px;
-  height: 40px;
   margin-right: 30px;
 `;
 
