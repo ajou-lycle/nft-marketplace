@@ -1,0 +1,110 @@
+html, body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  
+  .main_wrapper section:last-child {
+    background-color: #F8F9FA;
+  }
+  .main_wrapper .nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .main_wrapper .nav .nav_btn button {
+    border: none;
+  }
+  .main_wrapper .nav .nav_btn .login_btn {
+    font-size: 18px;
+    color: #0BC471;
+    background: none;
+    padding: 1.2rem 1.8rem;
+    font-weight: bold;
+  }
+  .main_wrapper .nav img {
+    width: 200px;
+  }
+  .main_wrapper .row_content {
+    margin: 0 auto;
+    max-width: 1200px;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 100px 0;
+  }
+  .main_wrapper .row_content .left_content, .main_wrapper .row_content .right_content {
+    flex: 1;
+  }
+  .main_wrapper .row_content .left_content p {
+    font-size: 17px;
+    line-height: 24px;
+    font-weight: bold;
+  }
+  .main_wrapper .row_content .left_content .store_btn_wrapper button {
+    background: none;
+    border: none;
+  }
+  .main_wrapper .row_content .left_content .store_btn_wrapper button img {
+    width: 210px;
+    height: 66px;
+  }
+  .main_wrapper .row_content .left_content .nft_content_img {
+    width: 100%;
+  }
+  .main_wrapper .row_content .txt_box {
+    background-color: #0BC471;
+    border-radius: 20px;
+    padding: 4rem 2rem;
+    margin-right: 70px;
+  }
+  .main_wrapper .row_content .txt_box h1 {
+    color: white;
+    font-size: 56px;
+  }
+  .main_wrapper .row_content .txt_box_sub_txt {
+    padding: 0 10px;
+  }
+  .main_wrapper .row_content .preview_img_wrapper img {
+    width: 500px;
+  }
+  .main_wrapper .row_content .nft_desc {
+    padding-left: 40px;
+  }
+  .main_wrapper .row_content .nft_desc h1 {
+    font-size: 48px;
+    line-height: 58px;
+  }
+  .main_wrapper .row_content .nft_desc .sub_desc {
+    color: #666;
+  }
+  .main_wrapper .row_content .nft_desc .main_desc_list {
+    list-style: none;
+    padding-left: 0;
+    padding-top: 3rem;
+  }
+  .main_wrapper .row_content .nft_desc .main_desc_list li {
+    background-size: 24px;
+    background-repeat: no-repeat;
+    padding: 0px 0px 8px 44px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+  }
+  
+  .go_site_btn {
+    background-color: #0BC471;
+    color: white;
+    font-weight: bold;
+    padding: 1.2rem 1.8rem;
+    border-radius: 15px;
+    border: none;
+    font-size: 18px;}

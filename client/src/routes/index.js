@@ -30,11 +30,15 @@ import PageWallet from "../pages/PageWallet";
 import PageLike from "../pages/PageLike";
 import PageSettings from "../pages/PageSettings";
 
+import PageLanding from "../pages/PageLanding";
+import PageLanding2 from "../pages/PageLanding2";
+
 export default function RootRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Page1 />} />
+        <Route path="/" element={<PageLanding2 />} />
+        <Route path="/mainpage" element={<Page1 />} />
         <Route path="/login" element={<Login />}></Route>
         <Route path="/menu" element={<Menu />}></Route>
 

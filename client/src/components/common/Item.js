@@ -83,6 +83,7 @@ export default function NftItem() {
       console.log(_inputData);
     }
     fetchData();
+    
   }, []);
 
   return (
@@ -116,7 +117,7 @@ export default function NftItem() {
                 <div className="nft_item_img">
                   <div className="nft_item_img_">
                     <ItemImg
-                      src="img/nft_img.png"
+                      src={rowData.nftItemImg}
                       loading="lazy"
                       className="item_img"
                     />

@@ -24,6 +24,8 @@
     width: 400px;
     height: 400px;
     margin-top: 100px;
+    border-radius: 50px;
+
 }
 
 .content_pic_disc {
@@ -345,4 +347,9 @@ button.d4_count_up {
     width: 1100px;
     height: 400px;
 
+}
+
+.pic_edit {
+    width: 400px;
+    height: 750.03px;
 }

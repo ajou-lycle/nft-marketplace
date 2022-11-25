@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/common/header";
 import { useEffect } from "react";
 import axios from "axios";
+import ScrollTop from "../ScrollTop";
 
 export default function ItemPage() {
 
@@ -20,6 +21,7 @@ export default function ItemPage() {
 
   return(
     <div>
+      <ScrollTop/>
       <Header/>
       <div>
         아이템 목록 조회

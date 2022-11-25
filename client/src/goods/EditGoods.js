@@ -65,7 +65,7 @@ function EditGoods() {
       .then((res) => {
         console.log("res.data", res.data);
         alert("수정이 완료되었습니다!");
-        document.location.href = "/";
+        document.location.href = "/mainPage";
       })
       .catch((err) => {
         console.log("Error", err);
@@ -94,10 +94,10 @@ function EditGoods() {
                   <span>LYCLE</span>
                 </dd>
               </dl>
-              <dl className="add_name">
-                <dt className="d_left">GOODS IMAGE</dt>
-                <dd>{contentgoodsdata.goodsImg}</dd>
-              </dl>
+              {/* <dl className="add_name">
+                            <dt className="d_left">GOODS IMAGE</dt>
+                            <dd>{contentgoodsdata.goodsImg}</dd>
+                        </dl> */}
               <dl className="add_name">
                 <dt className="d_left">GOODS NAME</dt>
                 <dd>
@@ -110,7 +110,7 @@ function EditGoods() {
                   ></NftEditLeft>
                 </dd>
               </dl>
-              <dl className="add_image">
+              <dl className="add_goods_content">
                 <dt className="d_left">GOODS CONTENT</dt>
                 <dd>
                   <textarea
