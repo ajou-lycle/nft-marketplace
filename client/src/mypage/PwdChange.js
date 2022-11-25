@@ -39,7 +39,7 @@ export default function PwdChange() {
       });
   };
 
-  const viewPwd = (e) => {
+  const checkPwd = (e) => {
     axios
       .post(
         `http://3.38.210.200:8080/myPage/check/${memberInfoId}`,
@@ -58,16 +58,22 @@ export default function PwdChange() {
       )
       .then((res) => {
         console.log("res.data", res.data);
-        setNewPwd(e.target.value);
+        setPwd(e.target.value);
+
+        if (res.data == false) {
+          console.log("불일치합니다");
+        } else {
+          console.log("일치합니다.");
+        }
       })
       .catch((err) => {
         console.log("Error", err);
       });
   };
 
-  useEffect(() => {
-    viewPwd();
-  }, []);
+  // useEffect(() => {
+  //   checkPwd();
+  // }, []);
 
   return (
     <div>
@@ -83,7 +89,7 @@ export default function PwdChange() {
           setPwd(e.target.value);
         }}
       />
-      <SaveButton>기존 비밀번호 확인하기</SaveButton>
+      <SaveButton onClick={checkPwd}>기존 비밀번호 확인하기</SaveButton>
 
       <PwdInfo>새 비밀번호 입력 </PwdInfo>
       <InfoInput

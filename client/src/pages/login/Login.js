@@ -42,6 +42,7 @@ function Login() {
         },
         { withCredentials: true }
       )
+
       .then((res) => {
         console.log("res.data.accessToken :: ", res.data.accessToken);
         localStorage.setItem("memberId", res.data.memberId);
@@ -55,11 +56,9 @@ function Login() {
           sessionStorage.setItem("user_token", res.data.accessToken);
         }
         // 작업 완료 되면 페이지 이동(새로고침)
-        document.location.href = "/";
+        document.location.href = "/mainPage";
       })
-      .catch((err) => {
-        console.warn(">>> LOGIN ERROR", err.message);
-      });
+      .catch();
   };
 
   return (

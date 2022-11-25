@@ -97,7 +97,7 @@ const SearchList = () => {
                 <div className="nft_item_img">
                   <div className="nft_item_img_">
                     <ItemImg
-                      src="img/nft_img.png"
+                      src={rowData.nftItemImg}
                       loading="lazy"
                       className="item_img"
                     />

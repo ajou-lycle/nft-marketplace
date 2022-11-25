@@ -82,7 +82,7 @@ function ContentGoods() {
     let userToken = sessionStorage.getItem("user_token");
     console.log(userToken);
     axios
-      .delete(`http://13.125.198.232:8080/item/${goodsInfoId}`, {
+      .delete(`http://3.38.210.200:8080/item/${goodsInfoId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
@@ -91,7 +91,7 @@ function ContentGoods() {
       .then((res) => {
         console.log("res.data", res.data);
         alert("삭제가 완료되었습니다!");
-        document.location.href = "/";
+        document.location.href = "/mainPage";
       })
       .catch((err) => {
         console.log("Error", err);
@@ -102,7 +102,7 @@ function ContentGoods() {
     console.log(sessionStorage.getItem("user_token"));
     axios
       .post(
-        `http://13.125.198.232:8080/nftItem/${goodsInfoId}/buy`,
+        `http://3.38.210.200:8080/item/${goodsInfoId}/buy`,
         {
           count: count,
         },
@@ -126,10 +126,7 @@ function ContentGoods() {
     <div className="whole">
       <div className="whole_center">
         <div className="content_pic_and_disc">
-          <img
-            src="https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg"
-            className="content_pic"
-          />
+          <img src={contentgoodsdata.itemImg} className="content_pic" />
           <div className="content_pic_disc">
             <div className="content_pic_disc_1">
               <div className="disc_1_1">GOODS</div>

@@ -1,13 +1,11 @@
 import React from "react";
 import Header from "../components/common/header";
-import ProfileSet from "../mypage/ProfileSet";
+import WalletPage from "../mypage/WalletSet";
 import MyPageMenu from "./MyPageMenu";
-import ScrollTop from "../ScrollTop";
 
-export default function MyPage() {
+export default function PageWallet() {
   return (
     <div>
-      <ScrollTop/>
       <Header />
       <div
         style={{
@@ -19,7 +17,7 @@ export default function MyPage() {
         }}
       >
         <MyPageMenu />
-        <ProfileSet />
+        <WalletPage />
       </div>
     </div>
   );

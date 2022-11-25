@@ -45,7 +45,7 @@ export default function GoodsItem() {
   useEffect((e) => {
     async function fetchItemData() {
       const res = await axios.get(
-        `http://${serverAddress}:8080/item?sort=recent`
+        `http://3.38.210.200:8080/item?sort=recent`
       );
       console.log(serverAddress);
 
@@ -89,7 +89,7 @@ export default function GoodsItem() {
                 <div className="nft_item_img">
                   <div className="nft_item_img_">
                     <ItemImg
-                      src="img/nft_img.png"
+                      src={rowData.item_img}
                       loading="lazy"
                       className="item_img"
                     />
