@@ -6,6 +6,7 @@ import {
   AccountBalanceWallet,
   Favorite,
   Settings,
+  ShoppingBasket,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -56,6 +57,22 @@ export default function MyPageMenu() {
               <Favorite />
             </IconButton>
             <span>Favorites</span>
+          </Link>
+        </MypageMenuBar>
+
+        <RowLine />
+
+        <MypageMenuBar>
+          <Link
+            to={{
+              pathname: `/myPage/buy/${memberInfoId}`,
+            }}
+            style={{ textDecoration: "none", color: "#333" }}
+          >
+            <IconButton>
+              <ShoppingBasket />
+            </IconButton>
+            <span>Purchase List</span>
           </Link>
         </MypageMenuBar>
 

@@ -22,61 +22,43 @@ import { FavoriteBorder } from "@material-ui/icons";
 
 export default function WalletPage() {
   const { eth, setEthState } = useEth();
+  const [userAddress, setUserAddress] =
+    useState("지갑 주소를 가져올 수 없습니다.");
   const [nftList, setNftList] = useState([]);
-  const [coinBalance, setCoinBalance] = useState(-1);
+  const [tokenBalance, setTokenBalance] =
+    useState("잔고를 가져올 수 없습니다.");
 
-  useEffect(() => {
-    getAddress();
-    // tokenBalance();
-  }, [eth]);
-
-  // initWeb3();
-  const getAddress = async () => {
+  const initNftList = async () => {
     const result = await getNftListByWalletAddress(eth);
     setNftList(result);
-    console.log("getAddress시작", eth);
-    console.log(result[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0]);
   };
 
-  const tokenBalance = async () => {
-    const tokenResult = getTokenBalance(eth);
-    setEthState(tokenResult);
-    console.log("tokenBalance시작");
-    console.log("tokenResult: ", tokenResult);
-    console.log("tokenEth", eth);
+  const initTokenBalance = async () => {
+    const result = await getTokenBalance(eth);
+    setTokenBalance(result);
   };
 
-  // tokenBalance();
+  const getUserAddress = () => {
+    if (eth.accounts === null) {
+      return;
+    }
 
-  // const showBalance = () => {
-  //   if (coinBalance === -1) {
-  //     return <p>"잔고를 불러오는 중입니다"</p>;
-  //   }
+    if (!Array.isArray(eth.accounts)) {
+      return;
+    }
 
-  //   return <p>{coinBalance}</p>;
-  // };
-  // const getData = () => {
-  //   if (nftList.length == 0) {
-  //     return <p style={{ display: "inline" }}></p>;
-  //   }
+    setUserAddress(eth.accounts[0]);
+  };
 
-  //   return (
-  //     <p>{nftList[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0].name}</p>
-  //   );
-  // };
-  // const [nftList, setNftList] = useRecoilState(ethState);
+  useEffect(() => {
+    const tryInit = async () => {
+      getUserAddress();
+      await initTokenBalance();
+      await initNftList();
+    };
 
-  // useEffect((e) => {
-  //   initWeb3();
-  //   console.log("useEffect시작");
-  //   const viewNFTList = async () => {
-  //     const userNftJsonList = await getNftListByWalletAddress(nftList);
-  //     console.log("Hi");
-  //     console.log("userNftJsonList: ", userNftJsonList);
-  //   };
-
-  //   viewNFTList();
-  // }, []);
+    tryInit();
+  }, [eth]);
 
   return (
     <div
@@ -94,16 +76,13 @@ export default function WalletPage() {
 
         <div className="mypage_wallet">
           <ProfileInfo>Wallet Address</ProfileInfo>
-          <UserInfo>{eth.accounts}</UserInfo>
+          <UserInfo>{userAddress}</UserInfo>
 
           <ProfileInfo>My Token</ProfileInfo>
-          <UserInfo>{}</UserInfo>
+          <UserInfo>{tokenBalance}</UserInfo>
 
           <ProfileInfo>보유 중인 NFT</ProfileInfo>
-          <div
-            className="item_grid"
-            style={{ border: "2px solid pink", width: "100%" }}
-          >
+          <div className="item_grid" style={{ width: "100%" }}>
             {nftList.map((item) => {
               switch (nftList.indexOf(item)) {
                 case CollectionNameEnum.LACK_OF_SLEEP_LAMA.index:
@@ -111,7 +90,7 @@ export default function WalletPage() {
 
                   for (const lslNft of item) {
                     imgList.push(
-                      <div>
+                      <NftBox>
                         <div className="nft_item_img">
                           <div className="nft_item_img_">
                             <ItemImg
@@ -142,7 +121,7 @@ export default function WalletPage() {
                             );
                           })}
                         </div>
-                      </div>
+                      </NftBox>
                     );
                   }
                   return imgList;
@@ -221,4 +200,14 @@ const UserInfo = styled.div`
   display: flex;
   align-items: center;
   padding: 0px 20px 0px 20px;
+`;
+
+const NftBox = styled.div`
+  border: 2px solid gray;
+  border-radius: 70px;
+  padding: 5px;
+  justify-content: center;
+  &:hover {
+    box-shadow: 10px 10px 10px grey;
+  }
 `;

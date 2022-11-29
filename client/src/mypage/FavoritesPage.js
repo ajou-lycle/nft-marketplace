@@ -81,10 +81,7 @@ const FavoritesPage = () => {
         <div>
           <ItemBox>NFT ITEM</ItemBox>
 
-          <div
-            className="item_grid"
-            style={{ border: "1px solid pink", width: "100%" }}
-          >
+          <div className="item_grid" style={{ width: "100%" }}>
             {favorData &&
               favorData.map((rowData) => {
                 return (
@@ -93,7 +90,7 @@ const FavoritesPage = () => {
                       <div className="nft_item_img">
                         <div className="nft_item_img_">
                           <ItemImg
-                            src="img/nft_img.png"
+                            src={rowData.nftItemImg}
                             loading="lazy"
                             className="item_img"
                           />
@@ -115,7 +112,7 @@ const FavoritesPage = () => {
                       </div>
                       <div className="nft_name">{rowData.title}</div>
                       <div className="nft_user">
-                        <UserImg src="img/lamarket_logo.png" />
+                        <UserImg src={rowData.profileImg} />
                         <span className="nft_item_user">
                           {rowData.nickname}
                         </span>

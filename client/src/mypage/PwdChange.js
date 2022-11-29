@@ -40,6 +40,7 @@ export default function PwdChange() {
   };
 
   const checkPwd = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
     axios
       .post(
         `http://3.38.210.200:8080/myPage/check/${memberInfoId}`,
@@ -51,16 +52,14 @@ export default function PwdChange() {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
           },
-          // params: {
-          //   memberId: 4,
-          // },
         }
       )
       .then((res) => {
+        console.log("checkPwd시작");
         console.log("res.data", res.data);
-        setPwd(e.target.value);
+        console.log("res.data.result", res.data.result);
 
-        if (res.data == false) {
+        if (res.data.result == false) {
           console.log("불일치합니다");
         } else {
           console.log("일치합니다.");
@@ -80,7 +79,7 @@ export default function PwdChange() {
       <ProfileInfo>비밀번호 변경</ProfileInfo>
       <RowLine></RowLine>
 
-      <PwdInfo>기존 비밀번호 확인 </PwdInfo>
+      <PwdInfo>기존 비밀번호 확인</PwdInfo>
       <InfoInput
         placeholder="기존 비밀번호를 입력해주세요"
         type="password"
@@ -88,8 +87,15 @@ export default function PwdChange() {
         onChange={(e) => {
           setPwd(e.target.value);
         }}
+        defaultValue="Initial value"
       />
-      <SaveButton onClick={checkPwd}>기존 비밀번호 확인하기</SaveButton>
+      <SaveButton
+        onClick={(e) => {
+          checkPwd();
+        }}
+      >
+        기존 비밀번호 확인하기
+      </SaveButton>
 
       <PwdInfo>새 비밀번호 입력 </PwdInfo>
       <InfoInput
@@ -121,6 +127,7 @@ export default function PwdChange() {
         onClick={(e) => {
           if (newPwd == configPwd) {
             handleSubmit();
+            alert("비밀번호가 변경되었습니다.");
           } else {
             alert("새 비밀번호가 일치하지 않습니다.");
           }
