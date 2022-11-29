@@ -110,6 +110,39 @@ export const initWeb3 = async () => {
   });
 };
 
+const subscribeTransactionStatus = (eth, transactionHash) => {
+    return new Promise(async (resolve, reject) => {
+        var interval = setInterval(async () => {
+            let statusOfTransaction = null;
+
+            await eth.web3.eth.getTransactionReceipt(transactionHash).then((receipt) => {
+                if (receipt === null) {
+                    return;
+                }
+
+                console.log("statusOfTransaction", receipt);
+
+                statusOfTransaction = receipt.status;
+            });
+
+            if (statusOfTransaction === null) {
+                return;
+            }
+
+            if (statusOfTransaction) {
+                clearInterval(interval);
+                resolve(true);
+
+                return;
+            }
+            clearInterval(interval);
+            resolve(false);
+
+            return;
+        }, 2000);
+    })
+}
+
 export const fetchERC1155TokenIfNotExist = async (
   web3,
   eth,
@@ -247,59 +280,148 @@ export const getRegistedNftList = async (eth) => {
   return result;
 };
 
-export const buyNft = async (eth, collectionName, nftId, owner, price) => {
-  return new Promise(async (resolve, reject) => {
-    const ERC1155TokenContract = isExistERC1155TokenByCollectionName(
-      eth,
-      collectionName
-    );
+/**
+ * @author Jang Seongho
+ * 
+ * @constant
+ * @type { function }
+ * 
+ * @description
+ * NFT를 구매하는 함수입니다. 성공적으로 구매하면 true, 실패하면 false가 반환됩니다.
+ * 이더리움 네트워크 특성 상, 거래 처리에 10 ~ 20초 걸립니다.
+ * 
+ * @param { eth } eth - recoil에 있는 ethState를 넣어주시면 됩니다.
+ * @param { String } collectionName 
+ * 컬렉션 이름을 넣어주면 됩니다. datas/enum/collection_name_enum.js에 선언되어 있는 CollectionNameEnum 객체를 사용하시면 됩니다.
+ * @param { String } nftId - 문자열로 nft id를 입력해주시면 됩니다.
+ * @param { String } owner - 문자열로 NFT 소유자의 지갑 주소를 입력해주시면 됩니다.
+ * @param { String } price - 문자열로 NFT 가격을 입력해주시면 됩니다.
+ * @returns { boolean }
+ * true - 거래 성공
+ * false - 거래 실패
+ * 
+ * @example
+ * ```js
+ * const { ethState, setEthState } = useEth();
+ * 
+ * buyNft(ethState, CollectionNameEnum.LACK_OF_SLEEP_LAMA, "1", "0xqweqasdz1231212", "100").then((result) => {
+ *      if(result) {
+ *          // 거래 성공시 처리 로직
+ * 
+ *          return;
+ *      }
+ * 
+ *      // 거래 실패시 처리 로직
+ * });
+ * ```
+ * 
+ * @throws { Error } 잔고가 부족하다던가, NFT가 없다던가 등의 이유로 거래 시도 자체가 거절된 경우
+ */
+ export const buyNft = async (eth, collectionName, nftId, owner, price) => {
+    return new Promise(async (resolve, reject) => {
+        const ERC1155TokenContract = isExistERC1155TokenByCollectionName(eth, collectionName);
 
-    if (ERC1155TokenContract === undefined) {
-      reject(new Error(`Not exist nft, collection name is ${collectionName}`));
 
-      return;
-    }
+        if (ERC1155TokenContract === undefined) {
+            reject(new Error(`Not exist nft, collection name is ${collectionName}`));
 
-    const balanceOfNft = await ERC1155TokenContract.methods
-      .balanceOf(nftId)
-      .call();
+            return;
+        }
 
-    assert(balanceOfNft > 0, "The balance of nft is 0");
+        const balanceOfNft = await ERC1155TokenContract.methods
+        .balanceOf(owner, nftId)
+        .call();
 
-    try {
-      await eth.web3.eth.sendTransaction({
-        from: eth.accounts[0],
-        to: owner,
-        value: price,
-      });
-    } catch (e) {
-      reject(
-        new Error(`Can't send Ether from ${eth.accounts[0]} to ${owner}.`)
-      );
-    }
+        assert(balanceOfNft > 0, "The balance of nft is 0");
 
-    const ERC1155ItemJsonBytes = await ERC1155TokenContract.methods
-      .uri(nftId)
-      .call();
 
-    try {
-      await ERC1155TokenContract.methods
-        .safeTransferFrom(
-          owner,
-          eth.accounts[0],
-          nftId,
-          1,
-          ERC1155ItemJsonBytes
-        )
-        .send({ from: TruffleEnv.DEPLOYER_ACCOUNT });
-    } catch (e) {
-      reject(new Error(`Can't send NFT from ${owner} to ${eth.accounts[0]}.`));
-    }
+        let transactionOfEther = null;
+        let transactionOfNft = null;
 
-    resolve();
-  });
+        try {
+            transactionOfEther = await eth.web3.eth.sendTransaction({ from: eth.accounts[0], to: owner, value: price });
+        } catch (e) {
+            reject(new Error(`Can't send Ether from ${eth.accounts[0]} to ${owner}.`));
+        }
+
+        const ERC1155ItemJsonBytes = await ERC1155TokenContract.methods.uri(nftId).call();
+
+        try {
+            transactionOfNft = await ERC1155TokenContract.methods.safeTransferFrom(owner, eth.accounts[0], nftId, 1, ERC1155ItemJsonBytes).send({ from: TruffleEnv.DEPLOYER_ACCOUNT });
+        } catch (e) {
+            reject(new Error(`Can't send NFT from ${owner} to ${eth.accounts[0]}.`));
+        }
+
+
+        let statusTransactionOfEther = await subscribeTransactionStatus(transactionOfEther.transactionHash);
+        let statusTransactionOfNft = await subscribeTransactionStatus(transactionOfNft.transactionHash);
+
+        console.log(statusTransactionOfEther, statusTransactionOfNft);
+
+        if (statusTransactionOfEther && statusTransactionOfNft) {
+            return true;
+        }
+
+        return false;
+    });
+}
+
+/**
+ * @author Jang Seongho
+ * 
+ * @constant
+ * @type { function }
+ * 
+ * @description
+ * Lycle 토큰을 소비하는 함수입니다. 성공적으로 소비하면 true, 실패하면 false가 반환됩니다.
+ * 이더리움 네트워크 특성 상, 거래 처리에 10 ~ 20초 걸립니다.
+ * 
+ * @param { eth } eth - recoil에 있는 ethState를 넣어주시면 됩니다.
+ * @param { String } amount - 소비하고자 하는 Lycle 토큰의 개수를 문자열로 입력해주시면 됩니다.
+ * 
+ * true - 소비 성공
+ * false - 소비 실패
+ * 
+ * @example
+ * ```js
+ * const { ethState, setEthState } = useEth();
+ * 
+ * payLycleToken(ethState, "100").then((result) => {
+ *      if(result) {
+ *          // 거래 성공시 처리 로직
+ * 
+ *          return;
+ *      }
+ * 
+ *      // 거래 실패시 처리 로직
+ * });
+ * ```
+ * 
+ * @throws { Error } 잔고가 부족하다던가, NFT가 없다던가 등의 이유로 거래 시도 자체가 거절된 경우
+ */ 
+ export const payLycleToken = async (eth, amount) => {
+    return new Promise(async (resolve, reject) => {
+        const LycleTokenContract = isExistERC1155TokenByCollectionName(eth, CollectionNameEnum.LYCLE_TOKEN.name);
+
+        if (LycleTokenContract === undefined) {
+            reject(new Error(`Not exist`));
+
+            return;
+        }
+
+        const result = await LycleTokenContract.methods
+            .burn(eth.accounts[0], "1", amount)
+            .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+
+        let statusTransactionOfEther = await subscribeTransactionStatus(eth, result.transactionHash);
+
+        if (statusTransactionOfEther) {
+            return true;
+        }
+
+        return false;
+    });
 };
-
 export const mint = async (eth) => {
   let ERC1155TokenContract;
   let LycleTokenContract;
