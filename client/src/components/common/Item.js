@@ -61,10 +61,11 @@ export default function NftItem() {
 
   useEffect((e) => {
     async function fetchData() {
-      const res = await axios.get(
-        // `http://${address}:8080/nftItem?page=${currentPage}&size=${limit}`
-        `http://${address}:8080/nftItem`
-      );
+
+      // const res = await axios.get(
+      //   `http://${address}:8080/nftItem?page=${currentPage}&size=${limit}`
+      // );
+      const res = await axios.get(`http://${address}:8080/nftItem?`);
       const _inputData = await res.data.itemList.map((rowData) => ({
         nft_item_id: rowData.nftItemId,
         created_date: rowData.createdDate,
@@ -84,7 +85,6 @@ export default function NftItem() {
       console.log(_inputData);
     }
     fetchData();
-    
   }, []);
 
   return (
@@ -138,7 +138,7 @@ export default function NftItem() {
                 </div>
                 <div className="nft_name">{rowData.title}</div>
                 <div className="nft_user">
-                  <UserImg src="img/lamarket_logo.png" />
+                  <UserImg src={rowData.profileImg} />
                   <span className="nft_item_user">{rowData.nickname}</span>
                 </div>
 
