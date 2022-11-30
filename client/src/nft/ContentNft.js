@@ -8,6 +8,10 @@ import "../recoil/User.js";
 import { useRecoilState } from "recoil";
 import { isLiked } from "../recoil/User.js";
 import { recoilPersist } from "recoil-persist";
+import { buyNft } from "../datas/contract";
+import useEth from "../contexts/EthContext/useEth.js";
+import { ethState } from "../recoil/Eth";
+
 
 function ContentNft() {
   // const {persistAtom} = recoilPersist()
@@ -22,6 +26,9 @@ function ContentNft() {
   };
 
   const [contentnftdata, setContentNftData] = useState("");
+  const [sellerAddress,setSellerAddress]=useState('');
+  const {eth, setEthState} = useEth();
+  const [eth1,setEthstate1] =useRecoilState(ethState);
 
   const onClickShowNft = () => {
     axios
@@ -47,15 +54,17 @@ function ContentNft() {
 
   useEffect(() => {
     onClickShowNft();
-    console.log(contentnftdata);
-    //  if (contentnftdata.isLike==true) {
-    //   setD5Like("d5_like_true");
-    //  } else {
-    //   setD5Like("d5_like_false");
-    //  }
-    console.log("새로고침");
-    console.log(contentnftdata.isLike);
   }, []);
+
+
+  const onClickBuyNftinBlockChain = ()=> {
+    buyNft(eth,contentnftdata.collectionName,String(contentnftdata.nftId),sellerAddress,String(contentnftdata.price)).then((result)=> {
+      if(result) {alert("거래가 성공하였습니다!");}
+      else alert("거래가 실패하였습니다");
+    })
+
+  }
+
 
   const onClickLikeNft = () => {
     if (d5Like === "d5_like_false") setD5Like("d5_like_true");
@@ -115,9 +124,11 @@ function ContentNft() {
       })
       .then((res) => {
         console.log("res.data", res.data);
+        setSellerAddress(res.data.sellerWalletAddress);
         // console.log('data is ' + JSON.stringify(res.data));
         alert("구매가 완료되었습니다!");
-        document.location.href = "/mainPage";
+        // document.location.href = "/mainPage";
+        // onClickBuyNftinBlockChain();
       })
       .catch((err) => {
         console.log("Error", err);
@@ -139,6 +150,9 @@ function ContentNft() {
       )
       .then((res) => {
         console.log("res.data", res.data);
+        onClickBuyNftinBlockChain();
+        console.log(contentnftdata.nftId,"아이디");
+
       })
       .catch((err) => {
         console.log("Error", err);

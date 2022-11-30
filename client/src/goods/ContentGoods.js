@@ -4,9 +4,15 @@ import "../nft/ContentNft.css";
 import axios from "axios";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
+import { payLycleToken } from "../datas/contract";
+import "../recoil/User.js";
+import { useRecoilState } from "recoil";
+import useEth from "../contexts/EthContext/useEth.js";
+
 
 function ContentGoods() {
   const { goodsInfoId } = useParams();
+
 
   const [count, setCount] = useState(1);
   const count3 = (count * 15900)
@@ -14,7 +20,7 @@ function ContentGoods() {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const [useclassName, setUseClassName] = useState("d4_count_down_false");
   // const [d5Like,setD5Like] = useState("d5_like_false");
-
+  const { eth, setEthState } = useEth();
   const countAdd = () => {
     setUseClassName("d4_count_down_true");
     setCount(count + 1);
@@ -39,6 +45,7 @@ function ContentGoods() {
   };
 
   const [contentgoodsdata, setContentGoodsData] = useState("");
+  const [goodsPrice,setGoodsPrice]=useState(0);
 
   const onClickShowGoods = () => {
     axios
@@ -52,6 +59,7 @@ function ContentGoods() {
         console.log("res.data", res.data);
         // console.log('data is ' + JSON.stringify(res.data));
         setContentGoodsData(res.data);
+        setGoodsPrice(res.data.price);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -98,9 +106,20 @@ function ContentGoods() {
       });
   };
 
+  const BuyGoodsinBlockChain = async ()=> {
+      return await payLycleToken(eth, String(goodsPrice));
+    }
+
+  
   const onClickBuyGoods = () => {
     console.log(sessionStorage.getItem("user_token"));
-    axios
+    BuyGoodsinBlockChain().then((result) => {
+      if(!result) {
+        alert("거래가 실패했습니다.");
+        return;
+      }
+
+      axios
       .post(
         `http://3.38.210.200:8080/item/${goodsInfoId}/buy`,
         {
@@ -115,11 +134,15 @@ function ContentGoods() {
       )
       .then((res) => {
         console.log("res.data", res.data);
+        
         console.log(count + "개 구매완료!");
+        alert(count + "개 구매완료!");
       })
       .catch((err) => {
         console.log("Error", err);
+        alert("거래가 실패했습니다.");
       });
+    })
   };
 
   return (

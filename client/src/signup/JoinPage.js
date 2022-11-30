@@ -152,8 +152,7 @@ const JoinPage = () => {
     //비밀번호는 8~16자 영문 대소문자, 숫자, 특수문자를 사용해야 한다.
 
     // const regexPwd = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/;
-    const regexPwd =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,16}$/;
+    const regexPwd = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,16}$/;
 
     if (regexPwd.test(pwd)) {
       setPwdValid(true);
