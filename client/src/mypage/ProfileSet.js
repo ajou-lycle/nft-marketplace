@@ -100,8 +100,8 @@ const ProfileSet = () => {
             <ProfileInfo>Email Address</ProfileInfo>
             <UserInfo>{userData.email}</UserInfo>
 
-            <ProfileInfo>Wallet Address</ProfileInfo>
-            <UserInfo>{userData.walletAddress}</UserInfo>
+            {/* <ProfileInfo>Wallet Address</ProfileInfo>
+            <UserInfo>{userData.walletAddress}</UserInfo> */}
           </div>
         </div>
       </MyPageContent>
@@ -168,7 +168,7 @@ const MyPageTitle = styled.div`
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 15px;
-  margin-left: 20px;
+  margin-left: 35px;
 `;
 
 export default ProfileSet;

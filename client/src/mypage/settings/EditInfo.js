@@ -26,6 +26,7 @@ const EditInfo = (props) => {
   const [profileImg, setProfileImg] = useState("");
 
   const [pwd, setPwd] = useState("");
+  const [prevPwd, setPrevPwd] = useState(props);
   const [newPwd, setNewPwd] = useState("");
   const [configPwd, setConfigPwd] = useState("");
 
@@ -141,12 +142,12 @@ const EditInfo = (props) => {
         }
       )
       .then((res) => {
-        console.log("res.data", res.data);
-        setPwd(e.target.value);
+        console.log("res.data : ", res.data);
 
-        if (res.data == false) {
+        if (res.data.result == false) {
           console.log("불일치합니다");
-        } else if (res.data == true) {
+          alert("비밀번호가 불일치합니다.");
+        } else if (res.data.result == true) {
           console.log("일치합니다.");
           alert("기존 비밀번호가 일치합니다.");
         }
@@ -224,26 +225,14 @@ const EditInfo = (props) => {
             <ProfileInfo>Email Address</ProfileInfo>
             <UserInfo>{userData.email}</UserInfo>
             {/* <InfoInput placeholder="Email Address - 변경 불가능" disabled /> */}
-
+            {/* 
             <ProfileInfo>Wallet Address</ProfileInfo>
-            <UserInfo>{userData.walletAddress}</UserInfo>
-            {/* <InfoInput
-              type="text"
-              placeholder="Enter walletAddress"
-              id="walletAddress"
-              value={walletAddress}
-              onChange={(e) => {
-                setWalletAddress(e.target.value);
-              }}
-              required
-              minLength="3"
-              maxLength="10"
-            /> */}
+            <UserInfo>{userData.walletAddress}</UserInfo> */}
           </div>
         </div>
         <EditButton onClick={handleSubmit}>수정</EditButton>
 
-        <div style={{ marginTop: "80px", padding: "10px" }}>
+        <div style={{ marginTop: "80px", padding: "10px", marginLeft: "20px" }}>
           <ProfileInfo>비밀번호 변경</ProfileInfo>
           <RowLine></RowLine>
 
@@ -253,6 +242,7 @@ const EditInfo = (props) => {
               placeholder="기존 비밀번호를 입력해주세요"
               type="password"
               value={pwd}
+              id="password"
               onChange={(e) => {
                 setPwd(e.target.value);
               }}
@@ -292,8 +282,17 @@ const EditInfo = (props) => {
                 if (newPwd == configPwd) {
                   handleSubmit();
                 } else {
-                  alert("새 비밀번호가 일치하지 않습니다.");
+                  console.log("error");
                 }
+                // } else if (newPwd !== configPwd && pwd == prevPwd) {
+                //   alert("새 비밀번호가 일치하지 않습니다.");
+                //   console.log("newPwd != configPwd");
+                // } else if (newPwd == configPwd && pwd != prevPwd) {
+                //   alert("기존 비밀번호가 일치하지 않습니다.");
+                // } else {
+                //   alert("기존 비밀번호가 일치하지 않습니다.");
+                //   console.log("마지막else");
+                // }
               }}
             >
               비밀번호 변경하기
@@ -380,7 +379,7 @@ const MyPageTitle = styled.div`
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 15px;
-  margin-left: 20px;
+  margin-left: 35px;
 `;
 
 const PwdInfo = styled.div`
