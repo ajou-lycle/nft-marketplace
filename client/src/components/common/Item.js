@@ -27,11 +27,19 @@ export default function NftItem() {
 
   //페이지 초기 값은 1페이지
   const [currentPage, setCurrentPage] = useState(1);
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(1);
 
   const handlePageChange = (current) => {
     setCurrentPage(current);
     console.log(currentPage);
   };
+
+  // const nextPageClick = (email) => {
+  //   e.target.id === "첫번째 "
+  //   setCurrentPage(너가 가려는 page번호); page state
+  //   => 요청보내고 데이터 받아와서 뿌리겠죠
+  // }
 
   function sortLike() {
     let likeSorting = [...inputData];
@@ -66,9 +74,8 @@ export default function NftItem() {
 
   useEffect((e) => {
     async function fetchData() {
-
       // const res = await axios.get(
-      //   `http://${address}:8080/nftItem?page=${currentPage}&size=${limit}`
+      //   `http://${address}:8080/nftItem?page=1&size=5`
       // );
       const res = await axios.get(`http://${address}:8080/nftItem?`);
       const _inputData = await res.data.itemList.map((rowData) => ({

@@ -33,7 +33,7 @@ function EthProvider({ children }) {
       //   tokenBalance: await getTokenBalance(ethData),
       //   nftList: await getNftListByWalletAddress(ethData)
       // };
-      
+
       setEthState(ethData);
       // setWalletState(walletData);
     } catch (e) {
