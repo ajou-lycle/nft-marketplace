@@ -13,8 +13,11 @@ import {
 } from "@material-ui/icons";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { UserNickName } from "../../recoil/User";
 
 const EditInfo = (props) => {
+  const setLocalNickName = useSetRecoilState(UserNickName);
   const memberInfoId = window.localStorage.getItem("memberId");
   const [userData, setUserData] = useState("");
 
@@ -106,6 +109,7 @@ const EditInfo = (props) => {
         console.log("res.data", res.data);
         // console.log("res:", JSON.stringify(res, null, 2));
         alert("수정되었습니다.");
+        setLocalNickName(nickname);
       })
       .catch((err) => {
         console.log("Error", err);

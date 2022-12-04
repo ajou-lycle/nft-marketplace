@@ -36,5 +36,11 @@ export const MetaMaskInstalledRecoil = atom({
     default:false,
 })
 
+export const UserNickName = atom({
+    key:"userNickname",
+    default:'dkdk',
+    effects_UNSTABLE : [persistAtom]
+})
+
 
 

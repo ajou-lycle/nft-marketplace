@@ -6,7 +6,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import "../recoil/User.js";
 import { useRecoilState } from "recoil";
-import { isLiked } from "../recoil/User.js";
+import { isLiked,isLoginState } from "../recoil/User.js";
 import { recoilPersist } from "recoil-persist";
 import { buyNft } from "../datas/contract";
 import useEth from "../contexts/EthContext/useEth.js";
@@ -15,6 +15,7 @@ import { ethState } from "../recoil/Eth";
 
 function ContentNft() {
   // const {persistAtom} = recoilPersist()
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { nftInfoId } = useParams();
 
   const [d5Like, setD5Like] = useRecoilState(isLiked);
@@ -125,9 +126,11 @@ function ContentNft() {
       .then((res) => {
         console.log("res.data", res.data);
         setSellerAddress(res.data.sellerWalletAddress);
+        console.log(sellerAddress,"주소");
+    
         // console.log('data is ' + JSON.stringify(res.data));
         alert("구매가 완료되었습니다!");
-        // document.location.href = "/mainPage";
+        document.location.href = "/mainPage";
         // onClickBuyNftinBlockChain();
       })
       .catch((err) => {
@@ -136,6 +139,7 @@ function ContentNft() {
   };
 
   const onClickRealBuyNft = () => {
+    onClickBuyNftinBlockChain();
     console.log(sessionStorage.getItem("user_token"));
     axios
       .post(
@@ -150,7 +154,6 @@ function ContentNft() {
       )
       .then((res) => {
         console.log("res.data", res.data);
-        onClickBuyNftinBlockChain();
         console.log(contentnftdata.nftId,"아이디");
 
       })
@@ -219,7 +222,7 @@ function ContentNft() {
                 <div className="total_price">
                   <span className="total_price_right">
                     {" "}
-                    $ {contentnftdata.price}
+                     {contentnftdata.price}  Wei
                   </span>
                 </div>
               </div>
