@@ -4,9 +4,44 @@ import MyPageMenu from "../pages/MyPageMenu";
 import styled from "styled-components";
 import { Save } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 export default function SettingPage() {
   const memberInfoId = window.localStorage.getItem("memberId");
+
+  const [pwd, setPwd] = useState("");
+
+  const checkPwd = (e) => {
+    axios
+      .post(
+        `http://3.38.210.200:8080/myPage/check/${memberInfoId}`,
+        {
+          password: pwd,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log("res.data: ", res.data);
+
+        if (res.data.result == false) {
+          console.log("비밀번호가 일치하지 않습니다");
+          alert("비밀번호가 일치하지 않습니다.");
+        } else if (res.data.result == true) {
+          console.log("비밀번호가 일치합니다.");
+          alert("비밀번호가 일치합니다.");
+          document.location.href = "/settings/edit";
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
 
   return (
     <div
@@ -23,7 +58,22 @@ export default function SettingPage() {
         <MyPageTitle>Settings</MyPageTitle>
 
         <div className="mypage_wallet">
-          <Link
+          <PwdInfo>
+            수정 페이지로 가려면 기존 비밀번호 확인이 필요합니다.
+          </PwdInfo>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <InfoInput
+              placeholder="기존 비밀번호를 입력해주세요"
+              type="password"
+              value={pwd}
+              id="password"
+              onChange={(e) => {
+                setPwd(e.target.value);
+              }}
+            />
+            <SaveButton onClick={checkPwd}>기존 비밀번호 확인하기</SaveButton>
+          </div>
+          {/* <Link
             to={{
               pathname: `/settings/edit`,
             }}
@@ -33,7 +83,7 @@ export default function SettingPage() {
           </Link>
           <Link to="/settings/pwd" style={{ textDecoration: "none" }}>
             <EditButton>비밀번호 변경</EditButton>
-          </Link>
+          </Link> */}
         </div>
       </MyPageContent>
     </div>
@@ -54,17 +104,17 @@ const ColumnLine = styled.span`
 `;
 
 const SaveButton = styled.div`
-  width: 100px;
-  padding: 10px 0px;
+  width: 200px;
+  padding: 10px;
   border-radius: 6px;
   background-color: rgb(46, 204, 113);
-  font-size: 18px;
+  font-size: 14px;
+  height: 24px;
   font-weight: 600;
   color: white;
   text-align: center;
   cursor: pointer;
-  float: right;
-  margin-right: 220px;
+  margin-left: 20px;
 `;
 
 const EditButton = styled.div`

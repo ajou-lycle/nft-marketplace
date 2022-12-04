@@ -12,27 +12,35 @@ export default function PwdChange() {
 
   const memberInfoId = window.localStorage.getItem("memberId");
 
-  const handleSubmit = (e) => {
-    if (e && e.preventDefault) e.preventDefault();
+  const pwdSubmit = async (e) => {
+    console.log("pwdSubmit시작됨");
 
-    console.log("handleSubmit시작됨");
+    let pwdData = new FormData();
+    //객체를 json type으로 파싱하여 Blob객체 생성, type에 json type 지정
 
-    axios
-      .put(
-        `http://3.38.210.200:8080/myPage/${memberInfoId}`,
-        {
-          password: newPwd,
+    let pwdValue = {
+      password: newPwd,
+    };
+
+    console.log(pwdValue);
+
+    pwdData.append(
+      "putMyPageDto",
+      new Blob([JSON.stringify(pwdValue)], { type: "application/json" })
+    );
+
+    console.log(pwdData.get("putMyPageDto"));
+
+    await axios
+      .put(`http://3.38.210.200:8080/myPage/${memberInfoId}`, pwdData, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
         },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
-          },
-        }
-      )
+      })
       .then((res) => {
         console.log("res.data", res.data);
-        alert("수정되었습니다.");
+        alert("비밀번호가 변경되었습니다.");
       })
       .catch((err) => {
         console.log("Error", err);
@@ -126,8 +134,7 @@ export default function PwdChange() {
       <SaveButton
         onClick={(e) => {
           if (newPwd == configPwd) {
-            handleSubmit();
-            alert("비밀번호가 변경되었습니다.");
+            pwdSubmit();
           } else {
             alert("새 비밀번호가 일치하지 않습니다.");
           }

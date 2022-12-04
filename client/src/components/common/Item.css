@@ -58,7 +58,7 @@
   display: flex;
   grid-template-columns: repeat(3, 1fr);
   flex-wrap: wrap;
-  gap: 50px;
+  gap: 40px;
   width: 1000px;
   margin: 0 auto;
   /* border:1px solid red; */

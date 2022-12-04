@@ -4,9 +4,33 @@ import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "./JoinPage.css";
+import useEth from "../contexts/EthContext/useEth";
+import styled from "styled-components";
 
 const JoinPage = () => {
   const navigate = useNavigate();
+
+  const { eth, setEthState } = useEth();
+
+  const [userAddress, setUserAddress] =
+    useState("지갑 주소를 가져올 수 없습니다.");
+
+  const getUserAddress = () => {
+    if (eth.accounts === null) {
+      return;
+    }
+    if (!Array.isArray(eth.accounts)) {
+      return;
+    }
+    setUserAddress(eth.accounts[0]);
+  };
+
+  useEffect(() => {
+    const tryInit = async () => {
+      getUserAddress();
+    };
+    tryInit();
+  }, [eth]);
 
   //POST 회원가입 등록
   const register = () => {
@@ -16,7 +40,7 @@ const JoinPage = () => {
         password: pwd,
         nickname: name,
         email: email,
-        walletAddress: wallet,
+        walletAddress: userAddress,
       })
       .then((response) => {
         console.log("회원가입이 완료되었습니다.");
@@ -26,6 +50,7 @@ const JoinPage = () => {
       })
       .catch((error) => {
         console.log("An error occurred:", error.response);
+        alert("회원가입을 실패하였습니다. 입력 형식을 다시 확인해주세요.");
       });
   };
 
@@ -66,7 +91,8 @@ const JoinPage = () => {
           alert("중복된 아이디가 존재합니다.");
           setIdValid(false);
         } else {
-          console.log("사용가능한 아이디");
+          console.log("사용 가능한 아이디");
+          alert("사용 가능한 아이디입니다.");
           setIdValid(true);
         }
       })
@@ -83,11 +109,12 @@ const JoinPage = () => {
       .then((res) => {
         console.log("res.data :", res.data);
         if (res.data.result == true) {
-          console.log("중복된 닉네임 존재");
+          console.log("중복된 닉네임이 존재합니다");
           alert("중복된 닉네임이 존재합니다.");
           setNameValid(false);
         } else {
-          console.log("사용가능한 닉네임");
+          console.log("사용 가능한 닉네임");
+          alert("사용 가능한 닉네임입니다.");
           setNameValid(true);
         }
       })
@@ -99,7 +126,7 @@ const JoinPage = () => {
   const checkWallet = (e) => {
     axios
       .post("http://3.38.210.200:8080/valid/walletAddress/exists", {
-        walletAddress: wallet,
+        walletAddress: userAddress,
       })
       .then((res) => {
         if (res.data.result == true) {
@@ -108,6 +135,7 @@ const JoinPage = () => {
           setWalletValid(false);
         } else {
           console.log("사용가능한 지갑주소");
+          alert("사용가능한 지갑주소입니다.");
           setWalletValid(true);
         }
       })
@@ -123,6 +151,9 @@ const JoinPage = () => {
       })
       .then((res) => {
         console.log("이메일 인증 메일이 전송되었습니다.");
+        alert(
+          "이메일 인증 메일이 전송되었습니다. 메일함으로 가서 확인해주세요."
+        );
       })
       .catch((err) => {
         console.log("error:", err);
@@ -137,7 +168,7 @@ const JoinPage = () => {
       .then((res) => {
         if (res.data.result == true) {
           console.log("인증 완료");
-          alert("이메일 인증 완료");
+          alert("이메일 인증이 완료되었습니다.");
           setEmailValid(true);
         }
       })
@@ -152,7 +183,8 @@ const JoinPage = () => {
     //비밀번호는 8~16자 영문 대소문자, 숫자, 특수문자를 사용해야 한다.
 
     // const regexPwd = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/;
-    const regexPwd = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,16}$/;
+    const regexPwd =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,16}$/;
 
     if (regexPwd.test(pwd)) {
       setPwdValid(true);
@@ -174,8 +206,8 @@ const JoinPage = () => {
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    const regexEmail =
-      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+    const regexEmail = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
     if (regexEmail.test(email)) {
       setEmailValid(true);
@@ -194,7 +226,7 @@ const JoinPage = () => {
   };
 
   useEffect(() => {
-    if (idValid && pwdValid && nameValid && emailValid && walletValid) {
+    if ((idValid && pwdValid && nameValid && emailValid, walletValid)) {
       setNotAllow(false);
       return;
     }
@@ -228,12 +260,12 @@ const JoinPage = () => {
               />
               <div className="errorMessageWrap">
                 {!idValid && id.length > 0 && (
-                  <div>6자 이상의 영문 혹은 영문과 숫자를 조합</div>
+                  <div>아이디는 6~20자 영문자 혹은 숫자이어야 합니다.</div>
                 )}
               </div>
-              <div className="errorMessageWrap">
+              {/* <div className="errorMessageWrap">
                 {!idValid && id.length > 0 && <div>! 중복된 아이디입니다.</div>}
-              </div>
+              </div> */}
             </div>
             <div className="join_write_id_config">
               <button
@@ -263,7 +295,7 @@ const JoinPage = () => {
                 maxLength="16"
               />
               <div className="errorMessageWrap">
-                {!pwdValid && pwd.length > 0 && (
+                {!pwdValid && pwdValid > 0 && (
                   <div>
                     8~16자 영문 대소문자, 숫자, 특수문자를 사용해야 합니다.
                   </div>
@@ -354,12 +386,12 @@ const JoinPage = () => {
               </label>
             </div>
             <div className="join_write_id_input">
+              {/* <UserInfo>{userAddress}</UserInfo> */}
               <input
                 type="text"
                 placeholder="지갑 주소를 입력해주세요"
                 className="id_input"
-                value={wallet}
-                onChange={handleWallet}
+                value={userAddress}
               />
               <div className="errorMessageWrap">
                 {!walletValid && wallet.length > 0 && (
@@ -395,5 +427,18 @@ const JoinPage = () => {
     </div>
   );
 };
+
+const UserInfo = styled.div`
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 4px;
+  width: 92%;
+  height: 41px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  padding: 0px 11px 1px 15px;
+  font-size: 12px;
+`;
 
 export default JoinPage;
