@@ -35,6 +35,9 @@ import PageLanding2 from "../pages/PageLanding2";
 import PurchasesList from "../mypage/PurchasesList";
 import PagePurchase from "../pages/PagePurchase";
 
+import { useRecoilState } from "recoil";
+import {isLoginState } from "../recoil/User.js";
+
 export default function RootRoute() {
   return (
     <BrowserRouter>

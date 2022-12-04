@@ -31,6 +31,15 @@ export const serverAddress = atom({
 });
 
 export const MetaMaskInstalledRecoil = atom({
-  key: "MetaMaskRecoil",
-  default: false,
-});
+    key: "MetaMaskRecoil",
+    default:false,
+})
+
+export const UserNickName = atom({
+    key:"userNickname",
+    default:'dkdk',
+    effects_UNSTABLE : [persistAtom]
+})
+
+
+

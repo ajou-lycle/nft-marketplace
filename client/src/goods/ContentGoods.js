@@ -186,13 +186,13 @@ function ContentGoods() {
             <div className="content_pic_disc_5">
               <div className="d5_top">
                 <div className="total_price">
-                  <span className="total_price_left">$</span>
+                  <span className="total_price_left"></span>
                   <span className="total_price_right">
                     {" "}
                     {(count * contentgoodsdata.price)
                       .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    원
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 
+                     LYCLE
                   </span>
                 </div>
               </div>

@@ -14,8 +14,11 @@ import {
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "../../signup/JoinPage.css";
+import { useSetRecoilState } from "recoil";
+import { UserNickName } from "../../recoil/User";
 
 const EditInfo = (props) => {
+  const setLocalNickName = useSetRecoilState(UserNickName);
   const memberInfoId = window.localStorage.getItem("memberId");
   const [userData, setUserData] = useState("");
 
@@ -150,6 +153,7 @@ const EditInfo = (props) => {
       .then((res) => {
         console.log("res.data", res.data);
         alert("수정되었습니다.");
+        setLocalNickName(nickname);
       })
       .catch((err) => {
         console.log("Error", err);
