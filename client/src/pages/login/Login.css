@@ -9,6 +9,12 @@
     background-color: rgb(255, 255, 255);
 }
 
+.loginpage_header {
+    position: fixed;
+    top: 0;
+    padding-top: 10px;
+}
+
 .login_title {
     width: 1050px;
     height: 20px;

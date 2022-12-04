@@ -4,14 +4,16 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
-import { isLoginState } from "../../recoil/User";
+import { isLoginState, UserNickName } from "../../recoil/User";
 import { Search } from "@material-ui/icons";
 import axios from "axios";
 import mainLogo from "../../assets/img/main_logo.png";
+import { recoilPersist } from "recoil-persist";
 
 const Header = () => {
   // const isLogin=props.isLogin;
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [nickname, setNickname] = useRecoilState(UserNickName);
   useEffect(() => {
     if (sessionStorage.getItem("user_token") === null) {
       // sessionStorage 에 user_id 라는 key 값으로 저장된 값이 없다면
@@ -87,9 +89,13 @@ const Header = () => {
       </div>
 
       <div>
-        <Link to="/join" style={{ textDecoration: "none" }}>
-          <UserButton>회원가입</UserButton>
-        </Link>
+        {isLogin ? (
+          <UserNick>{nickname}님,안녕하세요!</UserNick>
+        ) : (
+          <Link to="/join" style={{ textDecoration: "none" }}>
+            <UserButton>회원가입</UserButton>
+          </Link>
+        )}
       </div>
 
       <div>
@@ -145,7 +151,7 @@ const Header = () => {
 const HeaderContainer = styled.div`
   display: flex;
   padding: 10px 50px;
-  width: 80%;
+  width: 90%;
   align-items: center;
   margin: 0 auto;
   justify-content: center;
@@ -163,7 +169,7 @@ const HeaderText = styled.div`
 `;
 
 const SearchInput = styled.input`
-  width: 460px;
+  width: 400px;
   height: 40px;
   margin: 0 auto;
   border: 1px solid grey;
@@ -185,6 +191,18 @@ const UserButton = styled.div`
   color: white;
   text-align: center;
   cursor: pointer;
+  margin-right: 20px;
+`;
+
+const UserNick = styled.div`
+  width: 220px;
+  padding: 10px 0px;
+  border-radius: 6px;
+  color: rgb(46, 204, 113);
+  font-size: 18px;
+  font-weight: 600;
+  background-color: white;
+  text-align: center;
   margin-right: 20px;
 `;
 

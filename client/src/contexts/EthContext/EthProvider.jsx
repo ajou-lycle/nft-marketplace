@@ -22,8 +22,7 @@ function EthProvider({ children }) {
 
       const ethData = {
         web3: web3,
-        accounts: ["0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE"],
-        // accounts: accounts,
+        accounts: accounts,
         networkID: networkID,
         contracts: contracts,
       };
