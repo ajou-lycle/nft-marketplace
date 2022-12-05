@@ -9,15 +9,14 @@ import { Link } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import { serverAddress } from "../../recoil/User";
 import { useRecoilState } from "recoil";
-import {isLoginState, UserNickName } from "../../recoil/User.js";
-
+import { isLoginState, UserNickName } from "../../recoil/User.js";
 
 export default function NftItem() {
   const [address, setAddress] = useRecoilState(serverAddress);
   const [inputData, setInputData] = useState([]);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
-  const [nickname,setNickname] = useRecoilState(UserNickName);
+  const [nickname, setNickname] = useRecoilState(UserNickName);
 
   //한 페이지에 보여줄 데이터의 개수
   const [limit, setLimit] = useState(9);
@@ -89,7 +88,6 @@ export default function NftItem() {
       console.log(_inputData);
     }
     fetchData();
-    
   }, []);
 
   return (
@@ -117,8 +115,8 @@ export default function NftItem() {
 
       <div className="item_grid">
         {inputData.map((rowData) => {
-
-{/* <div>
+          {
+            /* <div>
 {isLogin ? (
   <UserButton onClick={onLogout}>로그아웃</UserButton>
 ) : (
@@ -126,42 +124,34 @@ export default function NftItem() {
     <UserButton>로그인</UserButton>
   </Link>
 )}
-</div> */}
+</div> */
+          }
 
-      const PageReplaceisLogin = () => {
-        if(isLogin==true){
-        // document.location.href =`../contents_nft/${rowData.nft_item_id}`;
-        console.log(isLogin,"로그인여부");
-        console.log(nickname);
-        }
-        else {
-          document.location.href ="../login";
-          alert("로그인 후 조회 가능합니다. 로그인을 먼저 해주세요");
-          console.log(isLogin,"로그인여부");
-        }
-
-      }
+          const PageReplaceisLogin = () => {
+            if (isLogin == true) {
+              document.location.href = `../contents_nft/${rowData.nft_item_id}`;
+              console.log(isLogin, "로그인여부");
+              console.log(nickname);
+            } else {
+              document.location.href = "../login";
+              alert("로그인 후 조회 가능합니다. 로그인을 먼저 해주세요");
+              console.log(isLogin, "로그인여부");
+            }
+          };
           return (
-
             <div className="nft_item" key={rowData.nft_item_id.toString()}>
-              
-                <div className="nft_item_img" onClick={PageReplaceisLogin}>
-                  <div className="nft_item_img_">
-                    <ItemImg
-                      src={rowData.nftItemImg}
-                      loading="lazy"
-                      className="item_img"
-                    />
-                    <div>
-                      <FavoriteBorder />
-                    </div>
+              <div className="nft_item_img" onClick={PageReplaceisLogin}>
+                <div className="nft_item_img_">
+                  <ItemImg
+                    src={rowData.nftItemImg}
+                    loading="lazy"
+                    className="item_img"
+                  />
+                  <div>
+                    <FavoriteBorder />
                   </div>
                 </div>
-              
-
-               
-        
-        
+              </div>
 
               <div className="nft_item_txt">
                 <div className="nft_date">
