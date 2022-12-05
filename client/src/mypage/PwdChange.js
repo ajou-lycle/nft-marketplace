@@ -12,27 +12,35 @@ export default function PwdChange() {
 
   const memberInfoId = window.localStorage.getItem("memberId");
 
-  const handleSubmit = (e) => {
-    if (e && e.preventDefault) e.preventDefault();
+  const pwdSubmit = async (e) => {
+    console.log("pwdSubmit시작됨");
 
-    console.log("handleSubmit시작됨");
+    let pwdData = new FormData();
+    //객체를 json type으로 파싱하여 Blob객체 생성, type에 json type 지정
 
-    axios
-      .put(
-        `http://3.38.210.200:8080/myPage/${memberInfoId}`,
-        {
-          password: newPwd,
+    let pwdValue = {
+      password: newPwd,
+    };
+
+    console.log(pwdValue);
+
+    pwdData.append(
+      "putMyPageDto",
+      new Blob([JSON.stringify(pwdValue)], { type: "application/json" })
+    );
+
+    console.log(pwdData.get("putMyPageDto"));
+
+    await axios
+      .put(`http://3.38.210.200:8080/myPage/${memberInfoId}`, pwdData, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
         },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
-          },
-        }
-      )
+      })
       .then((res) => {
         console.log("res.data", res.data);
-        alert("수정되었습니다.");
+        alert("비밀번호가 변경되었습니다.");
       })
       .catch((err) => {
         console.log("Error", err);
@@ -40,6 +48,7 @@ export default function PwdChange() {
   };
 
   const checkPwd = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
     axios
       .post(
         `http://3.38.210.200:8080/myPage/check/${memberInfoId}`,
@@ -51,16 +60,14 @@ export default function PwdChange() {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
           },
-          // params: {
-          //   memberId: 4,
-          // },
         }
       )
       .then((res) => {
+        console.log("checkPwd시작");
         console.log("res.data", res.data);
-        setPwd(e.target.value);
+        console.log("res.data.result", res.data.result);
 
-        if (res.data == false) {
+        if (res.data.result == false) {
           console.log("불일치합니다");
         } else {
           console.log("일치합니다.");
@@ -80,7 +87,7 @@ export default function PwdChange() {
       <ProfileInfo>비밀번호 변경</ProfileInfo>
       <RowLine></RowLine>
 
-      <PwdInfo>기존 비밀번호 확인 </PwdInfo>
+      <PwdInfo>기존 비밀번호 확인</PwdInfo>
       <InfoInput
         placeholder="기존 비밀번호를 입력해주세요"
         type="password"
@@ -88,8 +95,15 @@ export default function PwdChange() {
         onChange={(e) => {
           setPwd(e.target.value);
         }}
+        defaultValue="Initial value"
       />
-      <SaveButton onClick={checkPwd}>기존 비밀번호 확인하기</SaveButton>
+      <SaveButton
+        onClick={(e) => {
+          checkPwd();
+        }}
+      >
+        기존 비밀번호 확인하기
+      </SaveButton>
 
       <PwdInfo>새 비밀번호 입력 </PwdInfo>
       <InfoInput
@@ -120,7 +134,7 @@ export default function PwdChange() {
       <SaveButton
         onClick={(e) => {
           if (newPwd == configPwd) {
-            handleSubmit();
+            pwdSubmit();
           } else {
             alert("새 비밀번호가 일치하지 않습니다.");
           }

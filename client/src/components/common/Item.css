@@ -58,7 +58,7 @@
   display: flex;
   grid-template-columns: repeat(3, 1fr);
   flex-wrap: wrap;
-  gap: 50px;
+  gap: 40px;
   width: 1000px;
   margin: 0 auto;
   /* border:1px solid red; */
@@ -74,7 +74,7 @@
 }
 
 .nft_item:hover {
-  box-shadow: 20px 20px 20px grey;
+  box-shadow: 10px 10px 10px grey;
 }
 
 .nft_item_img {

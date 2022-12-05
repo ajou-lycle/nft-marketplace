@@ -15,6 +15,9 @@ function App() {
     alert(
       "LaMarket을 이용하시려면 메타마스크를 설치해주세요!\n\n메타마스크 설치 링크 : https://metamask.io/download/"
     );
+    console.log(
+      "LaMarket을 이용하시려면 메타마스크를 설치해주세요!\n\n메타마스크 설치 링크 : https://metamask.io/download/"
+    );
   }
 
   return isMetaMaskInstalled ? (
@@ -25,7 +28,6 @@ function App() {
       </EthProvider>
     </RecoilRoot>
   ) : (
-    
     <RecoilRoot>
       <ScrollTop />
       <RootRoute />

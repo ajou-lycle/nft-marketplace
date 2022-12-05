@@ -32,6 +32,8 @@ import PageSettings from "../pages/PageSettings";
 
 import PageLanding from "../pages/PageLanding";
 import PageLanding2 from "../pages/PageLanding2";
+import PurchasesList from "../mypage/PurchasesList";
+import PagePurchase from "../pages/PagePurchase";
 
 import { useRecoilState } from "recoil";
 import {isLoginState } from "../recoil/User.js";
@@ -76,6 +78,7 @@ export default function RootRoute() {
         <Route path="/search/:searchWord" element={<FilterPage />} />
         <Route path="/settings/pwd" element={<PwdPage />} />
         <Route path="/settings/edit" element={<EditPage />} />
+        <Route path="/myPage/buy/:memberInfoId" element={<PagePurchase />} />
       </Routes>
     </BrowserRouter>
   );

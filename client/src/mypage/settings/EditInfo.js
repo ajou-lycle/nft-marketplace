@@ -13,6 +13,7 @@ import {
 } from "@material-ui/icons";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import "../../signup/JoinPage.css";
 import { useSetRecoilState } from "recoil";
 import { UserNickName } from "../../recoil/User";
 
@@ -22,15 +23,52 @@ const EditInfo = (props) => {
   const [userData, setUserData] = useState("");
 
   const [nickname, setNickname] = useState("");
+  const [nameValid, setNameValid] = useState(false);
+
+  const [nowAllow, setNotAllow] = useState(true);
+
   const [walletAddress, setWalletAddress] = useState("");
-  const [profileImg, setProfileImg] = useState("");
+  const [profileImg, setProfileImg] = useState(props);
 
   const [pwd, setPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
   const [configPwd, setConfigPwd] = useState("");
 
   const [imageFile, setImageFile] = useState(null);
-  const [localImageURL, setLocalImageURL] = useState("");
+  const [localImageURL, setLocalImageURL] = useState(profileImg);
+
+  const checkNickname = (e) => {
+    axios
+      .post("http://3.38.210.200:8080/valid/nickname/exists", {
+        nickname: nickname,
+      })
+      .then((res) => {
+        console.log("res.data :", res.data);
+        if (res.data.result == true) {
+          console.log("중복된 닉네임이 존재합니다");
+          alert("중복된 닉네임이 존재합니다.");
+          setNameValid(false);
+        } else {
+          console.log("사용 가능한 닉네임");
+          alert("사용 가능한 닉네임입니다.");
+          setNameValid(true);
+        }
+      })
+      .catch((err) => {
+        console.log("중복확인 실패:", err);
+      });
+  };
+
+  const handleName = (e) => {
+    const regexNickname = /^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$/;
+    setNickname(e.target.value);
+    //닉네임은 특수문자를 제외한 2~10자리
+    if (regexNickname.test(nickname)) {
+      setNameValid(false);
+    } else {
+      setNameValid(true);
+    }
+  };
 
   const convertURLtoFile = async (url) => {
     const response = await fetch(url);
@@ -70,6 +108,14 @@ const EditInfo = (props) => {
     viewUserData();
   }, []);
 
+  useEffect(() => {
+    if (nameValid) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [nameValid]);
+
   const handleSubmit = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
 
@@ -82,7 +128,6 @@ const EditInfo = (props) => {
     let userValue = {
       nickname: nickname,
       profileImg: profileImg,
-      walletAddress: walletAddress,
       password: newPwd,
     };
 
@@ -107,7 +152,6 @@ const EditInfo = (props) => {
       })
       .then((res) => {
         console.log("res.data", res.data);
-        // console.log("res:", JSON.stringify(res, null, 2));
         alert("수정되었습니다.");
         setLocalNickName(nickname);
       })
@@ -141,12 +185,12 @@ const EditInfo = (props) => {
         }
       )
       .then((res) => {
-        console.log("res.data", res.data);
-        setPwd(e.target.value);
+        console.log("res.data : ", res.data);
 
-        if (res.data == false) {
+        if (res.data.result == false) {
           console.log("불일치합니다");
-        } else if (res.data == true) {
+          alert("비밀번호가 불일치합니다.");
+        } else if (res.data.result == true) {
           console.log("일치합니다.");
           alert("기존 비밀번호가 일치합니다.");
         }
@@ -188,8 +232,18 @@ const EditInfo = (props) => {
               id="profileImage"
               onChange={onUploadImage}
             />
-            <div style={{ marginTop: "10px" }}></div>
-            <label htmlFor="profileImage">Change Profile</label>
+            <div style={{ marginTop: "15px" }}></div>
+            <label
+              htmlFor="profileImage"
+              style={{
+                border: "2px solid gray",
+                borderRadius: "20px",
+                padding: "2px 7px 2px 7px",
+                cursor: "pointer",
+              }}
+            >
+              Change Profile
+            </label>
 
             {/* <div style={{ display: "flex", justifyContent: "center" }}>
               <IconButton>
@@ -208,57 +262,60 @@ const EditInfo = (props) => {
 
             <ProfileInfo>Nickname</ProfileInfo>
             {/* <UserInfo>{userData.nickname}</UserInfo> */}
-            <InfoInput
-              type="text"
-              placeholder="Enter nickname"
-              id="nickname"
-              value={nickname}
-              onChange={(e) => {
-                setNickname(e.target.value);
-              }}
-              required
-              minLength="3"
-              maxLength="10"
-            />
+            <div className="join_write_id_input" style={{ display: "flex" }}>
+              <InfoInput
+                type="text"
+                placeholder="Enter nickname"
+                id="nickname"
+                value={nickname}
+                onChange={handleName}
+                required
+                minLength="3"
+                maxLength="10"
+              />
+              <div className="join_write_id_config">
+                <button
+                  className="id_config_btn"
+                  style={{ cursor: "pointer" }}
+                  onClick={checkNickname}
+                >
+                  <span className="id_config_btn_text">중복확인</span>
+                </button>
+              </div>
+            </div>
+            <div className="errorMessageWrap" style={{ marginBottom: "30px" }}>
+              {!nameValid && nickname.length > 0 && (
+                <div>4글자 이상 10자 이하</div>
+              )}
+            </div>
 
             <ProfileInfo>Email Address</ProfileInfo>
             <UserInfo>{userData.email}</UserInfo>
             {/* <InfoInput placeholder="Email Address - 변경 불가능" disabled /> */}
-
+            {/* 
             <ProfileInfo>Wallet Address</ProfileInfo>
-            <UserInfo>{userData.walletAddress}</UserInfo>
-            {/* <InfoInput
-              type="text"
-              placeholder="Enter walletAddress"
-              id="walletAddress"
-              value={walletAddress}
-              onChange={(e) => {
-                setWalletAddress(e.target.value);
-              }}
-              required
-              minLength="3"
-              maxLength="10"
-            /> */}
+            <UserInfo>{userData.walletAddress}</UserInfo> */}
           </div>
         </div>
         <EditButton onClick={handleSubmit}>수정</EditButton>
 
-        <div style={{ marginTop: "80px", padding: "10px" }}>
+        <div style={{ marginTop: "80px", padding: "10px", marginLeft: "20px" }}>
           <ProfileInfo>비밀번호 변경</ProfileInfo>
           <RowLine></RowLine>
 
-          <PwdInfo>기존 비밀번호 확인 </PwdInfo>
-          <div style={{ display: "flex" }}>
+          {/* <PwdInfo>기존 비밀번호 확인 </PwdInfo>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             <InfoInput
               placeholder="기존 비밀번호를 입력해주세요"
               type="password"
               value={pwd}
+              id="password"
               onChange={(e) => {
                 setPwd(e.target.value);
               }}
             />
             <SaveButton onClick={checkPwd}>기존 비밀번호 확인하기</SaveButton>
-          </div>
+          </div> */}
 
           <PwdInfo>새 비밀번호 입력 </PwdInfo>
           <InfoInput
@@ -274,7 +331,7 @@ const EditInfo = (props) => {
             maxLength="16"
           />
           <PwdInfo>새 비밀번호 재확인</PwdInfo>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             <InfoInput
               type="password"
               placeholder="새 비밀번호를 한 번 더 입력해주세요"
@@ -292,8 +349,17 @@ const EditInfo = (props) => {
                 if (newPwd == configPwd) {
                   handleSubmit();
                 } else {
-                  alert("새 비밀번호가 일치하지 않습니다.");
+                  console.log("error");
                 }
+                // } else if (newPwd !== configPwd && pwd == prevPwd) {
+                //   alert("새 비밀번호가 일치하지 않습니다.");
+                //   console.log("newPwd != configPwd");
+                // } else if (newPwd == configPwd && pwd != prevPwd) {
+                //   alert("기존 비밀번호가 일치하지 않습니다.");
+                // } else {
+                //   alert("기존 비밀번호가 일치하지 않습니다.");
+                //   console.log("마지막else");
+                // }
               }}
             >
               비밀번호 변경하기
@@ -330,9 +396,9 @@ const InfoInput = styled.input`
   background-color: #ddd;
   border: none;
   border-radius: 10px;
-  width: 440px;
+  width: 300px;
   height: 44px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   padding: 0px 20px 0px 20px;
 `;
 
@@ -380,7 +446,7 @@ const MyPageTitle = styled.div`
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 15px;
-  margin-left: 20px;
+  margin-left: 35px;
 `;
 
 const PwdInfo = styled.div`
@@ -397,6 +463,13 @@ const RowLine = styled.span`
   height: 1.5px;
   background: #333;
   margin-bottom: 30px;
+`;
+
+const errorMessageWrap = styled.div`
+  color: red;
+  font-size: 12px;
+  margin-left: 5px;
+  margin-top: 10px;
 `;
 
 export default EditInfo;
