@@ -425,7 +425,7 @@ export const payLycleToken = async (eth, amount) => {
   return new Promise(async (resolve, reject) => {
     const LycleTokenContract = isExistERC1155TokenByCollectionName(
       eth,
-      CollectionNameEnum.LYCLE_TOKEN
+      CollectionNameEnum.LYCLE_TOKEN.name
     );
     if (LycleTokenContract === undefined) {
       reject(new Error(`Not exist`));
@@ -458,9 +458,10 @@ export const payLycleToken = async (eth, amount) => {
       transactionOfBalance.transactionHash
     );
     if (statusTransactionOfToken) {
-      return true;
+      resolve(true);
+      return;
     }
-    return false;
+    resolve(false);
   });
 };
 export const mint = async (eth) => {
