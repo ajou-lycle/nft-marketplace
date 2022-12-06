@@ -68,12 +68,15 @@ function Login() {
         // 작업 완료 되면 페이지 이동(새로고침)
         document.location.href = "/mainPage";
       })
-      .catch();
+      .catch((err) => {
+        alert("입력하신 정보가 옳지 않습니다!");
+      });
   };
 
   return (
     <div className="login_whole">
       <div className="loginpage_header">
+        {" "}
         <Link to="/mainPage" style={{ textDecoration: "none", color: "black" }}>
           <LogoImg src={mainLogo} />
         </Link>{" "}

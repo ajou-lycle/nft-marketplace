@@ -1,6 +1,6 @@
 .main_disc {
   display: flex;
-  height: 200px;
+  height: 150px;
   margin: 0 auto;
   width: 1000px;
   margin-top: 50px;
@@ -60,4 +60,33 @@
 .content_bar_2_false {
   /* background-color: #72E0A1; */
   opacity: 0.5;
+}
+
+.survey_bt {
+  color: #0bc471;
+  background-color: white;
+  border: 2px solid #0bc471;
+  margin: 0 auto;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 15px;
+  width: 700px;
+  height: 80px;
+  line-height: 80px;
+  margin-top: 50px;
+}
+
+.go_survey_bt {
+  color: #0bc471;
+  background-color: white;
+  font-weight: bold;
+  padding: 1.2rem 1.8rem;
+  margin-left: 10px;
+  border-radius: 15px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
 }
