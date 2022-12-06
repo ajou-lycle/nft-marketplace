@@ -35,7 +35,7 @@ const EditInfo = (props) => {
   const [configPwd, setConfigPwd] = useState("");
 
   const [imageFile, setImageFile] = useState(null);
-  const [localImageURL, setLocalImageURL] = useState(profileImg);
+  const [localImageURL, setLocalImageURL] = useState(props);
 
   const checkNickname = (e) => {
     axios

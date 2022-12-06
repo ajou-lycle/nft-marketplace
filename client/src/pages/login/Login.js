@@ -3,7 +3,13 @@ import { useRecoilState } from "recoil";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link, Navigate } from "react-router-dom";
-import { address, idState, isLogin, serverAddress, UserNickName } from "../../recoil/User";
+import {
+  address,
+  idState,
+  isLogin,
+  serverAddress,
+  UserNickName,
+} from "../../recoil/User";
 import styled from "styled-components";
 import "./Login.css";
 import "../../recoil/User.js";
@@ -20,7 +26,7 @@ function Login() {
   // const email = document.getElementById("accountName");
   // const password = document.getElementById('pw');
   const [address, setAddress] = useRecoilState(serverAddress);
-  const [nickname,setNickname] = useRecoilState(UserNickName);
+  const [nickname, setNickname] = useRecoilState(UserNickName);
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
 
@@ -46,7 +52,7 @@ function Login() {
       )
 
       .then((res) => {
-        console.log("res.data",res.data);
+        console.log("res.data", res.data);
         console.log("res.data.accessToken :: ", res.data.accessToken);
         localStorage.setItem("memberId", res.data.memberId);
         console.log("멤버아이디, ", res.data.memberId);
@@ -67,9 +73,11 @@ function Login() {
 
   return (
     <div className="login_whole">
-      <div className="loginpage_header"> <Link to="/mainPage" style={{ textDecoration: "none", color: "black" }}>
+      <div className="loginpage_header">
+        <Link to="/mainPage" style={{ textDecoration: "none", color: "black" }}>
           <LogoImg src={mainLogo} />
-        </Link> </div>
+        </Link>{" "}
+      </div>
       <div className="login_title">로그인</div>
       <div className="login_id_password_whole">
         <form>
