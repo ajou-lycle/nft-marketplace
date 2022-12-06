@@ -4,6 +4,7 @@ import NftItem from "../components/common/Item";
 import Menu from "../components/common/Menu";
 import ScrollTop from "../ScrollTop";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export default function Page1() {
   return (
@@ -19,7 +20,7 @@ export default function Page1() {
             window.open("https://forms.gle/MRpbR2UiVDqTtWyM9");
           }}
         >
-          설문조사 하기
+          <SurveyBtn>설문조사 하기</SurveyBtn>
         </button>
       </div>
       <Menu />
@@ -27,3 +28,15 @@ export default function Page1() {
     </div>
   );
 }
+
+const SurveyBtn = styled.p`
+  margin: 0 auto;
+  color: #333;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 5px;
+  &:hover,
+  &:active {
+    background-color: #d1d1d1;
+  }
+`;

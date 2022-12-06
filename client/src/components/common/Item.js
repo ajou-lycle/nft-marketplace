@@ -154,8 +154,12 @@ export default function NftItem() {
             }
           };
           return (
-            <div className="nft_item" key={rowData.nft_item_id.toString()}>
-              <div className="nft_item_img" onClick={PageReplaceisLogin}>
+            <div
+              className="nft_item"
+              key={rowData.nft_item_id.toString()}
+              onClick={PageReplaceisLogin}
+            >
+              <div className="nft_item_img">
                 <div className="nft_item_img_">
                   <ItemImg
                     src={rowData.nftItemImg}
