@@ -93,14 +93,14 @@ function PageLanding() {
                 <Link to="/mainPage">
                   <button className={"go_site_btn"}>지금 NFT 둘러보기</button>
                 </Link>
-                <button
+                {/* <button
                   className={"go_survey_btn"}
                   onClick={() => {
                     window.open("https://forms.gle/MRpbR2UiVDqTtWyM9");
                   }}
                 >
                   설문조사 하기
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
