@@ -67,7 +67,7 @@ function EditNft() {
       .then((res) => {
         console.log("res.data", res.data);
         alert("수정이 완료되었습니다!");
-        document.location.href = "/";
+        document.location.href = "/mainpage";
       })
       .catch((err) => {
         console.log("Error", err);
@@ -91,10 +91,16 @@ function EditNft() {
               <dl className="add_name">
                 <dt className="d_left">SELLER INFO</dt>
                 {/* <dd className="d4_right">{contentdata.nickname}</dd> */}
-                <dd>
-                  <span>{contentnftdata.profileImg}</span>
-                  <span>{contentnftdata.nickname}</span>
-                </dd>
+
+                <span>
+                  <img
+                    src={contentnftdata.profileImg}
+                    style={{ height: "50px", marginLeft: "40px" }}
+                  />
+                </span>
+                <span className="nick_lineheight">
+                  {contentnftdata.nickname}
+                </span>
               </dl>
               {/* <dl className="add_name">
                 <dt className="d_left">NFT IMAGE</dt>

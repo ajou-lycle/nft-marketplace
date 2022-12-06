@@ -30,6 +30,7 @@ function Menu() {
       <div className="main_disc">
         <div className="main_disc_in">Barter your Life-Cycle, LYCLE </div>
       </div>
+
       <div className="menuButton">
         <Link to="/market" style={{ textDecoration: "none" }}>
           <MenuButton

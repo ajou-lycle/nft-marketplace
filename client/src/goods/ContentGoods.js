@@ -9,10 +9,8 @@ import "../recoil/User.js";
 import { useRecoilState } from "recoil";
 import useEth from "../contexts/EthContext/useEth.js";
 
-
 function ContentGoods() {
   const { goodsInfoId } = useParams();
-
 
   const [count, setCount] = useState(1);
   const count3 = (count * 15900)
@@ -45,7 +43,7 @@ function ContentGoods() {
   };
 
   const [contentgoodsdata, setContentGoodsData] = useState("");
-  const [goodsPrice,setGoodsPrice]=useState(0);
+  const [goodsPrice, setGoodsPrice] = useState(0);
 
   const onClickShowGoods = () => {
     axios
@@ -106,43 +104,42 @@ function ContentGoods() {
       });
   };
 
-  const BuyGoodsinBlockChain = async ()=> {
-      return await payLycleToken(eth, String(goodsPrice));
-    }
+  const BuyGoodsinBlockChain = async () => {
+    return await payLycleToken(eth, String(goodsPrice));
+  };
 
-  
   const onClickBuyGoods = () => {
     console.log(sessionStorage.getItem("user_token"));
     BuyGoodsinBlockChain().then((result) => {
-      if(!result) {
+      if (!result) {
         alert("거래가 실패했습니다.");
         return;
       }
 
       axios
-      .post(
-        `http://3.38.210.200:8080/item/${goodsInfoId}/buy`,
-        {
-          count: count,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+        .post(
+          `http://3.38.210.200:8080/item/${goodsInfoId}/buy`,
+          {
+            count: count,
           },
-        }
-      )
-      .then((res) => {
-        console.log("res.data", res.data);
-        
-        console.log(count + "개 구매완료!");
-        alert(count + "개 구매완료!");
-      })
-      .catch((err) => {
-        console.log("Error", err);
-        alert("거래가 실패했습니다.");
-      });
-    })
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log("res.data", res.data);
+
+          console.log(count + "개 구매완료!");
+          alert(count + "개 구매완료!");
+        })
+        .catch((err) => {
+          console.log("Error", err);
+          alert("거래가 실패했습니다.");
+        });
+    });
   };
 
   return (
@@ -191,8 +188,8 @@ function ContentGoods() {
                     {" "}
                     {(count * contentgoodsdata.price)
                       .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 
-                     LYCLE
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    LYCLE
                   </span>
                 </div>
               </div>
@@ -226,7 +223,10 @@ function ContentGoods() {
         {/* <div className="disc_long">{contentgoodsdata.content}</div> */}
         {/* <button onClick={onClickShowNft} type="button">조회</button> */}
         <Buttons>
-          <Link to={`/edit_goods/${goodsInfoId}`}>
+          <Link
+            to={`/edit_goods/${goodsInfoId}`}
+            style={{ textDecoration: "none" }}
+          >
             <ButtonEditDelete type="button">수정</ButtonEditDelete>
           </Link>
           <ButtonEditDelete onClick={onClickDeleteGoods} type="button">
@@ -292,7 +292,7 @@ const ButtonEditDelete = styled.button`
   justify-content: center;
   margin-right: 20px;
   margin-left: 20px;
-
+  text-decoration: none;
   background-color: #fffacd;
   color: black;
   border: 5px solid #d9f1d7;
