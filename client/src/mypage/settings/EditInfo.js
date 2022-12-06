@@ -156,7 +156,9 @@ const EditInfo = (props) => {
         setLocalNickName(nickname);
       })
       .catch((err) => {
-        console.log("Error", err);
+        console.log("실패:", err.response.data.message);
+        alert(err.response.data.message);
+        console.log("Error!!!!", err);
         console.log("등록을 실패하였습니다.");
       });
   };
@@ -329,6 +331,7 @@ const EditInfo = (props) => {
             required
             minLength="8"
             maxLength="16"
+            style={{ marginBottom: "30px" }}
           />
           <PwdInfo>새 비밀번호 재확인</PwdInfo>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -349,17 +352,8 @@ const EditInfo = (props) => {
                 if (newPwd == configPwd) {
                   handleSubmit();
                 } else {
-                  console.log("error");
+                  alert("새 비밀번호가 일치하지 않습니다ㅣ.");
                 }
-                // } else if (newPwd !== configPwd && pwd == prevPwd) {
-                //   alert("새 비밀번호가 일치하지 않습니다.");
-                //   console.log("newPwd != configPwd");
-                // } else if (newPwd == configPwd && pwd != prevPwd) {
-                //   alert("기존 비밀번호가 일치하지 않습니다.");
-                // } else {
-                //   alert("기존 비밀번호가 일치하지 않습니다.");
-                //   console.log("마지막else");
-                // }
               }}
             >
               비밀번호 변경하기

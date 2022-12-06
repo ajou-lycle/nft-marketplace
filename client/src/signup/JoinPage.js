@@ -50,7 +50,12 @@ const JoinPage = () => {
       })
       .catch((error) => {
         console.log("An error occurred:", error.response);
-        alert("회원가입을 실패하였습니다. 입력 형식을 다시 확인해주세요.");
+        // alert("회원가입을 실패하였습니다. 입력 형식을 다시 확인해주세요.");
+        const errLength = error.response.data.errors.length;
+        console.log(error.response.data.errors);
+        for (let i = 0; i < errLength; i++) {
+          alert(error.response.data.errors[i].message);
+        }
       });
   };
 
@@ -181,7 +186,6 @@ const JoinPage = () => {
   const handlePwd = (e) => {
     setPwd(e.target.value);
     //비밀번호는 8~16자 영문 대소문자, 숫자, 특수문자를 사용해야 한다.
-
     // const regexPwd = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/;
     const regexPwd =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,16}$/;
@@ -194,13 +198,13 @@ const JoinPage = () => {
   };
 
   const handleName = (e) => {
-    const regexNickname = /^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$/;
+    const regexNickname = /^[ㄱ-ㅎ가-힣a-z0-9-_]{4,10}$/;
     setName(e.target.value);
-    //닉네임은 특수문자를 제외한 2~10자리
+    //닉네임은 특수문자를 제외한 4~10자리
     if (regexNickname.test(name)) {
-      setNameValid(false);
-    } else {
       setNameValid(true);
+    } else {
+      setNameValid(false);
     }
   };
 
@@ -297,7 +301,8 @@ const JoinPage = () => {
               <div className="errorMessageWrap">
                 {!pwdValid && pwdValid > 0 && (
                   <div>
-                    8~16자 영문 대소문자, 숫자, 특수문자를 사용해야 합니다.
+                    비밀번호는 8~16자 영문 대소문자, 숫자, 특수문자를 사용해야
+                    합니다.
                   </div>
                 )}
               </div>
@@ -322,7 +327,7 @@ const JoinPage = () => {
               />
               <div className="errorMessageWrap">
                 {!nameValid && name.length > 0 && (
-                  <div>4글자 이상 10자 이하</div>
+                  <div>닉네임은 특수문자를 제외한 4~10자리여야 합니다.</div>
                 )}
               </div>
             </div>
