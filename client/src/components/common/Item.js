@@ -25,20 +25,27 @@ export default function NftItem() {
   const [count, setCount] = useState(0);
 
   //페이지 초기 값은 1페이지
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(1);
 
-  const handlePageChange = (current) => {
-    setCurrentPage(current);
+  const handlePageChange = () => {
+    setCurrentPage(currentPage++);
     console.log(currentPage);
   };
 
-  // const nextPageClick = (email) => {
-  //   e.target.id === "첫번째 "
-  //   setCurrentPage(너가 가려는 page번호); page state
-  //   => 요청보내고 데이터 받아와서 뿌리겠죠
-  // }
+  let pageNumber = 0;
+
+  const nextPageClick = () => {
+    // pageNumber = document.getElementById(1);
+    // if (this.getElementById("1")) {
+    //   setCurrentPage(0);
+    // }
+
+    if (this.document.getElementById("3")) {
+      setCurrentPage(0);
+    }
+  };
 
   function sortLike() {
     let likeSorting = [...inputData];
@@ -74,7 +81,7 @@ export default function NftItem() {
   useEffect((e) => {
     async function fetchData() {
       // const res = await axios.get(
-      //   `http://${address}:8080/nftItem?page=1&size=5`
+      //   `http://${address}:8080/nftItem?page=${pageNumber}&size=9`
       // );
       const res = await axios.get(`http://${address}:8080/nftItem?`);
       const _inputData = await res.data.itemList.map((rowData) => ({
@@ -205,15 +212,36 @@ export default function NftItem() {
           );
         })}
       </div>
-      <Pagination
+      {/* <Pagination
         activePage={currentPage}
         itemsCountPerPage={9}
-        totalItemsCount={count}
-        pageRangeDisplayed={5}
+        totalItemsCount={100}
+        pageRangeDisplayed={10}
         prevPageText={"<"}
         nextPageText={">"}
         onChange={handlePageChange}
-      />
+      /> */}
+      {/* <div>
+        <button
+          id="1"
+          onClick={() => {
+            nextPageClick();
+          }}
+        >
+          page1
+        </button>
+        <button
+          id="2"
+          onClick={() => {
+            nextPageClick();
+          }}
+        >
+          page2
+        </button>
+        <button id="3">page3</button>
+        <button>page4</button>
+        <button>page5</button>
+      </div> */}
     </div>
   );
 }
