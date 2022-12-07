@@ -32,8 +32,6 @@ export default function Page1() {
 const SurveyBtn = styled.p`
   margin: 0 auto;
   color: #333;
-  border: 1px solid #333;
-  border-radius: 10px;
   padding: 5px;
   &:hover,
   &:active {
