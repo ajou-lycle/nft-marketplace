@@ -77,8 +77,16 @@ function Login() {
     <div className="login_whole">
       <div className="loginpage_header">
         {" "}
-        <Link to="/mainPage" style={{ textDecoration: "none", color: "black" }}>
-          <LogoImg src={mainLogo} />
+        <Link
+          to="/mainPage"
+          style={{
+            textDecoration: "none",
+            color: "black",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <LogoImg src={mainLogo} style={{ width: "200px" }} />
         </Link>{" "}
       </div>
       <div className="login_title">로그인</div>
@@ -112,11 +120,6 @@ function Login() {
                 />
               </div>
             </div>
-          </div>
-          <div className="find_id_password">
-            <a className="find_id">아이디 찾기</a>
-            <span className="find_icon"></span>
-            <a className="find_id">비밀번호 찾기 </a>
           </div>
           <div className="login_button">
             <LoginButton
@@ -169,6 +172,5 @@ const LoginButton = styled.button`
 `;
 const LogoImg = styled.img`
   width: 180px;
-  margin-right: 30px;
 `;
 export default Login;

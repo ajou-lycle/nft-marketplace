@@ -13,11 +13,7 @@ function ContentGoods() {
   const { goodsInfoId } = useParams();
 
   const [count, setCount] = useState(1);
-  const count3 = (count * 15900)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const [useclassName, setUseClassName] = useState("d4_count_down_false");
-  // const [d5Like,setD5Like] = useState("d5_like_false");
   const { eth, setEthState } = useEth();
   const countAdd = () => {
     setUseClassName("d4_count_down_true");
@@ -29,17 +25,6 @@ function ContentGoods() {
       setCount(count - 1);
       setUseClassName("d4_count_down_true");
     } else if (count === 1) setUseClassName("d4_count_down_false");
-  };
-
-  // const likeClick = () => {
-  //     if(d5Like === "d5_like_false") setD5Like("d5_like_true");
-  //     if(d5Like === "d5_like_true") setD5Like("d5_like_false");
-  // };
-  const [isClicked, setIsClicked] = useState(false);
-
-  const changeContentbarColor = () => {
-    if (isClicked === true) setIsClicked(false);
-    if (isClicked === false) setIsClicked(true);
   };
 
   const [contentgoodsdata, setContentGoodsData] = useState("");
@@ -55,7 +40,6 @@ function ContentGoods() {
       })
       .then((res) => {
         console.log("res.data", res.data);
-        // console.log('data is ' + JSON.stringify(res.data));
         setContentGoodsData(res.data);
         setGoodsPrice(res.data.price);
       })
@@ -67,42 +51,6 @@ function ContentGoods() {
   useEffect(() => {
     onClickShowGoods();
   }, []);
-
-  // const onClickLikeGoods=() => {
-  //     let userToken = sessionStorage.getItem('user_token');
-  //     console.log(userToken);
-  //     axios.post(`http://localhost:8080/item/${goodsInfoId}/like`, {},
-  //     {
-  //         withCredentials: true,
-  //         headers: {
-  //             Authorization: `Bearer ${sessionStorage.getItem('user_token')}`, }})
-  //     .then((res) => {
-  //         console.log("res.data", res.data)
-
-  //     })
-  //     .catch((err) => {console.log("Error", err)});
-
-  // }
-
-  const onClickDeleteGoods = () => {
-    let userToken = sessionStorage.getItem("user_token");
-    console.log(userToken);
-    axios
-      .delete(`http://3.38.210.200:8080/item/${goodsInfoId}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
-        },
-      })
-      .then((res) => {
-        console.log("res.data", res.data);
-        alert("삭제가 완료되었습니다!");
-        document.location.href = "/mainPage";
-      })
-      .catch((err) => {
-        console.log("Error", err);
-      });
-  };
 
   const BuyGoodsinBlockChain = async () => {
     return await payLycleToken(eth, String(goodsPrice));
@@ -116,29 +64,31 @@ function ContentGoods() {
         return;
       }
 
-      axios
-        .post(
-          `http://3.38.210.200:8080/item/${goodsInfoId}/buy`,
-          {
-            count: count,
-          },
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+      if (result) {
+        axios
+          .post(
+            `http://3.38.210.200:8080/item/${goodsInfoId}/buy`,
+            {
+              count: count,
             },
-          }
-        )
-        .then((res) => {
-          console.log("res.data", res.data);
+            {
+              withCredentials: true,
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log("res.data", res.data);
 
-          console.log(count + "개 구매완료!");
-          alert(count + "개 구매완료!");
-        })
-        .catch((err) => {
-          console.log("Error", err);
-          alert("거래가 실패했습니다.");
-        });
+            console.log(count + "개 구매완료!");
+            alert(count + "개 구매완료!");
+          })
+          .catch((err) => {
+            console.log("Error", err);
+            alert("거래가 실패했습니다. 잔고를 확인해주세요");
+          });
+      }
     });
   };
 
@@ -153,9 +103,6 @@ function ContentGoods() {
 
               <div className="disc_1_2">
                 <div className="disc_1_2_big">{contentgoodsdata.title}</div>
-                {/* <div className="d5_bottom_icon">
-                                <button onClick={onClickLikeGoods} type="button" className={d5Like}></button>
-                            </div> */}
               </div>
             </div>
 
@@ -168,10 +115,6 @@ function ContentGoods() {
                 <dt className="d4_left">views</dt>
                 <dd className="d4_right">{contentgoodsdata.viewCnt}</dd>
               </dl>
-              {/* <dl className="content_pic_disc_4_2">
-                            <dt className="d4_left">likes</dt>
-                            <dd className="d4_right">{contentgoodsdata.likeCnt}</dd>
-                        </dl> */}
               <dl className="content_pic_disc_4_2">
                 <dt className="d4_left">created date</dt>
                 <dd className="d4_right">{contentgoodsdata.createdDate}</dd>
@@ -188,7 +131,7 @@ function ContentGoods() {
                     {" "}
                     {(count * contentgoodsdata.price)
                       .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
                     LYCLE
                   </span>
                 </div>
@@ -220,19 +163,6 @@ function ContentGoods() {
             </div>
           </div>
         </div>
-        {/* <div className="disc_long">{contentgoodsdata.content}</div> */}
-        {/* <button onClick={onClickShowNft} type="button">조회</button> */}
-        <Buttons>
-          <Link
-            to={`/edit_goods/${goodsInfoId}`}
-            style={{ textDecoration: "none" }}
-          >
-            <ButtonEditDelete type="button">수정</ButtonEditDelete>
-          </Link>
-          <ButtonEditDelete onClick={onClickDeleteGoods} type="button">
-            삭제
-          </ButtonEditDelete>
-        </Buttons>
       </div>
     </div>
   );
@@ -240,20 +170,15 @@ function ContentGoods() {
 
 const Content_goods_4 = styled.div`
   display: flex;
-  width: 560px;
-  height: 190px;
+  width: 460px;
+  /* height: 190px; */
   border-radius: 10px;
   margin-top: 30px;
-  margin-bottom: 50px;
-  background-color: #fffacd;
-  line-height: 200px;
-  text-align: center;
-  justify-content: center;
-`;
+  margin-bottom: 30px;
+  padding: 50px 50px 50px 50px;
 
-const Buttons = styled.div`
-  margin-top: 70px;
-  display: flex;
+  background-color: #fffacd;
+  text-align: center;
   justify-content: center;
 `;
 
@@ -276,26 +201,6 @@ const GoodsBuyButton = styled.button`
   color: ${(props) => props.color};
   border: 3px solid black;
   margin-top: ${(props) => props.margin};
-`;
-
-const ButtonEditDelete = styled.button`
-  display: flex;
-  padding: 0px 10px;
-  justify-content: center;
-  text-align: center;
-  width: 130px;
-  height: 54px;
-  border-radius: 30px;
-  line-height: 54px;
-  font-weight: bold;
-  font-size: 20px;
-  justify-content: center;
-  margin-right: 20px;
-  margin-left: 20px;
-  text-decoration: none;
-  background-color: #fffacd;
-  color: black;
-  border: 5px solid #d9f1d7;
 `;
 
 export default ContentGoods;

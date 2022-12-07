@@ -11,32 +11,20 @@ import PageEditNft from "../pages/PageEditNft";
 import PageContentGoods from "../pages/PageContentGoods";
 import PageAddGoods from "../pages/PageAddGoods";
 import PageEditGoods from "../pages/PageEditGoods";
+import PageDeleteGoods from "../pages/PageDeleteGoods";
 
 import SignUp from "../pages/SignUp";
 import MyPage from "../pages/MyPage.js";
-// import WalletPage from "../WalletSet";
-import WalletPage from "../mypage/WalletSet";
-import SettingPage from "../mypage/Settings";
-import FavoritesPage from "../mypage/FavoritesPage";
-import ItemPage from "../pages/ItemPage";
-import Item2 from "../components/common/Item2";
 import GoodsPage from "../pages/GoodsPage";
-import SearchList from "../components/common/Search";
 import FilterPage from "../pages/FilterPage";
-import PwdChange from "../mypage/PwdChange";
 import PwdPage from "../pages/PwdPage";
 import EditPage from "../pages/EditPage";
 import PageWallet from "../pages/PageWallet";
 import PageLike from "../pages/PageLike";
 import PageSettings from "../pages/PageSettings";
 
-import PageLanding from "../pages/PageLanding";
 import PageLanding2 from "../pages/PageLanding2";
-import PurchasesList from "../mypage/PurchasesList";
 import PagePurchase from "../pages/PagePurchase";
-
-import { useRecoilState } from "recoil";
-import {isLoginState } from "../recoil/User.js";
 
 export default function RootRoute() {
   return (
@@ -46,14 +34,12 @@ export default function RootRoute() {
         <Route path="/mainpage" element={<Page1 />} />
         <Route path="/login" element={<Login />}></Route>
         <Route path="/menu" element={<Menu />}></Route>
-
         <Route
           path="/contents_nft/:nftInfoId"
           element={<PageContentNft />}
         ></Route>
         <Route path="/add_nft" element={<PageAddNft />}></Route>
         <Route path="/edit_nft/:nftInfoId" element={<PageEditNft />}></Route>
-
         <Route
           path="/contents_goods/:goodsInfoId"
           element={<PageContentGoods />}
@@ -63,17 +49,17 @@ export default function RootRoute() {
           path="/edit_goods/:goodsInfoId"
           element={<PageEditGoods />}
         ></Route>
+        <Route
+          path="/delete_goods/:goodsInfoId"
+          element={<PageDeleteGoods />}
+        ></Route>
 
         <Route path="/join" element={<SignUp />} />
         <Route path="/myPage/:memberInfoId" element={<MyPage />} />
-
         <Route path="/profile" element={<MyPage />} />
         <Route path="/wallet" element={<PageWallet />} />
         <Route path="/settings" element={<PageSettings />} />
         <Route path="/myPage/like/:memberInfoId" element={<PageLike />} />
-        <Route path="/itemPage" element={<ItemPage />} />
-        <Route path="/market" element={<Page1 />} />
-        <Route path="/item2" element={<Item2 />} />
         <Route path="/goods" element={<GoodsPage />} />
         <Route path="/search/:searchWord" element={<FilterPage />} />
         <Route path="/settings/pwd" element={<PwdPage />} />

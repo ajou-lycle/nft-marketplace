@@ -3,7 +3,6 @@ import Header from "../components/common/header";
 import NftItem from "../components/common/Item";
 import Menu from "../components/common/Menu";
 import ScrollTop from "../ScrollTop";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Page1() {
@@ -31,10 +30,16 @@ export default function Page1() {
 
 const SurveyBtn = styled.p`
   margin: 0 auto;
+<<<<<<< HEAD
+  color: gray;
+  border-radius: 10px;
+=======
   color: #333;
+>>>>>>> a25549f542483d3d00a7f5cd19d115cfa051ea40
   padding: 5px;
   &:hover,
   &:active {
     background-color: #d1d1d1;
+    color: #333;
   }
 `;
