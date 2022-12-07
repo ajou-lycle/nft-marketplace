@@ -183,3 +183,16 @@ body {
   margin-left: 10px;
   line-height: 50px;
 }
+
+.add_nft_left {
+  border: 1px solid grey;
+  align-items: center;
+  font-size: 15px;
+
+  width: 374px;
+  height: 55px;
+  margin-left: 40px;
+  line-height: 55px;
+  border-radius: 10px;
+  padding-left: 15px;
+}
