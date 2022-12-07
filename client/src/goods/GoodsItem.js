@@ -7,9 +7,12 @@ import { FavoriteBorder } from "@material-ui/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { serverAddress } from "../recoil/User";
+import { isLoginState } from "../recoil/User.js";
+import { useRecoilState } from "recoil";
 
 export default function GoodsItem() {
   const [inputItem, SetInputItem] = useState([]);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   function sortLike() {
     let likeSorting = [...inputItem];
@@ -44,9 +47,7 @@ export default function GoodsItem() {
 
   useEffect((e) => {
     async function fetchItemData() {
-      const res = await axios.get(
-        `http://3.38.210.200:8080/item?sort=recent`
-      );
+      const res = await axios.get(`http://3.38.210.200:8080/item?sort=recent`);
       console.log(serverAddress);
 
       const _inputItem = await res.data.itemList.map((rowData) => ({
@@ -83,22 +84,53 @@ export default function GoodsItem() {
 
       <div className="item_grid">
         {inputItem.map((rowData) => {
+          const PageReplaceisLogin = () => {
+            if (isLogin == true) {
+              // document.location.href = `../contents_goods/${rowData.nft_item_id}`;
+              console.log(isLogin, "로그인여부");
+            } else {
+              alert("로그인 후 조회 가능합니다. 로그인을 먼저 해주세요");
+              console.log(isLogin, "로그인여부");
+            }
+          };
           return (
-            <div className="nft_item" key={rowData.nft_item_id.toString()}>
-              <Link to={`../contents_goods/${rowData.nft_item_id}`}>
-                <div className="nft_item_img">
-                  <div className="nft_item_img_">
-                    <ItemImg
-                      src={rowData.item_img}
-                      loading="lazy"
-                      className="item_img"
-                    />
-                    <div>
-                      <FavoriteBorder />
+            <div
+              className="nft_item"
+              key={rowData.nft_item_id.toString()}
+              onClick={PageReplaceisLogin}
+            >
+              {isLogin ? (
+                <Link to={`../contents_goods/${rowData.nft_item_id}`}>
+                  <div className="nft_item_img">
+                    <div className="nft_item_img_">
+                      <ItemImg
+                        src={rowData.item_img}
+                        loading="lazy"
+                        className="item_img"
+                      />
+                      <div>
+                        <FavoriteBorder />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              ) : (
+                <Link to="../login">
+                  <div className="nft_item_img">
+                    <div className="nft_item_img_">
+                      <ItemImg
+                        src={rowData.item_img}
+                        loading="lazy"
+                        className="item_img"
+                      />
+                      <div>
+                        <FavoriteBorder />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )}
+
               <div className="nft_item_txt">
                 <div className="nft_date">
                   <span className="nft_item_views">
@@ -111,7 +143,7 @@ export default function GoodsItem() {
                   <UserImg src="img/lamarket_logo.png" />
                   <span className="nft_item_user">{rowData.memberId}</span>
                 </div>
-                <div className="nft_price">$ {rowData.price}</div>
+                <div className="nft_price">{rowData.price} LYCLE</div>
               </div>
             </div>
           );
@@ -137,20 +169,5 @@ const RowLine = styled.span`
   justify-content: center;
   height: 1px;
   background: #ddd;
-  margin-bottom: 30px;
-`;
-
-const PostButton = styled.button`
-  padding: 10px;
-  border-radius: 6px;
-  background-color: rgb(46, 204, 113);
-  font-size: 18px;
-  font-weight: 600;
-  color: white;
-  text-align: center;
-  cursor: pointer;
-  margin-right: 20px;
-  border: none;
-  float: right;
   margin-bottom: 30px;
 `;

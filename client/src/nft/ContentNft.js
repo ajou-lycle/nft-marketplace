@@ -6,12 +6,11 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import "../recoil/User.js";
 import { useRecoilState } from "recoil";
-import { isLiked,isLoginState } from "../recoil/User.js";
+import { isLiked, isLoginState } from "../recoil/User.js";
 import { recoilPersist } from "recoil-persist";
 import { buyNft } from "../datas/contract";
 import useEth from "../contexts/EthContext/useEth.js";
 import { ethState } from "../recoil/Eth";
-
 
 function ContentNft() {
   // const {persistAtom} = recoilPersist()
@@ -27,9 +26,9 @@ function ContentNft() {
   };
 
   const [contentnftdata, setContentNftData] = useState("");
-  const [sellerAddress,setSellerAddress]=useState('');
-  const {eth, setEthState} = useEth();
-  const [eth1,setEthstate1] =useRecoilState(ethState);
+  const [sellerAddress, setSellerAddress] = useState("");
+  const { eth, setEthState } = useEth();
+  const [eth1, setEthstate1] = useRecoilState(ethState);
 
   const onClickShowNft = () => {
     axios
@@ -57,15 +56,19 @@ function ContentNft() {
     onClickShowNft();
   }, []);
 
-
-  const onClickBuyNftinBlockChain = ()=> {
-    buyNft(eth,contentnftdata.collectionName,String(contentnftdata.nftId),sellerAddress,String(contentnftdata.price)).then((result)=> {
-      if(result) {alert("거래가 성공하였습니다!");}
-      else alert("거래가 실패하였습니다");
-    })
-
-  }
-
+  const onClickBuyNftinBlockChain = () => {
+    buyNft(
+      eth,
+      contentnftdata.collectionName,
+      String(contentnftdata.nftId),
+      sellerAddress,
+      String(contentnftdata.price)
+    ).then((result) => {
+      if (result) {
+        alert("거래가 성공하였습니다!");
+      } else alert("거래가 실패하였습니다");
+    });
+  };
 
   const onClickLikeNft = () => {
     if (d5Like === "d5_like_false") setD5Like("d5_like_true");
@@ -126,8 +129,8 @@ function ContentNft() {
       .then((res) => {
         console.log("res.data", res.data);
         setSellerAddress(res.data.sellerWalletAddress);
-        console.log(sellerAddress,"주소");
-    
+        console.log(sellerAddress, "주소");
+
         // console.log('data is ' + JSON.stringify(res.data));
         alert("구매가 완료되었습니다!");
         document.location.href = "/mainPage";
@@ -154,8 +157,7 @@ function ContentNft() {
       )
       .then((res) => {
         console.log("res.data", res.data);
-        console.log(contentnftdata.nftId,"아이디");
-
+        console.log(contentnftdata.nftId, "아이디");
       })
       .catch((err) => {
         console.log("Error", err);
@@ -222,33 +224,42 @@ function ContentNft() {
                 <div className="total_price">
                   <span className="total_price_right">
                     {" "}
-                     {contentnftdata.price}  Wei
+                    {contentnftdata.price} Wei
                   </span>
                 </div>
               </div>
             </div>
 
             <div className="d5_bottom_cart">
-              <div className="d5_bottom_buy_nft">
+              <NftCannotBuy>이 상품은 현재 구매 불가합니다 </NftCannotBuy>
+              {/* nft구매가 안돼서 임시적으로 주석 처리했습니다  */}
+              {/* <div className="d5_bottom_buy_nft">
                 {<NftBuyButton onClick={onClickBuyNft}>Buy Now</NftBuyButton>}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
         {/* <button onClick={onClickShowNft} type="button">조회</button> */}
         <Buttons>
-          <Link
-            to={`/edit_nft/${nftInfoId}`}
-            style={{ textDecoration: "none" }}
-          >
-            <ButtonEditDelete type="button">수정</ButtonEditDelete>
-          </Link>
-          <ButtonEditDelete onClick={onClickDeleteNft} type="button">
-            삭제
-          </ButtonEditDelete>
-          <ButtonEditDelete onClick={onClickRealBuyNft} type="button">
+          {contentnftdata.isOwner ? (
+            <Link
+              to={`/edit_nft/${nftInfoId}`}
+              style={{ textDecoration: "none" }}
+            >
+              <ButtonEditDelete type="button">수정</ButtonEditDelete>
+            </Link>
+          ) : null}
+
+          {contentnftdata.isOwner ? (
+            <ButtonEditDelete onClick={onClickDeleteNft} type="button">
+              삭제
+            </ButtonEditDelete>
+          ) : null}
+
+          {/* nft구매가 안돼서 임시적으로 주석 처리했습니다  */}
+          {/* <ButtonEditDelete onClick={onClickRealBuyNft} type="button">
             구매 확정
-          </ButtonEditDelete>
+          </ButtonEditDelete> */}
         </Buttons>
       </div>
     </div>
@@ -271,6 +282,20 @@ const NftBuyButton = styled.button`
   margin-top: ${(props) => props.margin};
 `;
 
+const NftCannotBuy = styled.button`
+  display: flex;
+  padding: 0px 10px;
+  justify-content: center;
+  text-align: center;
+  height: 54px;
+  border-radius: 10px;
+  line-height: 54px;
+  font-weight: bold;
+  background-color: ${(props) => props.backgroundcolor};
+  color: ${(props) => props.color};
+  margin-top: ${(props) => props.margin};
+  margin-right: 10px;
+`;
 const Content_goods_4 = styled.div`
   display: flex;
   width: 400px;
@@ -292,16 +317,14 @@ const Buttons = styled.div`
 
 const ButtonEditDelete = styled.button`
   display: flex;
-  padding: 0px 10px;
   justify-content: center;
-  text-align: center;
+  /* text-align: center; */
   width: 130px;
   height: 54px;
   border-radius: 30px;
-  line-height: 54px;
+  line-height: 45px;
   font-weight: bold;
   font-size: 20px;
-  justify-content: center;
   margin-right: 20px;
   margin-left: 20px;
 

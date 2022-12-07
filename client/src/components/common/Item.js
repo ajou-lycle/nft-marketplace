@@ -130,18 +130,6 @@ export default function NftItem() {
 
       <div className="item_grid">
         {inputData.map((rowData) => {
-          {
-            /* <div>
-{isLogin ? (
-  <UserButton onClick={onLogout}>로그아웃</UserButton>
-) : (
-  <Link to="/login" style={{ textDecoration: "none" }}>
-    <UserButton>로그인</UserButton>
-  </Link>
-)}
-</div> */
-          }
-
           const PageReplaceisLogin = () => {
             if (isLogin == true) {
               document.location.href = `../contents_nft/${rowData.nft_item_id}`;
@@ -186,7 +174,7 @@ export default function NftItem() {
                 </div>
 
                 <div className="nft_price">
-                  <span>$ {rowData.price}</span>
+                  <span>{rowData.price} Wei</span>
 
                   <div className="nft_item_footer">
                     {rowData.status == "sale" ? (
@@ -195,16 +183,18 @@ export default function NftItem() {
                       <CheckSale>판매완료</CheckSale>
                     )}
                     <div className="nft_item_like_container">
-                      <FavoriteBorder
-                        style={{
+                      <CheckLike>좋아요</CheckLike>
+                      {/* style={{
                           color: "gray",
                           float: "right",
                           fontSize: "28px",
                         }}
-                      />
+                        좋아요
+                      /> */}
+
                       <div
                         className="nft_item_views"
-                        style={{ float: "right" }}
+                        style={{ float: "right", marginRight: "5px" }}
                       >
                         {rowData.likeCnt}
                       </div>
@@ -289,4 +279,10 @@ const CheckSale = styled.span`
   color: gray;
   border: 2px solid rgb(46, 204, 113);
   border-radius: 4px;
+`;
+
+const CheckLike = styled.span`
+  font-size: 11px;
+  color: gray;
+  margin-right: 5px;
 `;

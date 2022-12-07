@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IconButton } from "@material-ui/core";
 import { AccountCircleOutlined } from "@material-ui/icons";
@@ -8,7 +8,6 @@ import { isLoginState, UserNickName } from "../../recoil/User";
 import { Search } from "@material-ui/icons";
 import axios from "axios";
 import mainLogo from "../../assets/img/main_logo.png";
-import { recoilPersist } from "recoil-persist";
 
 const Header = () => {
   // const isLogin=props.isLogin;
