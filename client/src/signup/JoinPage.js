@@ -155,10 +155,14 @@ const JoinPage = () => {
         email: email,
       })
       .then((res) => {
-        console.log("이메일 인증 메일이 전송되었습니다.");
-        alert(
-          "이메일 인증 메일이 전송되었습니다. 메일함으로 가서 확인해주세요."
-        );
+        if (res.data.result == false) {
+          alert("중복된 이메일이 존재합니다. 다른 이메일을 입력해주세요.");
+        } else {
+          console.log("이메일 인증 메일이 전송되었습니다.");
+          alert(
+            "이메일 인증 메일이 전송되었습니다. 메일함으로 가서 확인해주세요."
+          );
+        }
       })
       .catch((err) => {
         console.log("error:", err);
