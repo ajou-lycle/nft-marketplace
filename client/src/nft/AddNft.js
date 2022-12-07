@@ -28,38 +28,42 @@ function AddNft() {
   // const [grade,setGrade] =useState('');
 
   const onClickAddNft = () => {
-    axios
-      .post(
-        "http://3.38.210.200:8080/nftItem",
-        {
-          // userData
-          nftItemImg: nftitemImg,
-          title: nfttitle,
-          price: nftprice,
-          content: nftcontent,
-          nftId: nftEdition,
-          collectionName: CollectionNameEnum.LACK_OF_SLEEP_LAMA.name,
-        },
-        {
-          withCredentials: true,
-          // headers: {
-          //     // "Access-Control-Allow-Origin" : "http://localhost:8080",
-          //     Authorization: 'Bearer ${userToken}',
-          //     "Content-Type" : "application/x-www-form-urlencoded"
-          // }
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+    if (nftprice == "" || nfttitle == "" || nftcontent == "") {
+      alert("정보를 모두 입력해주세요!");
+    } else {
+      axios
+        .post(
+          "http://3.38.210.200:8080/nftItem",
+          {
+            // userData
+            nftItemImg: nftitemImg,
+            title: nfttitle,
+            price: nftprice,
+            content: nftcontent,
+            nftId: nftEdition,
+            collectionName: CollectionNameEnum.LACK_OF_SLEEP_LAMA.name,
           },
-        }
-      )
-      .then((res) => {
-        console.log("res.data", res.data);
-        alert("등록이 완료되었습니다!");
-        document.location.href = "/mainPage";
-      })
-      .catch((err) => {
-        console.log("Error", err);
-      });
+          {
+            withCredentials: true,
+            // headers: {
+            //     // "Access-Control-Allow-Origin" : "http://localhost:8080",
+            //     Authorization: 'Bearer ${userToken}',
+            //     "Content-Type" : "application/x-www-form-urlencoded"
+            // }
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log("res.data", res.data);
+          alert("등록이 완료되었습니다!");
+          document.location.href = "/mainPage";
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
+    }
   };
 
   useEffect(() => {
@@ -90,6 +94,21 @@ function AddNft() {
     setnftTitle();
   };
 
+  const preventMinus = (e) => {
+    if (e.code === "Minus") {
+      e.preventDefault();
+    }
+  }; //price 입력값 음수 press 막기
+
+  const preventPasteNegative = (e) => {
+    const clipboardData = e.clipboardData || window.clipboardData;
+    const pastedData = parseFloat(clipboardData.getData("text"));
+
+    if (pastedData < 0) {
+      e.preventDefault();
+    }
+  }; //price 입력값 음수 paste 막기
+
   return (
     <div className="whole_nft_add">
       <div className="whole_center_nft_add">
@@ -119,7 +138,10 @@ function AddNft() {
                     id="nftprice"
                     placeholder="Enter NFT price"
                     value={nftprice}
+                    min="1"
                     onChange={(e) => setnftPrice(e.target.value)}
+                    onPaste={preventPasteNegative}
+                    onKeyPress={preventMinus}
                   ></NftAddLeft>
                 </dd>
               </dl>
