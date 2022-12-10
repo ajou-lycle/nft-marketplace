@@ -45,11 +45,6 @@ function AddNft() {
           },
           {
             withCredentials: true,
-            // headers: {
-            //     // "Access-Control-Allow-Origin" : "http://localhost:8080",
-            //     Authorization: 'Bearer ${userToken}',
-            //     "Content-Type" : "application/x-www-form-urlencoded"
-            // }
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("user_token")}`,
             },
@@ -219,7 +214,7 @@ function AddNft() {
                     </div>
                   );
 
-                  console.log(lslNft);
+                  //   console.log(lslNft);
                   //setnftTitle({lslNft.});
                 }
                 return imgList;

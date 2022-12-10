@@ -83,6 +83,8 @@ function ContentGoods() {
 
             console.log(count + "개 구매완료!");
             alert(count + "개 구매완료!");
+            alert("설문조사를 시행해주시고 경품 받아가세요!");
+            window.open("https://forms.gle/MRpbR2UiVDqTtWyM9");
           })
           .catch((err) => {
             console.log("Error", err);
