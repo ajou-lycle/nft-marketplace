@@ -46,6 +46,9 @@ const JoinPage = () => {
         console.log("회원가입이 완료되었습니다.");
         alert("회원가입이 완료되었습니다.");
         console.log(response.data);
+        alert(
+          "보통 1시간 내로 5개의 토큰을 지급해드립니다.\n5개의 토큰을 이용해서 Goods에 있는 상품 추첨에 참여해보세요!\n자신의 토큰은 마이페이지 wallet에서 확인 가능합니다."
+        );
         navigate("/login");
       })
       .catch((error) => {
