@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 
 function AddNft() {
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
-  const [nftList, setNftList] = useState([]);
+  const [nftCollection, setNftList] = useState([]);
   const { eth, setEthState } = useEth();
   const [nftitemImg, setnftitemImg] = useState("");
   const [nfttitle, setnftTitle] = useState("");
@@ -76,12 +76,12 @@ function AddNft() {
   };
 
   const getData = () => {
-    if (nftList.length == 0) {
+    if (nftCollection.length === 0) {
       return <p style={{ display: "inline" }}></p>;
     }
 
     return (
-      <p>{nftList[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0].name}</p>
+      <p>{nftCollection[CollectionNameEnum.LACK_OF_SLEEP_LAMA.index][0].name}</p>
     );
   };
 
@@ -175,53 +175,34 @@ function AddNft() {
         </div>
         <div className="mynft_text">내가 보유한 NFT</div>
         <div className="my_nft">
-          {nftList.map((nft) => {
-            switch (nftList.indexOf(nft)) {
-              case CollectionNameEnum.LACK_OF_SLEEP_LAMA.index:
-                let imgList = [];
-
-                for (const lslNft of nft) {
-                  const getNftInfo = () => {
-                    setnftTitle(lslNft.name);
-                    setnftContent(lslNft.description);
-                    setnftitemImg(lslNft.image);
-                    setnftEdition(lslNft.edition);
-                    // setDna(lslNft.dna);
-                    // setGrade(lslNft.grade);
-                  };
-                  imgList.push(
-                    <div>
-                      <img
-                        src={lslNft.image}
-                        onClick={getNftInfo}
-                        className="nftImage"
-                      />
-                      <div className="nftImage_disc">
-                        <p>{lslNft.name}</p>
-                        <p>{lslNft.description}</p>
+          {nftCollection?.map((nftListEachCollection) =>
+            nftListEachCollection?.map((nft) => {
+              return (
+              <div>
+                <img
+                  src={nft.image}
+                  onClick={getNftInfo}
+                  className="nftImage"
+                />
+                <div className="nftImage_disc">
+                  <p>{nft.name}</p>
+                  <p>{nft.description}</p>
+                  <div>
+                    {nft.attributes.map((attribute) => {
+                      return (
                         <div>
-                          {lslNft.attributes.map((attribute) => {
-                            return (
-                              <div>
-                                <p>
-                                  {attribute.trait_type}: {attribute.value}
-                                </p>
-                              </div>
-                            );
-                          })}
+                          <p>
+                            {attribute.trait_type}: {attribute.value}
+                          </p>
                         </div>
-                      </div>
-                    </div>
-                  );
-
-                  //   console.log(lslNft);
-                  //setnftTitle({lslNft.});
-                }
-                return imgList;
-              default:
-                break;
-            }
-          })}
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

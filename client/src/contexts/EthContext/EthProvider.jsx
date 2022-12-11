@@ -27,7 +27,10 @@ function EthProvider({ children }) {
         contracts: contracts,
       };
 
-      // const nftList = await getNftListByWalletAddress(ethData);
+
+      // await mint(ethData);
+      const nftList = await getNftListByWalletAddress(ethData);
+      console.log(nftList);
       // const walletData = {
       //   coinBalance: await getUserCoinBalance(ethData),
       //   tokenBalance: await getTokenBalance(ethData),

@@ -153,6 +153,8 @@ body {
   display: flex;
   grid-template-columns: repeat(3, 1fr);
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: 50px;
   width: 1000px;
   margin: 0 auto;
