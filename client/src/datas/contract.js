@@ -434,7 +434,8 @@ export const payLycleToken = async (eth, amount) => {
     const balanceOfToken = await LycleTokenContract.methods
       .balanceOf(eth.accounts[0], "1")
       .call();
-    alert("LYCLE토큰이 부족합니다! 잔고를 확인해주세요!");
+    if (!(balanceOfToken > 0))
+      alert("LYCLE토큰이 부족합니다! 잔고를 확인해주세요!");
     assert(balanceOfToken > 0, "The balance of token is 0");
 
     let transactionOfBalance = null;

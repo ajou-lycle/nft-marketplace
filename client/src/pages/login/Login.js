@@ -39,6 +39,12 @@ function Login() {
     setInputPw(e.target.value);
   };
 
+  const handleOnKeyPress = (e) => {
+    if (e.key == "Enter") {
+      onClickConfirm();
+    }
+  };
+
   const onClickConfirm = () => {
     console.log("click login");
     axios
@@ -117,6 +123,7 @@ function Login() {
                   class="css-1bkd15f e1uzxhvi2"
                   value={inputPw}
                   onChange={handleInputPw}
+                  onKeyPress={handleOnKeyPress}
                 />
               </div>
             </div>
