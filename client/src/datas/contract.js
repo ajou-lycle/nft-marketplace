@@ -8,6 +8,7 @@ import { isNonZeroAddress } from "../utils/web3.js";
 import { CollectionNameEnum } from "./enum/collection_name_enum.js";
 import { getObjectFromS3 } from "./bucket.js";
 import assert from "assert";
+import axios from "axios";
 
 const initERC1155TokenFactory = (web3, networkId) => {
   const artifact = ERC1155TokenFactory;
@@ -241,6 +242,8 @@ export const getNftListByWalletAddress = async (eth) => {
     const holdedTokenIds = await ERC1155TokenContract.methods
       .holdedTokenIds(eth.accounts[0])
       .call();
+
+    console.log("hold", collectionName, holdedTokenIds);
     let nftJsons = [];
 
     for (const holdedTokenId of holdedTokenIds) {
@@ -467,70 +470,79 @@ export const payLycleToken = async (eth, amount) => {
     resolve(false);
   });
 };
+
 export const mint = async (eth) => {
-  let ERC1155TokenContract;
-  let LycleTokenContract;
-  for (const contract of eth.contracts) {
-    const keys = Object.keys(contract);
+  return new Promise(async (resolve, reject) => {
+    let ERC1155TokenContract;
+    let LycleTokenContract;
+    for (const contract of eth.contracts) {
+      const keys = Object.keys(contract);
 
-    if (keys[0] === CollectionNameEnum.LACK_OF_SLEEP_LAMA.name) {
-      ERC1155TokenContract =
-        contract[CollectionNameEnum.LACK_OF_SLEEP_LAMA.name];
+      if (keys[0] === CollectionNameEnum.LACK_OF_SLEEP_LAMA.name) {
+        ERC1155TokenContract =
+          contract[CollectionNameEnum.LACK_OF_SLEEP_LAMA.name];
+      }
+
+      if (keys[0] === CollectionNameEnum.LYCLE_TOKEN.name) {
+        LycleTokenContract = contract[CollectionNameEnum.LYCLE_TOKEN.name];
+      }
     }
 
-    if (keys[0] === CollectionNameEnum.LYCLE_TOKEN.name) {
-      LycleTokenContract = contract[CollectionNameEnum.LYCLE_TOKEN.name];
+    const LycleTokenJsonPath =
+      "/0x607d831c41b49dF8Fc99c72d67487C14629A8CC2/tokens/json/1.json";
+    const LycleTokenJsonBytes = eth.web3.utils.asciiToHex(LycleTokenJsonPath);
+
+    let transactionOfLycleToken = null;
+    try {
+      transactionOfLycleToken = await LycleTokenContract.methods
+        .mint(eth.accounts[0], "1", "5", LycleTokenJsonBytes)
+        .encodeABI();
+      // .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+    } catch (e) {
+      reject(
+        new Error(
+          `Can’t send NFT from ${eth.accounts[0]} to ${eth.accounts[0]}.`
+        )
+      );
     }
-  }
+    const gasLimit = await LycleTokenContract.methods
+      .mint(eth.accounts[0], "1", "10", LycleTokenJsonBytes)
+      .estimateGas();
 
-  const LycleTokenJsonPath =
-    "/0x607d831c41b49dF8Fc99c72d67487C14629A8CC2/tokens/json/1.json";
-  const LycleTokenJsonBytes = eth.web3.utils.asciiToHex(LycleTokenJsonPath);
+    await axios("http://3.38.210.200:3000/nonce").then(async (response) => {
+      var tx = {
+        from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38",
+        to: LycleTokenContract._address,
+        gasLimit: gasLimit,
+        nonce: response.data,
+        chainId: 5,
+      };
 
-  LycleTokenContract.methods
-    .mint(
-      "0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE",
-      "1",
-      "100",
-      LycleTokenJsonBytes
-    )
-    .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+      console.log(tx);
 
-  const ERC1155ItemJsonPath = `/0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/1.json`;
-  const ERC1155ItemJsonBytes = eth.web3.utils.asciiToHex(ERC1155ItemJsonPath);
+      const account = await eth.web3.eth.accounts.privateKeyToAccount(
+        "e7a36cc7c2c6aa2c49be21b5a8516982fce19e4337f3c0b56f73a401800eb1cf"
+      );
+      const signed = await eth.web3.eth.accounts.signTransaction(
+        tx,
+        account.privateKey
+      );
+      let result = await eth.web3.eth.sendSignedTransaction(
+        signed.rawTransaction
+      );
+    });
 
-  ERC1155TokenContract.methods
-    .mint(
-      "0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE",
-      "1",
-      "1",
-      ERC1155ItemJsonBytes
-    )
-    .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+    // let statusTransactionOfToken = await subscribeTransactionStatus(
+    //   eth,
+    //   transactionOfLycleToken.transactionHash
+    // );
 
-  const ERC1155Item2JsonPath = `/0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/1.json`;
-  const ERC1155Item2JsonBytes = eth.web3.utils.asciiToHex(ERC1155Item2JsonPath);
-
-  ERC1155TokenContract.methods
-    .mint(
-      "0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE",
-      "2",
-      "1",
-      ERC1155Item2JsonBytes
-    )
-    .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
-
-  const ERC1155Item3JsonPath = `/0x89952cfB009c886b86607DF526B7dc32937C8BE5/nfts/json/1.json`;
-  const ERC1155Item3JsonBytes = eth.web3.utils.asciiToHex(ERC1155Item3JsonPath);
-
-  ERC1155TokenContract.methods
-    .mint(
-      "0x3f54fDA5DfF0713630E4bEe225591Cdb5f6B4CaE",
-      "3",
-      "1",
-      ERC1155Item3JsonBytes
-    )
-    .send({ from: "0x8dd37C53AA1abF62251d786CBb23796E3cAbfa38" });
+    // if (statusTransactionOfToken) {
+    //   resolve(true);
+    //   return;
+    // }
+    // resolve(false);
+  });
 };
 
 export const burn = async (eth) => {

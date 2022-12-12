@@ -84,50 +84,40 @@ export default function WalletPage() {
           <ProfileInfo>보유 중인 NFT</ProfileInfo>
           <div className="item_grid" style={{ width: "100%" }}>
             {nftList.map((item) => {
-              switch (nftList.indexOf(item)) {
-                case CollectionNameEnum.LACK_OF_SLEEP_LAMA.index:
-                  let imgList = [];
+              return item?.map((nft) => {
+                return (
+                  <NftBox>
+                    <div className="nft_item_img">
+                      <div className="nft_item_img_">
+                        <ItemImg
+                          src={nft.image}
+                          loading="lazy"
+                          className="item_img"
+                        />
+                      </div>
+                    </div>
+                    <div className="nft_item_txt">
+                      <div className="nft_name">{nft.name}</div>
+                      <span style={{ display: "flex" }}>{nft.description}</span>
+                    </div>
 
-                  for (const lslNft of item) {
-                    imgList.push(
-                      <NftBox>
-                        <div className="nft_item_img">
-                          <div className="nft_item_img_">
-                            <ItemImg
-                              src={lslNft.image}
-                              loading="lazy"
-                              className="item_img"
-                            />
+                    <div
+                      className="nft_item_txt"
+                      style={{ fontStyle: "italic" }}
+                    >
+                      {nft?.attributes.map((attribute) => {
+                        return (
+                          <div>
+                            <p>
+                              {attribute.trait_type}: {attribute.value}
+                            </p>
                           </div>
-                        </div>
-                        <div className="nft_item_txt">
-                          <div className="nft_name">{lslNft.name}</div>
-                          <span style={{ display: "flex" }}>
-                            {lslNft.description}
-                          </span>
-                        </div>
-
-                        <div
-                          className="nft_item_txt"
-                          style={{ fontStyle: "italic" }}
-                        >
-                          {lslNft.attributes.map((attribute) => {
-                            return (
-                              <div>
-                                <p>
-                                  {attribute.trait_type}: {attribute.value}
-                                </p>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </NftBox>
-                    );
-                  }
-                  return imgList;
-                default:
-                  break;
-              }
+                        );
+                      })}
+                    </div>
+                  </NftBox>
+                );
+              });
             })}
           </div>
         </div>
