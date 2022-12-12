@@ -137,7 +137,9 @@ const JoinPage = () => {
         walletAddress: userAddress,
       })
       .then((res) => {
-        if (res.data.result == true) {
+        if (userAddress == "지갑 주소를 가져올 수 없습니다.") {
+          alert("지갑 주소를 가져와주세요.");
+        } else if (res.data.result == true) {
           console.log("중복된 지갑주소 존재");
           alert("중복된 지갑주소가 존재합니다.");
           setWalletValid(false);
@@ -227,14 +229,14 @@ const JoinPage = () => {
     }
   };
 
-  const handleWallet = (e) => {
-    setWallet(e.target.value);
-    if (e.target.value.length > 2) {
-      setWalletValid(true);
-    } else {
-      setWalletValid(false);
-    }
-  };
+  // const handleWallet = (e) => {
+  //   setWallet(e.target.value);
+  //   if (e.target.value.length > 2) {
+  //     setWalletValid(true);
+  //   } else {
+  //     setWalletValid(false);
+  //   }
+  // };
 
   useEffect(() => {
     if ((idValid && pwdValid && nameValid && emailValid, walletValid)) {
@@ -429,7 +431,11 @@ const JoinPage = () => {
             type="submit"
             disabled={notAllow}
             onClick={() => {
-              register();
+              if (userAddress == "지갑 주소를 가져올 수 없습니다.") {
+                alert("지갑 주소를 가져와주세요.");
+              } else {
+                register();
+              }
             }}
           >
             <span className="join_btn_text">가입하기</span>
