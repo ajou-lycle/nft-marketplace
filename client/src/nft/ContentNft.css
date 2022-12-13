@@ -327,3 +327,11 @@ button.d4_count_up {
   width: 400px;
   height: 750.03px;
 }
+
+.buy_alert {
+  width: 580px;
+  height: 60px;
+  line-height: 60px;
+  margin-left: 10px;
+  color: #ff4d4d;
+}
