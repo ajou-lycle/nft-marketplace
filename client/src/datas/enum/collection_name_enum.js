@@ -8,6 +8,10 @@ export const CollectionNameEnum = {
     name: "Ajou big foot walker",
     index: 1,
   },
+  MOON_LAMA: {
+    name: "문상훈 라마",
+    index: 2,
+  },
 };
 
 Object.freeze(CollectionNameEnum);

@@ -83,8 +83,7 @@ function ContentGoods() {
 
             console.log(count + "개 구매완료!");
             alert(count + "개 구매완료!");
-            alert("설문조사를 시행해주시고 경품 받아가세요!");
-            window.open("https://forms.gle/MRpbR2UiVDqTtWyM9");
+            alert("메인페이지에 있는 설문조사를 시행해주시고 경품 받아가세요!");
           })
           .catch((err) => {
             console.log("Error", err);
@@ -162,6 +161,9 @@ function ContentGoods() {
                   Buy Now
                 </GoodsBuyButton>
               </div>
+            </div>
+            <div className="buy_alert">
+              구매 버튼을 누르신 후 30초 정도 기다려주세요!
             </div>
           </div>
         </div>
